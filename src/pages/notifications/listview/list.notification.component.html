@@ -1,0 +1,24 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title style="font-weight:bold">
+            Notifications
+        </ion-title>
+        <ion-buttons end>
+            <button ion-button (click)="clearNotifications()" icon-right color="light">Clear Notifications</button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+<ion-content style="background-color: #cbd3db">
+    <ion-list>
+        <ion-item *ngFor='let notification of notifications' [ngStyle]="{'border-left': notification.viewed ? '' : '5px solid #6a597d'}">
+            <ion-avatar item-start>
+                <img [src]='notification.sourceUser?.profilePicture' (click)="viewProfile(notification)">
+            </ion-avatar>
+            <p>{{notification.content}}</p>
+            <ion-note item-end>{{notification.createdDate | dateAge}}</ion-note>
+            <button ion-button (click)="viewItem(notification)" item-end><ion-icon name="arrow-forward"></ion-icon></button>
+        </ion-item>
+    </ion-list>
+    <button ion-button block (click)="loadMore()">Load more notifications</button>
+</ion-content>

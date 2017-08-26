@@ -1,0 +1,37 @@
+<ion-header>
+
+<style>
+    *:focus {
+      outline: none;
+    }
+  </style>
+
+</ion-header>
+<ion-content style="margin:none;background:#f4f5f4; padding:0;height:100%;">
+  <div style="height:100%;"> 
+    <div style="width:102%; height:175px; background:#6b587d; margin-left:-1%;margin-top:-10px;text-align:center;z-index:1;padding-top:50px;border:none;">
+        <button type="button" (click)="cancel()" style="width:25px;font-family: 'Montserrat', sans-serif;font-size:125%;margin-left:20px;color:white;float:left;background:none;border:none;"><ion-icon name="arrow-back"></ion-icon></button>
+        <span style="font-size:150%; color:white; width:100%;margin-left:-45px;"><b>New Comment</b></span>
+    </div>
+    <div>
+      <img *ngIf="postType == 'photo'" [src]="imageData">
+    </div>
+    <form autocomplete="off" (ngSubmit)="submitPost(createCommentForm.value)" #createCommentForm="ngForm">
+      <div style="width:90%;background:white;height:80%;margin-left:5%;z-index:2;margin-top:-75px;">
+        <ion-list>
+          <ion-item *ngIf="postType == 'photo'">
+            <ion-textarea placeholder="Caption" name="caption" (ngModel)="comment"></ion-textarea>
+          </ion-item>
+          <ion-item *ngIf="postType == 'text'" style="width:100%; padding:none; height:100%;">
+            <ion-textarea rows="16" cols="50" style="font-family: 'Montserrat', sans-serif;font-size:100%;padding:none;width:100%;background:#f4f5f4;height:75%; border:none;" placeholder="Comment..." name="comment" (ngModel)="comment"></ion-textarea>
+          </ion-item>
+          <div style="height:50px;"></div>
+        </ion-list>
+        <div align-center>
+        </div>
+      </div>
+      <button type="submit" style="font-family: 'Montserrat', sans-serif;font-size:125%;width:100%; height:60px; background:#6b587d; position:fixed;bottom:0;left:0;padding:none;color:white;z-index:3;"><b>Share</b></button>
+    </form>
+  </div>
+ 
+</ion-content>

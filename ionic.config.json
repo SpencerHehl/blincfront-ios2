@@ -1,0 +1,8 @@
+{
+  "name": "venuelink",
+  "app_id": "95855829",
+  "type": "ionic-angular",
+  "integrations": {
+    "cordova": {}
+  }
+}

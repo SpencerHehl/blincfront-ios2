@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title style="font-weight:bold">
+      Profile
+    </ion-title>
+    <ion-buttons end>
+      <button *ngIf="isActiveUser" ion-button (click)="viewNotifications()" icon-right><ion-icon name="flag" color="light"></ion-icon><ion-badge *ngIf="notifications && notifications.length > 0" color="danger">{{notifications?.length}}</ion-badge></button>
+      <button *ngIf="isActiveUser" ion-button (click)="settings()" icon-right><ion-icon name="settings" color="light"></ion-icon></button>
+      <button *ngIf="!isActiveUser" ion-button (click)="followUser()" icon-right [color]="followColor"><ion-icon name="star" [color]="followColor"></ion-icon>{{followText}}</button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content style="background-color: #cbd3db">
+  <ion-row>
+    <ion-col>
+      <ion-avatar>
+        <img [src]="user?.profilePicture">
+      </ion-avatar>
+    </ion-col>
+    <ion-col>
+      <ion-row>
+        <ion-title color="dark">{{user?.fullName}}</ion-title>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <div (click)="viewFollowerList()">{{user?.numFollowers}} Followers</div>
+        </ion-col>
+        <ion-col>
+          <div (click)="viewFollowingList()">{{user?.numFollowed}} Following</div>
+        </ion-col>
+      </ion-row>
+    </ion-col>
+  </ion-row>
+  <ion-row *ngFor="let post of user?.myPosts">
+      <post-card [Post]="post" (reportEmitter)="reportPost($event, i)" (deleteEmitter)="deletePost($event, i)"></post-card>
+  </ion-row>
+  <button ion-button block (click)="loadMore()">Load more posts</button>
+  <ion-fab right bottom>
+    <button ion-fab><ion-icon name="add"></ion-icon></button>
+    <ion-fab-list side="top">
+      <button ion-fab (click)="postText()"><ion-icon name="text"></ion-icon></button>
+      <button ion-fab (click)="postPhoto()"><ion-icon name="camera"></ion-icon></button>
+      <button ion-fab (click)="postSavedPhoto()"><ion-icon name="image"></ion-icon></button>
+    </ion-fab-list>
+  </ion-fab>
+</ion-content>

@@ -1,0 +1,13 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>{{listType}}</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding style="background-color: #cbd3db">
+    <ion-row>
+        <ion-col *ngFor="let user of followList">
+            <user-card [User]="user"></user-card>
+        </ion-col>
+    </ion-row>
+</ion-content>

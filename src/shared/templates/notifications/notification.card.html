@@ -1,0 +1,13 @@
+<ion-card>
+    <ion-item>
+        <ion-avatar item-start>
+            <img [src]="Notification.sourceUser?.profilePicture" (click)="viewProfile()">
+        </ion-avatar>
+        <ion-note item-end>
+            {{Notification.createdDate | dateAge}}
+        </ion-note>
+    </ion-item>
+    <ion-card-content>
+        <p (click)="viewItem()">{{Notification.content}}</p>
+    </ion-card-content>
+</ion-card>

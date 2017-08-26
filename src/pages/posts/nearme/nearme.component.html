@@ -1,0 +1,38 @@
+<link href="https://fonts.googleapis.com/css?family=Montserrat:200" rel="stylesheet">
+
+<ion-header>
+  <ion-navbar>
+    <ion-title style="font-weight:bold">
+      Near Me
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="appfont" style="background-color: #cbd3db">
+  <ion-refresher (ionRefresh)="reloadPosts($event)">
+    <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull down to refresh" refreshingSpinner="circles" refreshingText="Reloading..."></ion-refresher-content>
+  </ion-refresher>
+  <ion-item>
+    <ion-label>Sort By:</ion-label>
+    <ion-select [(ngModel)]="postFilter" (ionChange)="onFilterChange()">
+      <ion-option value="date">Most Recent</ion-option>
+      <ion-option value="like">Top Posts</ion-option>
+    </ion-select>
+  </ion-item>
+  <ion-row *ngFor="let post of nearbyPostsDate" [hidden]="postFilter != 'date'">
+      <post-card [Post]="post" (reportEmitter)="reportPostDate($event, i)" (deleteEmitter)="deletePostDate($event, i)"></post-card>
+  </ion-row>
+  <ion-row *ngFor="let post of nearbyPostsLikes" [hidden]="postFilter != 'like'">
+      <post-card [Post]="post" (reportEmitter)="reportPostLikes($event, i)" (deleteEmitter)="deletePostLikes($event, i)"></post-card>
+  </ion-row>
+  <p *ngIf="nearbyPostsDate?.length == 0">Woah it is pretty lonely here. Looks like you are a pioneer in your area. Start posting and get the conversation started!</p>
+  <button ion-button block (click)="loadMore()">Load more posts</button>
+  <ion-fab right bottom>
+    <button ion-fab><ion-icon name="add"></ion-icon></button>
+    <ion-fab-list side="top">
+      <button ion-fab (click)="postText()"><ion-icon name="text"></ion-icon></button>
+      <button ion-fab (click)="postPhoto()"><ion-icon name="camera"></ion-icon></button>
+      <button ion-fab (click)="postSavedPhoto()"><ion-icon name="image"></ion-icon></button>
+    </ion-fab-list>
+  </ion-fab>
+</ion-content>

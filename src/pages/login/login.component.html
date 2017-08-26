@@ -1,0 +1,15 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title style="font-weight:bold">
+            Sign In
+        </ion-title>
+    </ion-navbar>
+</ion-header>
+<ion-content style="background-color: #cbd3db">
+    <div style="text-align:center">
+        <button ion-button (click)="facebookLogin()" large><ion-icon name="logo-facebook" style="padding-right:1em"></ion-icon>Facebook</button>
+    </div>
+    <div style="text-align:center">
+        <button ion-button color="danger" (click)="googleLogin()" large><ion-icon name="logo-google" style="padding-right:1em"></ion-icon>Google</button>
+    </div>
+</ion-content>

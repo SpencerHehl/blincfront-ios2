@@ -1,0 +1,16 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title style="font-weight:bold">
+      Map Search
+    </ion-title>
+    <ion-buttons end>
+      <button ion-button (click)="viewPosts()" icon-right color="light">View Posts</button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+<ion-content padding style="background-color: #cbd3db">
+    <div id="map"></div>
+    <ion-fab right bottom>
+      <button ion-fab (click)="centerLocation()"><ion-icon name="locate"></ion-icon></button>
+    </ion-fab>
+</ion-content>
