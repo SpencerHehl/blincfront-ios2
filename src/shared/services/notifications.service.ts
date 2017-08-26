@@ -18,7 +18,7 @@ export class NotificationService {
         let headers = new Headers({'Authorization': token});
         let options = new RequestOptions({headers: headers});
 
-        return this.http.get('http://104.238.138.146:8082/notifications/unread', options)
+        return this.http.get('http://www.blincapp.com/notifications/unread', options)
             .map((resp) => {
                 return resp.json();
             })
@@ -35,7 +35,7 @@ export class NotificationService {
             id: notificationId
         }
 
-        return this.http.put('http://104.238.138.146:8082/notifications/', body, options)
+        return this.http.put('http://www.blincapp.com/notifications/', body, options)
             .map((resp) => {
                 return resp.json();
             })
@@ -47,7 +47,7 @@ export class NotificationService {
         let headers = new Headers({'Authorization': token});
         let options = new RequestOptions({headers: headers});
 
-        return this.http.get('http://104.238.138.146:8082/notifications/getpost?id=' + postId, options)
+        return this.http.get('http://www.blincapp.com/notifications/getpost?id=' + postId, options)
             .map((resp) => {
                 return resp.json();
             })
@@ -59,7 +59,7 @@ export class NotificationService {
         let headers = new Headers({'Authorization': token});
         let options = new RequestOptions({headers: headers});
 
-        return this.http.get('http://104.238.138.146:8082/notifications/getcomment?id=' + commentId, options)
+        return this.http.get('http://www.blincapp.com/notifications/getcomment?id=' + commentId, options)
             .map((resp) => {
                 return resp.json();
             })
@@ -71,7 +71,7 @@ export class NotificationService {
         let headers = new Headers({'Authorization': token});
         let options = new RequestOptions({headers: headers});
         this.page = 0;
-        return this.http.get('http://104.238.138.146:8082/notifications/?page=' + this.page, options)
+        return this.http.get('http://www.blincapp.com/notifications/?page=' + this.page, options)
             .map((resp) => {
                 return resp.json();
             })
@@ -83,7 +83,7 @@ export class NotificationService {
         let headers = new Headers({'Authorization': token});
         let options = new RequestOptions({headers: headers});
         this.page += 1;
-        return this.http.get('http://104.238.138.146:8082/notifications/?page=' + this.page, options)
+        return this.http.get('http://www.blincapp.com/notifications/?page=' + this.page, options)
             .map((resp) => {
                 return resp.json();
             })
