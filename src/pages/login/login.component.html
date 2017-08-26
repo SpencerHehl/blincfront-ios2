@@ -5,11 +5,13 @@
         </ion-title>
     </ion-navbar>
 </ion-header>
-<ion-content style="background-color: #cbd3db">
-    <div style="text-align:center">
-        <button ion-button (click)="facebookLogin()" large><ion-icon name="logo-facebook" style="padding-right:1em"></ion-icon>Facebook</button>
-    </div>
-    <div style="text-align:center">
-        <button ion-button color="danger" (click)="googleLogin()" large><ion-icon name="logo-google" style="padding-right:1em"></ion-icon>Google</button>
+<ion-content padding style="background-color: #cbd3db">
+    <div style="vertical-align:middle">
+        <div style="text-align:center">
+            <button ion-button (click)="facebookLogin()" color="primaryblue" large><ion-icon name="logo-facebook" style="padding-right:1em"></ion-icon>Facebook</button>
+        </div>
+        <div style="text-align:center">
+            <button ion-button color="danger" (click)="googleLogin()" large><ion-icon name="logo-google" style="padding-right:1em"></ion-icon>Google</button>
+        </div>
     </div>
 </ion-content>
