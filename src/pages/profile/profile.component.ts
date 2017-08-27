@@ -60,6 +60,22 @@ export class ProfilePage {
             },
             err => this.failAlert(err)
         )
+        this.profileService.getFollowLists(this.user._id).subscribe(
+            response => {
+                this.user.numFollowers = response.numFollowers;
+                this.user.numFollowed = response.numFollowed;
+                this.user.followedBy = response.followedBy;
+                this.user.followList = response.followList;
+                this.user.followed = response.followed;
+                if(this.user.followed){
+                    this.followColor = 'warning';
+                    this.followText = "Followed";
+                }else{
+                    this.followColor = 'dark';
+                    this.followText = "Unfollowed";
+                }
+            }
+        )
     }
 
     loadMore(){

@@ -14,7 +14,6 @@ export class ProfileService{
 
     getProfilePosts(profileId){
         let token = this.authService.authToken;
-        console.log(token);
         let headers = new Headers({'Authorization': token});
         let options = new RequestOptions({headers: headers});
         return this.http.get('http://www.blincapp.com/profile/profileposts?page=' + this.page + '&user=' + profileId, options)
@@ -27,7 +26,6 @@ export class ProfileService{
 
     getProfile(profileId){
         let token = this.authService.authToken;
-        console.log(token);
         let headers = new Headers({'Authorization': token});
         let options = new RequestOptions({headers: headers});
         return this.http.get('http://www.blincapp.com/profile/' + profileId, options)
@@ -62,6 +60,17 @@ export class ProfileService{
             id: profileId
         }
         return this.http.put('http://www.blincapp.com/profile/unfollow', body, options)
+            .map((resp) => {
+                return resp.json();
+            })
+            .catch(this.handleError);
+    }
+
+    getFollowLists(profileId){
+        let token = this.authService.authToken;
+        let headers = new Headers({'Authorization': token});
+        let options = new RequestOptions({headers: headers});
+        return this.http.get('http://www.blincapp.com/profile/followlists/' + profileId, options)
             .map((resp) => {
                 return resp.json();
             })
