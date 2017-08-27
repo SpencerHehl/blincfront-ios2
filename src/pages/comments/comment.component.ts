@@ -18,6 +18,7 @@ export class CommentPage {
     post: any;
     postComments: any[];
     newCommentImg: string;
+    likeColor: string;
 
     constructor(private navCtrl: NavController, private alertCtrl: AlertController,
          private commentService: CommentService, private navParams: NavParams,

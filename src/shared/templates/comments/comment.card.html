@@ -15,8 +15,8 @@
         </ion-buttons>
     </ion-item>
     <ion-card-content>
-        <img *ngIf="Comment.content.contentType == 'photo'" [src]="Comment.content.img">
         <p>{{Comment.content.body}}</p>
+        <img *ngIf="Comment.content.contentType == 'photo'" [src]="Comment.content.img">
     </ion-card-content>
     <ion-row>
         <button ion-button clear (click)="viewLikes()" [hidden]="!(Comment.numLikes > 0)" style="text-transform: none;">

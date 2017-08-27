@@ -16,9 +16,6 @@
                 {{post.createdDate | dateAge}}
             </ion-note>
             <ion-buttons item-end>
-                <button ion-button clear (click)="likePost(post._id)" [color]="likeColor">
-                    <ion-icon name="thumbs-up"></ion-icon>
-                </button>
                 <button ion-button (click)="viewMore()" clear><ion-icon name="more"></ion-icon></button>
             </ion-buttons>
         </ion-item>
