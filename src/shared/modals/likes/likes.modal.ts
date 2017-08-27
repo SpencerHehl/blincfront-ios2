@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ModalController, AlertController } from 'ionic-angular';
+import { NavController, NavParams, ModalController, AlertController, ViewController } from 'ionic-angular';
 
 import { ProfilePage } from '../../../pages/profile/profile.component';
 import { PostService } from '../../services/post.service';
 import { CommentService } from '../../services/comment.service';
 import { ProfileService } from '../../../pages/profile/shared/profile.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
     templateUrl: 'likes.modal.html'
@@ -17,9 +18,10 @@ export class LikesModalComponent{
     constructor(private postService: PostService, private commentService: CommentService,
          private navCtrl: NavController, private navParams: NavParams,
          private modalCtrl: ModalController, private alertCtrl: AlertController,
-         private profileService: ProfileService){}
+         private profileService: ProfileService, private viewCtrl: ViewController,
+         private authService: AuthService){}
 
-    ionicViewWillLoad(){
+    ionViewWillEnter(){
         this.contentType = this.navParams.get('type');
         this.content = this.navParams.get('content');
         if(this.contentType == 'post'){
@@ -60,6 +62,10 @@ export class LikesModalComponent{
 
     viewProfile(user){
         this.navCtrl.push(ProfilePage, {user: user});
+    }
+
+    close(){
+        this.viewCtrl.dismiss();
     }
 
     failAlert(message){

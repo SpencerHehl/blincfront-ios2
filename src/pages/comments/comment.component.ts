@@ -5,8 +5,10 @@ import { Camera, CameraOptions } from '@ionic-native/camera';
 import { CommentService } from '../../shared/services/comment.service';
 import { AuthService } from '../../shared/services/auth.service';
 import { PostService } from '../../shared/services/post.service';
+import { MediaService } from '../../shared/services/media.service';
 import { TabsPage } from '../tabs/tabs';
 import { CommentFormModal } from '../../shared/modals/comments/comment-form.modal';
+import { LikesModalComponent } from '../../shared/modals/likes/likes.modal';
 
 @Component({
     templateUrl: 'comment.component.html'
@@ -20,16 +22,29 @@ export class CommentPage {
     constructor(private navCtrl: NavController, private alertCtrl: AlertController,
          private commentService: CommentService, private navParams: NavParams,
          private camera: Camera, private authService: AuthService,
-         private postService: PostService, private modalCtrl: ModalController){}
+         private postService: PostService, private modalCtrl: ModalController,
+         private mediaService: MediaService){}
     
     ionViewWillLoad(){
         this.post = this.navParams.get('post');
+        if(this.post.content.contentType == 'photo'){
+            this.mediaService.getMedia(this.post._id).subscribe(
+                resp => this.post.content["img"] = resp,
+                err => console.log(err)
+            )
+        }
         this.commentService.getComments(this.post._id).subscribe(
             response => {
+                console.log(response);
                 this.postComments = response;
             },
             err => this.failAlert(err)
         )
+    }
+
+    viewLikes(){
+        let likesModal = this.modalCtrl.create(LikesModalComponent, {type: 'post', content: this.post});
+        likesModal.present();
     }
 
     postText(){
