@@ -70,6 +70,17 @@ export class PostService{
             .catch(this.handleError);
     }
 
+    getLikes(postId){
+        let token = this.authService.authToken;
+        let headers = new Headers({'Authorization': token});
+        let options = new RequestOptions({headers: headers});
+        return this.http.get('http://www.blincapp.com/post/likedby/' + postId, options)
+            .map((resp) => {
+                return resp.json()
+            })
+            .catch(this.handleError);
+    }
+
     loadDate(){
         let token = this.authService.authToken;
         let headers = new Headers({'Authorization': token});

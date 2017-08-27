@@ -1,11 +1,12 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { NavController, NavParams, ActionSheetController, AlertController } from 'ionic-angular';
+import { NavController, NavParams, ActionSheetController, AlertController, ModalController } from 'ionic-angular';
 
 import { PostService } from '../../services/post.service';
 import { CommentPage } from '../../../pages/comments/comment.component';
 import { ProfilePage } from '../../../pages/profile/profile.component';
 import { MediaService } from '../../services/media.service';
 import { AuthService } from '../../services/auth.service';
+import { LikesModalComponent } from '../../modals/likes/likes.modal';
 
 @Component({
     selector: 'post-card',
@@ -21,7 +22,7 @@ export class PostCardComponent {
     constructor(private postService: PostService, private navCtrl: NavController,
          private navParams: NavParams, private mediaService: MediaService,
          private authService: AuthService, private actionSheetCtrl: ActionSheetController,
-         private alertCtrl: AlertController){}
+         private alertCtrl: AlertController, private modalCtrl: ModalController){}
 
     ngOnInit(){
         if(this.Post.likedByUser){
@@ -60,6 +61,11 @@ export class PostCardComponent {
             )
         }
         
+    }
+
+    viewLikes(){
+        let likesModal = this.modalCtrl.create(LikesModalComponent, {type: 'post', content: this.Post});
+        likesModal.present();
     }
 
     viewMore(){

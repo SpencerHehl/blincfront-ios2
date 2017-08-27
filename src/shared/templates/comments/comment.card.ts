@@ -1,10 +1,11 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { NavController, ActionSheetController, AlertController } from 'ionic-angular';
+import { NavController, ActionSheetController, AlertController, ModalController } from 'ionic-angular';
 
 import { CommentService } from '../../services/comment.service';
 import { AuthService } from '../../services/auth.service';
 import { ProfilePage } from '../../../pages/profile/profile.component';
 import { MediaService } from '../../services/media.service';
+import { LikesModalComponent } from '../../modals/likes/likes.modal';
 
 @Component({
     selector: 'comment-card',
@@ -19,7 +20,8 @@ export class CommentCardComponent{
 
     constructor(private commentService: CommentService, private navCtrl: NavController,
          private actionSheetCtrl: ActionSheetController, private authService: AuthService,
-         private alertCtrl: AlertController, private mediaService: MediaService){}
+         private alertCtrl: AlertController, private mediaService: MediaService,
+         private modalCtrl: ModalController){}
 
     ngOnInit(){
         if(this.Comment.likedByUser){
@@ -55,6 +57,11 @@ export class CommentCardComponent{
                 response => {}
             )
         }
+    }
+
+    viewLikes(){
+        let likesModal = this.modalCtrl.create(LikesModalComponent, { type: "comment", content: this.Comment});
+        likesModal.present();
     }
 
     viewMore(){

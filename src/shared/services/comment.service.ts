@@ -18,6 +18,17 @@ export class CommentService{
             .catch(this.handleError);
     }
 
+    getLikes(commentId){
+        let token = this.authService.authToken;
+        let headers = new Headers({'Authorization': token});
+        let options = new RequestOptions({headers: headers});
+        return this.http.get('http://www.blincapp.com/comment/likedby/' + commentId, options)
+            .map((resp) => {
+                return resp.json()
+            })
+            .catch(this.handleError);
+    }
+
     postPictureComment(formValues, imgData, postId){
         let headers = new Headers({'Content-type': 'application/json'});
         let token = this.authService.authToken;

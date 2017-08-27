@@ -34,6 +34,7 @@ export class LoginPage {
     }
 
     facebookLogin(){
+        console.log("facebook login");
         this.facebookAuth.login().then((result) =>{
             console.log(result);
             this.facebookAuth.storeToken(result.token);

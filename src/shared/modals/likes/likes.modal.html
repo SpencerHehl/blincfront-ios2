@@ -1,0 +1,21 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title style="font-weight:bold">
+            Likes
+        </ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content style="background-color: #cbd3db">
+    <ion-list>
+        <ion-item *ngFor='let user of users'>
+            <ion-avatar item-start>
+                <img [src]='user.profilePicture' (click)="viewProfile(user)">
+            </ion-avatar>
+            <h3 style="font-weight:bold">{{user.username}}</p>
+            <ion-buttons item-end>
+                <button *ngIf="user?._id != authService.mongoUser._id" ion-button (click)="followUser(user)" icon-right clear [color]="user.followColor"><ion-icon name="star" [color]="user.followColor"></ion-icon>{{user.followText}}</button>
+            </ion-buttons>
+        </ion-item>
+    </ion-list>
+</ion-content>
