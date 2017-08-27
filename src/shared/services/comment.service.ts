@@ -11,7 +11,7 @@ export class CommentService{
         let token = this.authService.authToken;
         let headers = new Headers({'Authorization': token});
         let options = new RequestOptions({headers: headers});
-        return this.http.get('http://www.blincapp.com/comment/' + postId, options)
+        return this.http.get('http://104.238.138.146:80/comment/' + postId, options)
             .map((resp) => {
                 return resp.json()
             })
@@ -25,7 +25,7 @@ export class CommentService{
         let options = new RequestOptions({headers: headers});
         formValues["imageData"] = imgData;
         formValues["postId"] = postId;
-        return this.http.post('http://www.blincapp.com/comment/picture/', formValues, options).map((response: Response) => {
+        return this.http.post('http://104.238.138.146:80/comment/picture/', formValues, options).map((response: Response) => {
             return response.json();
         }).catch(this.handleError);
     }
@@ -36,7 +36,7 @@ export class CommentService{
         headers.append('Authorization', token);
         let options = new RequestOptions({headers: headers});
         formValues["postId"] = postId;
-        return this.http.post('http://www.blincapp.com/comment/text/', formValues, options).map((response: Response) => {
+        return this.http.post('http://104.238.138.146:80/comment/text/', formValues, options).map((response: Response) => {
             return response.json();
         }).catch(this.handleError);
     }
@@ -49,7 +49,7 @@ export class CommentService{
         let body = {
             id: commentId
         }
-        return this.http.put('http://www.blincapp.com/comment/like', body, options)
+        return this.http.put('http://104.238.138.146:80/comment/like', body, options)
             .map((resp) => {
                 return resp.json();
             })
@@ -64,7 +64,7 @@ export class CommentService{
         let body = {
             id: commentId
         }
-        return this.http.put('http://www.blincapp.com/comment/unlike', body, options)
+        return this.http.put('http://104.238.138.146:80/comment/unlike', body, options)
             .map((resp) => {
                 return resp.json();
             })
@@ -76,7 +76,7 @@ export class CommentService{
         let headers = new Headers({'Authorization': token});
         let options = new RequestOptions({headers: headers});
 
-        return this.http.delete('http://www.blincapp.com/comment/delete/' + comment._id, options)
+        return this.http.delete('http://104.238.138.146:80/comment/delete/' + comment._id, options)
             .map((resp) => {
                 return resp.json();
             })
@@ -92,7 +92,7 @@ export class CommentService{
             id: comment._id
         }
 
-        return this.http.put('http://www.blincapp.com/comment/report', body, options)
+        return this.http.put('http://104.238.138.146:80/comment/report', body, options)
             .map((resp) => {
                 return resp.json();
             })
