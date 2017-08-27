@@ -9,6 +9,7 @@ import { PostService } from '../../services/post.service';
 export class PostFormModal {
     imageData: any;
     postType: any;
+    mapable: boolean;
 
     constructor(private postService: PostService, private navParams: NavParams,
         private viewCtrl: ViewController, public alertCtrl: AlertController){
@@ -16,6 +17,7 @@ export class PostFormModal {
             if(this.postType == 'photo'){
                 this.imageData = this.navParams.get('image');
             }
+            this.mapable = false;
         }
 
     submitPost(formValues){
