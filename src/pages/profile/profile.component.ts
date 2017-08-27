@@ -27,7 +27,7 @@ export class ProfilePage {
     private camera: Camera, private navParams: NavParams,
     private notifcationService: NotificationService, private actionSheetCtrl: ActionSheetController) {}
 
-    ionViewWillLoad(){
+    ionViewWillEnter(){
         var passedUser = this.navParams.get('user');
         if(!passedUser){
             passedUser = this.authService.mongoUser;
