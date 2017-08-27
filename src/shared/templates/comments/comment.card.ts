@@ -47,12 +47,15 @@ export class CommentCardComponent{
         if(this.Comment.likedByUser){
             this.Comment.numLikes += 1;
             this.likeColor = 'primary';
+            this.Comment.likedBy.push(this.authService.mongoUser);
             this.commentService.likeComment(commentId).subscribe(
                 response => {}
             )
         }else{
             this.Comment.numLikes -= 1;
             this.likeColor = 'dark';
+            let commentIndex = this.Comment.likedBy.indexOf(this.authService.mongoUser);
+            this.Comment.likedBy.splice(commentIndex, 1);
             this.commentService.unlikeComment(commentId).subscribe(
                 response => {}
             )

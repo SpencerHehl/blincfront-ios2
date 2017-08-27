@@ -25,8 +25,12 @@
             <p>{{post.content.body}}</p>
         </ion-card-content>
         <ion-row>
-            <button ion-button clear (click)="viewLikes()" [hidden]="!(post.numLikes > 0)" style="text-transform: none;">
-                Liked by {{post.likedBy[0]?.username}} and {{post?.numLikes}} others
+            <button ion-button clear (click)="viewLikes()" [hidden]="!(post.numLikes > 1)" style="text-transform: none;">
+                Liked by {{post.likedBy[0]?.username}} and {{post?.numLikes - 1}} others
+                <ion-icon name="arrow-forward"></ion-icon>
+            </button>
+            <button ion-button clear (click)="viewLikes()" [hidden]="!(post.numLikes == 1)" style="text-transform: none;">
+                Liked by {{post.likedBy[0]?.username}}
                 <ion-icon name="arrow-forward"></ion-icon>
             </button>
         </ion-row>
