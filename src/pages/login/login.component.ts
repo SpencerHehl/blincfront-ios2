@@ -35,16 +35,22 @@ export class LoginPage {
 
     facebookLogin(){
         this.facebookAuth.login().then((result) =>{
+            console.log(result);
             this.facebookAuth.storeToken(result.token);
+            console.log(result.token);            
             this.authService.authMethod = "facebook";
-            this.authService.currentUser = this.user.social.facebook.data;
+            console.log("facebook");
+            console.log(this.user.social.facebook);            
+            this.authService.currentUser = this.user.social.facebook.data;          
             if(result.signup){
                 this.authService.authToken = result.token;
+                console.log("set token");                
                 this.authService.newUser(this.user.social.facebook.data).subscribe(
                     response => this.navController.setRoot(TabsPage),
                     err => this.failAlert(err)
                 );
             }else{
+                console.log("logging in");                
                 this.authService.login().subscribe(
                     response => this.navController.setRoot(TabsPage),
                     err => this.failAlert(err)
@@ -52,28 +58,23 @@ export class LoginPage {
             }
         })
         .catch((err) => {
+            console.log(err);            
             this.failAlert(err);
         });
     }
 
     googleLogin(){
         this.googleAuth.login().then((result) =>{
-            console.log(result);
             this.googleAuth.storeToken(result.token);
-            console.log(result.token);
             this.authService.authMethod = "google";
-            console.log("google");
             this.authService.currentUser = this.user.social.google.data;
-            console.log(this.user.social.google.data);
             if(result.signup){
                 this.authService.authToken = result.token;
-                console.log("set token");
                 this.authService.newUser(this.user.social.google.data).subscribe(
                     response => this.navController.setRoot(TabsPage),
                     err => this.failAlert(err)
                 );
             }else{
-                console.log("logging in");
                 this.authService.login().subscribe(
                     response => this.navController.setRoot(TabsPage),
                     err => this.failAlert(err)
@@ -81,7 +82,6 @@ export class LoginPage {
             }
         })
         .catch((err) => {
-            console.log(err);
             this.failAlert(err);
         });
     }

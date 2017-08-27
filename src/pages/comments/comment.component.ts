@@ -60,8 +60,6 @@ export class CommentPage {
                     this.postComments.push(response);
                 }
             });
-        }, (err) => {
-            this.failAlert(err);
         });
     }
 
@@ -83,8 +81,6 @@ export class CommentPage {
                     this.postComments.push(response);
                 }
             });
-        }, (err) => {
-            this.failAlert(err);
         });
     }
 

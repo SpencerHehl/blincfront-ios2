@@ -36,7 +36,7 @@ export class ProfilePage {
             response => {
                 this.user = response;
                 if(this.user.followed){
-                    this.followColor = 'primary';
+                    this.followColor = 'warning';
                     this.followText = "Followed";
                 }else{
                     this.followColor = 'dark';
@@ -103,8 +103,6 @@ export class ProfilePage {
                     this.user.myPosts.unshift(response);
                 }
             });
-        }, (err) => {
-            this.failAlert(err);
         });
     }
 
@@ -126,15 +124,13 @@ export class ProfilePage {
                     this.user.myPosts.unshift(response);
                 }
             });
-        }, (err) => {
-            this.failAlert(err);
         });
     }
 
     followUser(){
         this.user.followed = !this.user.followed;
         if(this.user.followed){
-            this.followColor = 'primary';
+            this.followColor = 'warning';
             this.followText = "Followed";
             this.profileService.follow(this.user._id).subscribe(
                 response => {},

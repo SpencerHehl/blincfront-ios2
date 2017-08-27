@@ -58,8 +58,6 @@ export class NearMePage implements OnInit{
                     this.nearbyPostsLikes.push(response);
                 }
             });
-        }, (err) => {
-            this.failAlert(err);
         });
     }
 
@@ -82,8 +80,6 @@ export class NearMePage implements OnInit{
                     this.nearbyPostsLikes.push(response);
                 }
             });
-        }, (err) => {
-            this.failAlert(err);
         });
     }
 

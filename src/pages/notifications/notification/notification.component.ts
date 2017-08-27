@@ -56,8 +56,6 @@ export class NotificationPage{
                     this.comments.push(response);
                 }
             });
-        }, (err) => {
-            this.failAlert(err);
         });
     }
 
@@ -79,8 +77,6 @@ export class NotificationPage{
                     this.comments.push(response);
                 }
             });
-        }, (err) => {
-            this.failAlert(err);
         });
     }
 
