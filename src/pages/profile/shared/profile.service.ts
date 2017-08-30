@@ -16,7 +16,7 @@ export class ProfileService{
         let token = this.authService.authToken;
         let headers = new Headers({'Authorization': token});
         let options = new RequestOptions({headers: headers});
-        return this.http.get('http://www.blincapp.com/profile/profileposts?page=' + this.page + '&user=' + profileId, options)
+        return this.http.get('http://104.238.138.146:80/profile/profileposts?page=' + this.page + '&user=' + profileId, options)
             .map((resp) => {
                 this.page += 1;
                 return resp.json();
@@ -28,7 +28,7 @@ export class ProfileService{
         let token = this.authService.authToken;
         let headers = new Headers({'Authorization': token});
         let options = new RequestOptions({headers: headers});
-        return this.http.get('http://www.blincapp.com/profile/' + profileId, options)
+        return this.http.get('http://104.238.138.146:80/profile/' + profileId, options)
             .map((resp) => {
                 this.page += 1;
                 return resp.json();
@@ -44,7 +44,7 @@ export class ProfileService{
         let body = {
             id: profileId
         }
-        return this.http.put('http://www.blincapp.com/profile/follow', body, options)
+        return this.http.put('http://104.238.138.146:80/profile/follow', body, options)
             .map((resp) => {
                 return resp.json();
             })
@@ -59,7 +59,7 @@ export class ProfileService{
         let body = {
             id: profileId
         }
-        return this.http.put('http://www.blincapp.com/profile/unfollow', body, options)
+        return this.http.put('http://104.238.138.146:80/profile/unfollow', body, options)
             .map((resp) => {
                 return resp.json();
             })
