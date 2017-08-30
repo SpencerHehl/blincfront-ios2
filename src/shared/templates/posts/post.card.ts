@@ -35,8 +35,6 @@ export class PostCardComponent {
                 err => console.log(err)
             )
         }
-        console.log(this.Post.poster);
-        console.log(this.authService.mongoUser._id);
         if(this.Post.poster._id == this.authService.mongoUser._id){
             this.isActiveUser = true;
         }else{

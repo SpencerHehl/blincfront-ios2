@@ -1,5 +1,5 @@
-<ion-card [hidden]="Comment.isFlagged" style="width: 95vw">
-    <ion-item>
+<ion-card [hidden]="Comment.isFlagged" style="width: 90vw;">
+    <ion-item style="background:#6a597d; color:white;">
         <ion-avatar item-start>
             <img [src]="Comment.commenter?.profilePicture" (click)="viewProfile()">
         </ion-avatar>
@@ -14,18 +14,8 @@
             <button ion-button (click)="viewMore()" clear><ion-icon name="more"></ion-icon></button>
         </ion-buttons>
     </ion-item>
-    <ion-card-content>
+    <ion-card-content style="margin-top:10px;">
         <p>{{Comment.content.body}}</p>
         <img *ngIf="Comment.content.contentType == 'photo'" [src]="Comment.content.img">
     </ion-card-content>
-    <ion-row>
-        <button ion-button clear (click)="viewLikes()" [hidden]="!(Comment.numLikes > 1)" style="text-transform: none;">
-            Liked by {{Comment.likedBy[0]?.username}} and {{Comment?.numLikes - 1}} others
-            <ion-icon name="arrow-forward"></ion-icon>
-        </button>
-        <button ion-button clear (click)="viewLikes()" [hidden]="!(Comment.numLikes == 1)" style="text-transform: none;">
-            Liked by {{Comment.likedBy[0]?.username}}
-            <ion-icon name="arrow-forward"></ion-icon>
-        </button>
-    </ion-row>
 </ion-card>

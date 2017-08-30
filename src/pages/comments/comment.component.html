@@ -24,16 +24,6 @@
             <img *ngIf="post.content.contentType == 'photo'" [src]="post?.content.img">
             <p>{{post.content.body}}</p>
         </ion-card-content>
-        <ion-row>
-            <button ion-button clear (click)="viewLikes()" [hidden]="!(post.numLikes > 1)" style="text-transform: none;">
-                Liked by {{post.likedBy[0]?.username}} and {{post?.numLikes - 1}} others
-                <ion-icon name="arrow-forward"></ion-icon>
-            </button>
-            <button ion-button clear (click)="viewLikes()" [hidden]="!(post.numLikes == 1)" style="text-transform: none;">
-                Liked by {{post.likedBy[0]?.username}}
-                <ion-icon name="arrow-forward"></ion-icon>
-            </button>
-        </ion-row>
     </ion-card>
     <ion-row *ngFor="let comment of postComments; let i = index">
         <comment-card [Comment]="comment" (reportEmitter)="reportComment($event, i)" (deleteEmitter)="deleteComment($event, i)"></comment-card>
