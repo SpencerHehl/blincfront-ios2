@@ -6,7 +6,7 @@
     </ion-navbar>
 </ion-header>
 <ion-content style="background-color: #cbd3db">
-    <ion-card [hidden]="post.isFlagged" style="width: 90vw">
+    <ion-card [hidden]="post.isFlagged" style="width: 95vw">
         <ion-item style="background:#6a597d; color:white;">
             <ion-avatar item-start>
                 <img [src]="post.poster?.profilePicture" (click)="viewProfile()">
@@ -27,12 +27,12 @@
         <ion-row>
             <ion-col>
                 <button ion-button item-start clear (click)="likePost(post._id)" [color]="likeColor">
-                    <ion-icon name="thumbs-up"></ion-icon> {{post.numLikes}} Likes
+                    <ion-icon name="thumbs-up" style="margin-right:5px;"></ion-icon> {{post.numLikes}} Likes
                 </button>
             </ion-col>
             <ion-col>
               <button ion-button icon-left clear small (click)="viewLikes()" color="dark">
-                <ion-icon name="eye"></ion-icon> View
+                <ion-icon name="eye" style="margin-right:5px;"></ion-icon> View
               </button>
             </ion-col>
         </ion-row>
@@ -41,7 +41,7 @@
         <comment-card [Comment]="comment" (reportEmitter)="reportComment($event, i)" (deleteEmitter)="deleteComment($event, i)"></comment-card>
     </ion-row>
     <ion-fab right bottom>
-        <button ion-fab><ion-icon name="add"></ion-icon></button>
+        <button ion-fab color="secondary"><ion-icon name="add"></ion-icon></button>
         <ion-fab-list side="top">
           <button ion-fab (click)="postText()"><ion-icon name="text"></ion-icon></button>
           <button ion-fab (click)="postPhoto()"><ion-icon name="camera"></ion-icon></button>

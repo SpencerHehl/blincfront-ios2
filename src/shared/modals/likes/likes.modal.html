@@ -11,19 +11,19 @@
 
 <ion-content style="background-color: #cbd3db">
     <ion-list>
-        <ion-item [hidden]="!content.likedByUser">
+        <!--<ion-item [hidden]="!content.likedByUser">
             <ion-avatar item-start>
                 <img [src]='authService.mongoUser?.profilePicture' (click)="viewProfile(authService.mongoUser)">
             </ion-avatar>
             <h3 style="font-weight:bold">{{authService.mongoUser?.username}}</h3>
-        </ion-item>
-        <ion-item *ngFor='let user of users' [hidden]="user._id == authService.mongoUser._id">
+        </ion-item>-->
+        <ion-item *ngFor='let user of users'>
             <ion-avatar item-start>
                 <img [src]='user?.profilePicture' (click)="viewProfile(user)">
             </ion-avatar>
             <h3 style="font-weight:bold">{{user?.username}}</h3>
             <ion-buttons item-end>
-                <button ion-button (click)="followUser(user)" icon-right clear [color]="user.followColor"><ion-icon name="star" [color]="user.followColor"></ion-icon>{{user?.followText}}</button>
+                <button ion-button (click)="followUser(user)" icon-right clear [color]="user.followColor" [hidden]="user._id == authService.mongoUser._id"><ion-icon name="star" [color]="user.followColor"></ion-icon>{{user?.followText}}</button>
             </ion-buttons>
         </ion-item>
     </ion-list>

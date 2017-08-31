@@ -1,4 +1,4 @@
-<ion-card [hidden]="Comment.isFlagged" style="width: 90vw;">
+<ion-card [hidden]="Comment.isFlagged" style="width: 95vw;">
     <ion-item style="background:#6a597d; color:white;">
         <ion-avatar item-start>
             <img [src]="Comment.commenter?.profilePicture" (click)="viewProfile()">
@@ -18,7 +18,7 @@
     <ion-row>
         <ion-col>
             <button ion-button item-start clear (click)="likeComment(Comment._id)" [color]="likeColor">
-                <ion-icon name="thumbs-up"></ion-icon> {{Comment.numLikes}} Likes
+                <ion-icon name="thumbs-up" style="margin-right:5px;"></ion-icon> {{Comment.numLikes}} Likes
             </button>
         </ion-col>
         <ion-col>

@@ -28,7 +28,7 @@
   <p *ngIf="nearbyPostsDate?.length == 0">Woah it is pretty lonely here. Looks like you are a pioneer in your area. Start posting and get the conversation started!</p>
   <button ion-button block (click)="loadMore()">Load more posts</button>
   <ion-fab right bottom>
-    <button ion-fab><ion-icon name="add"></ion-icon></button>
+    <button ion-fab color="secondary"><ion-icon name="add"></ion-icon></button>
     <ion-fab-list side="top">
       <button ion-fab (click)="postText()"><ion-icon name="text"></ion-icon></button>
       <button ion-fab (click)="postPhoto()"><ion-icon name="camera"></ion-icon></button>
