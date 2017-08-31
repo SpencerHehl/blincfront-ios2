@@ -139,7 +139,7 @@ export class PostService{
         let body = {
             id: postId
         }
-        return this.http.put('http://104.238.138.146:8082/post/unlike', body, options)
+        return this.http.put('http://104.238.138.146:80/post/unlike', body, options)
             .map((resp) => {
                 return resp.json();
             })
@@ -152,7 +152,7 @@ export class PostService{
         headers.append('Authorization', token);
         let options = new RequestOptions({headers: headers});
         post["geolocation"] = this.myLocation;
-        return this.http.post('http://104.238.138.146:8082/post/text/', post, options).map((response: Response) => {
+        return this.http.post('http://104.238.138.146:80/post/text/', post, options).map((response: Response) => {
             return response.json();
         }).catch(this.handleError);
     }
@@ -165,7 +165,7 @@ export class PostService{
         post["geolocation"] = this.myLocation;
         post["imageData"] = image;
         console.log(image);
-        return this.http.post('http://104.238.138.146:8082/post/picture/', post, options).map((response: Response) => {
+        return this.http.post('http://104.238.138.146:80/post/picture/', post, options).map((response: Response) => {
             return response.json();
         }).catch(this.handleError);
     }
@@ -174,7 +174,7 @@ export class PostService{
         let token = this.authService.authToken;
         let headers = new Headers({'Authorization': token});
         let options = new RequestOptions({headers: headers});
-        return this.http.get('http://104.238.138.146:8082/post/mapmarkers?distance=' + distance + '&lat=' + location.lat+ '&lng=' + location.lng, options)
+        return this.http.get('http://104.238.138.146:80/post/mapmarkers?distance=' + distance + '&lat=' + location.lat+ '&lng=' + location.lng, options)
             .map((resp) => {
                 return resp.json();
             })
@@ -185,7 +185,7 @@ export class PostService{
         let token = this.authService.authToken;
         let headers = new Headers({'Authorization': token});
         let options = new RequestOptions({headers: headers});
-        return this.http.get('http://104.238.138.146:8082/post/mapposts?distance=' + distance + '&lat=' + location.lat+ '&lng=' + location.lng, options)
+        return this.http.get('http://104.238.138.146:80/post/mapposts?distance=' + distance + '&lat=' + location.lat+ '&lng=' + location.lng, options)
             .map((resp) => {
                 return resp.json();
             })
@@ -196,7 +196,7 @@ export class PostService{
         let token = this.authService.authToken;
         let headers = new Headers({'Authorization': token});
         let options = new RequestOptions({headers: headers});
-        return this.http.get('http://104.238.138.146:8082/post/mappost/' + postId, options)
+        return this.http.get('http://104.238.138.146:80/post/mappost/' + postId, options)
             .map((resp) => {
                 return resp.json();
             })
@@ -208,7 +208,7 @@ export class PostService{
         let headers = new Headers({'Authorization': token});
         let options = new RequestOptions({headers: headers});
 
-        return this.http.delete('http://104.238.138.146:8082/post/delete/' + post._id, options)
+        return this.http.delete('http://104.238.138.146:80/post/delete/' + post._id, options)
             .map((resp) => {
                 return resp.json();
             })
@@ -224,7 +224,7 @@ export class PostService{
             id: post._id
         }
 
-        return this.http.put('http://104.238.138.146:8082/post/report', body, options)
+        return this.http.put('http://104.238.138.146:80/post/report', body, options)
             .map((resp) => {
                 return resp.json();
             })

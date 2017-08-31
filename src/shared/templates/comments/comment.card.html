@@ -8,9 +8,6 @@
             {{Comment.createdDate | dateAge}}
         </ion-note>
         <ion-buttons item-end>
-            <button ion-button item-start clear (click)="likeComment(Comment._id)" [color]="likeColor">
-                <ion-icon name="thumbs-up"></ion-icon>
-            </button>
             <button ion-button (click)="viewMore()" clear><ion-icon name="more"></ion-icon></button>
         </ion-buttons>
     </ion-item>
@@ -18,4 +15,16 @@
         <p>{{Comment.content.body}}</p>
         <img *ngIf="Comment.content.contentType == 'photo'" [src]="Comment.content.img">
     </ion-card-content>
+    <ion-row>
+        <ion-col>
+            <button ion-button item-start clear (click)="likeComment(Comment._id)" [color]="likeColor">
+                <ion-icon name="thumbs-up"></ion-icon>
+            </button>
+        </ion-col>
+        <ion-col>
+          <button ion-button icon-left clear small (click)="viewLikes()" color="dark">
+            <ion-icon name="eye"></ion-icon> View
+          </button>
+        </ion-col>
+    </ion-row>
 </ion-card>

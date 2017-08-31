@@ -48,6 +48,24 @@ export class CommentPage {
         likesModal.present();
     }
 
+    likePost(postId) {
+        this.post.likedByUser = !this.post.likedByUser;
+        if(this.post.likedByUser){
+            this.post.numLikes += 1;
+            this.likeColor = 'primary';
+            this.postService.likePost(postId).subscribe(
+                response => {}
+            )
+        }else{
+            this.post.numLikes -= 1;
+            this.likeColor = 'dark';
+            this.postService.unlikePost(postId).subscribe(
+                response => {}
+            )
+        }
+        
+    }
+
     postText(){
         let postModal = this.modalCtrl.create(CommentFormModal, {postType: 'text', postId: this.post._id});
         postModal.present();

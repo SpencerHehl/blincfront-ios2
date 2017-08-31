@@ -70,7 +70,7 @@ export class ProfileService{
         let token = this.authService.authToken;
         let headers = new Headers({'Authorization': token});
         let options = new RequestOptions({headers: headers});
-        return this.http.get('http://www.blincapp.com/profile/followlists/' + profileId, options)
+        return this.http.get('http://104.238.138.146:80/profile/followlists/' + profileId, options)
             .map((resp) => {
                 return resp.json();
             })
