@@ -1,17 +1,17 @@
   <ion-card [hidden]="Post.isFlagged" style="width: 95vw">
-    <ion-item>
+    <ion-item style="background:#6a597d; color:white;">
       <ion-avatar item-start>
         <img [src]="Post.poster?.profilePicture" (click)="viewProfile()">
       </ion-avatar>
-      <h2 (click)="viewProfile()" style="font-weight:bold">{{Post.poster?.fullName}}</h2>
+      <h2 (click)="viewProfile()" style="font-weight:bold; color:white">{{Post.poster?.fullName}}</h2>
       <ion-note>
           {{Post.createdDate | dateAge}}
       </ion-note>
       <ion-buttons item-end>
-          <button ion-button (click)="viewMore()" clear><ion-icon name="more"></ion-icon></button>
+          <button ion-button (click)="viewMore()" clear color="light"><ion-icon name="more"></ion-icon></button>
       </ion-buttons>
     </ion-item>
-    <ion-card-content style="margin-top:1%">
+    <ion-card-content style="margin-top:10px">
       <h2 style="font-weight:bold">{{Post.content?.title}} <ion-icon *ngIf="Post.content?.location" name="at" color="primary"></ion-icon> {{Post.content?.location}}</h2>
       <p>{{Post.content.body}}</p>      
       <img *ngIf="Post.content.contentType == 'photo'" [src]="Post?.content.img">

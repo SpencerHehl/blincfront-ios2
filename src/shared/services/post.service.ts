@@ -32,7 +32,7 @@ export class PostService{
         let token = this.authService.authToken;
         let headers = new Headers({'Authorization': token});
         let options = new RequestOptions({headers: headers});
-        return this.http.get('http://www.blincapp.com/post/' + postId, options)
+        return this.http.get('http://104.238.138.146:80/post/' + postId, options)
             .map((resp) => {
                 return resp.json()
             })

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController, NavParams, AlertController } from 'ionic-angular';
+import { NavController, NavParams, AlertController, LoadingController } from 'ionic-angular';
 
 import { PostService } from '../../../shared/services/post.service';
 
@@ -8,22 +8,32 @@ import { PostService } from '../../../shared/services/post.service';
 })
 export class ListViewPage{
     mapPosts: any[];
+    loading: any;
 
     constructor(public navCtrl: NavController, private navParams: NavParams,
-        public alertCtrl: AlertController, private postService: PostService){}
+        public alertCtrl: AlertController, private postService: PostService,
+        private loadingCtrl: LoadingController){}
 
     ionViewWillLoad(){
         var distance = this.navParams.get('distance');
         var currCenter = this.navParams.get('center');
-        console.log(distance);
-        console.log(currCenter);
+        this.presentLoader();
         this.postService.getMapPosts(distance, currCenter).subscribe(
             resp => {
-                console.log(resp);
-                this.mapPosts = resp;
+                this.loading.dismiss().then(() => {
+                    this.mapPosts = resp;
+                })
             },
             err => this.failAlert(err)
         )
+    }
+
+    presentLoader(){
+        this.loading = this.loadingCtrl.create({
+            content: 'Loading...'
+        })
+
+        this.loading.present();
     }
 
     reportPost(post, index){

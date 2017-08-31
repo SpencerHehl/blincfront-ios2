@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController, NavParams, ModalController, AlertController } from 'ionic-angular';
+import { NavController, NavParams, ModalController, AlertController, LoadingController } from 'ionic-angular';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 
 import { PostService } from '../../../shared/services/post.service';
@@ -12,20 +12,33 @@ export class NearMePage implements OnInit{
     nearbyPostsDate: any;
     nearbyPostsLikes: any;
     postFilter: string;
+    loading: any;
 
     constructor(public navCtrl: NavController, public modalCtrl: ModalController, 
         private postService: PostService, public navParams: NavParams, 
-        public alertCtrl: AlertController, private camera: Camera){
+        public alertCtrl: AlertController, private camera: Camera,
+        private loadingCtrl: LoadingController){
         this.postFilter = 'date';
     }
 
     ngOnInit(){
+        this.presentLoader();
         this.postService.getNearbyPostsDate().subscribe(
             response => {
-                this.nearbyPostsDate = response;
+                this.loading.dismiss().then(() => {
+                    this.nearbyPostsDate = response;
+                })
             },
             err => this.failAlert(err)
         );
+    }
+
+    presentLoader(){
+        this.loading = this.loadingCtrl.create({
+            content: 'Loading...'
+        })
+
+        this.loading.present();
     }
 
     postText(){
@@ -84,21 +97,26 @@ export class NearMePage implements OnInit{
     }
 
     loadMore(){
+        this.presentLoader();
         if(this.postFilter == 'date'){
             this.postService.loadDate().subscribe(
                 response => {
-                    if(response.length > 0){
-                        Array.prototype.push.apply(this.nearbyPostsDate, response);
-                    }
+                    this.loading.dismiss().then(() => {
+                        if(response.length > 0){
+                            Array.prototype.push.apply(this.nearbyPostsDate, response);
+                        }
+                    })  
                 },
                 err => this.failAlert(err)
             )
         }else{
             this.postService.loadLikes().subscribe(
                 response => {
-                    if(response.length > 0){
-                        Array.prototype.push.apply(this.nearbyPostsLikes, response);
-                    }
+                    this.loading.dismiss().then(() => {
+                        if(response.length > 0){
+                            Array.prototype.push.apply(this.nearbyPostsDate, response);
+                        }
+                    })  
                 },
                 err => this.failAlert(err)
             )
@@ -106,11 +124,13 @@ export class NearMePage implements OnInit{
     }
 
     onFilterChange(){
-        console.log("here");
+        this.presentLoader();
         if((!this.nearbyPostsLikes) && this.postFilter == 'like'){
             this.postService.getNearbyPostsLikes().subscribe(
                 response => {
-                    this.nearbyPostsLikes = response;
+                    this.loading.dismiss().then(() => {
+                        this.nearbyPostsDate = response;
+                    })
                 },
                 err => this.failAlert(err)
             )
