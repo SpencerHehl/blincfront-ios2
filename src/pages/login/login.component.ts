@@ -126,11 +126,13 @@ export class LoginPage {
     }
 
     failAlert(message){
-        let alert = this.alertCtrl.create({
-            title: 'Error',
-            subTitle: message,
-            buttons: ['OK']
-        });
-        alert.present();
+        this.loading.dismiss().then(() => {
+            let alert = this.alertCtrl.create({
+                title: 'Error',
+                subTitle: message,
+                buttons: ['OK']
+            });
+            alert.present();
+        })
     }
 }

@@ -9,8 +9,8 @@ import { PostFormModal } from '../../../shared/modals/posts/post-form.modal';
     templateUrl: 'nearme.component.html'
 })
 export class NearMePage implements OnInit{
-    nearbyPostsDate: any;
-    nearbyPostsLikes: any;
+    nearbyPostsDate: any[];
+    nearbyPostsLikes: any[];
     postFilter: string;
     loading: any;
 
@@ -124,13 +124,13 @@ export class NearMePage implements OnInit{
     }
 
     onFilterChange(){
-        this.presentLoader();
         if((!this.nearbyPostsLikes) && this.postFilter == 'like'){
+            console.log("filter change");
             this.postService.getNearbyPostsLikes().subscribe(
                 response => {
-                    this.loading.dismiss().then(() => {
-                        this.nearbyPostsDate = response;
-                    })
+                    console.log("subscription complete");
+                    console.log(response);
+                    this.nearbyPostsLikes = response;
                 },
                 err => this.failAlert(err)
             )
@@ -166,6 +166,8 @@ export class NearMePage implements OnInit{
     }
 
     deletePostDate(post, index){
+        console.log(post);
+        console.log(index);
         this.nearbyPostsDate.splice(index, 1);
         this.postService.deletePost(post).subscribe(
             resp => {},

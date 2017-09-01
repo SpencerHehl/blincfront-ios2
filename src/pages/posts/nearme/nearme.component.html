@@ -2,7 +2,7 @@
 
 <ion-header>
   <ion-navbar>
-    <ion-title style="font-weight:bold">
+    <ion-title style="font-weight:bold;">
       Near Me
     </ion-title>
   </ion-navbar>
@@ -19,10 +19,10 @@
       <ion-option value="like">Top Posts</ion-option>
     </ion-select>
   </ion-item>
-  <ion-row *ngFor="let post of nearbyPostsDate" [hidden]="postFilter != 'date'">
+  <ion-row *ngFor="let post of nearbyPostsDate; let i = index" [hidden]="postFilter != 'date'">
       <post-card [Post]="post" (reportEmitter)="reportPostDate($event, i)" (deleteEmitter)="deletePostDate($event, i)"></post-card>
   </ion-row>
-  <ion-row *ngFor="let post of nearbyPostsLikes" [hidden]="postFilter != 'like'">
+  <ion-row *ngFor="let post of nearbyPostsLikes; let i = index" [hidden]="postFilter != 'like'">
       <post-card [Post]="post" (reportEmitter)="reportPostLikes($event, i)" (deleteEmitter)="deletePostLikes($event, i)"></post-card>
   </ion-row>
   <p *ngIf="nearbyPostsDate?.length == 0">Woah it is pretty lonely here. Looks like you are a pioneer in your area. Start posting and get the conversation started!</p>

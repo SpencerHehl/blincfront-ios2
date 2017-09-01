@@ -28,6 +28,11 @@ export class CommentPage {
     
     ionViewWillLoad(){
         this.post = this.navParams.get('post');
+        if(this.post.likedByUser){
+            this.likeColor = 'primary';
+        }else{
+            this.likeColor = 'dark';
+        }
         if(this.post.content.contentType == 'photo'){
             this.mediaService.getMedia(this.post._id).subscribe(
                 resp => this.post.content["img"] = resp,
@@ -36,7 +41,6 @@ export class CommentPage {
         }
         this.commentService.getComments(this.post._id).subscribe(
             response => {
-                console.log(response);
                 this.postComments = response;
             },
             err => this.failAlert(err)
@@ -66,6 +70,7 @@ export class CommentPage {
         
     }
 
+    
     postText(){
         let postModal = this.modalCtrl.create(CommentFormModal, {postType: 'text', postId: this.post._id});
         postModal.present();
@@ -116,24 +121,6 @@ export class CommentPage {
                 }
             });
         });
-    }
-
-    reportPost(post, index){
-        this.postService.reportPost(post).subscribe(
-            resp => {
-                this.navCtrl.setRoot(TabsPage);
-            },
-            err => this.failAlert(err)
-        )
-    }
-
-    deletePost(post, index){
-        this.postService.deletePost(post).subscribe(
-            resp => {
-                this.navCtrl.setRoot(TabsPage);
-            },
-            err => this.failAlert(err)
-        )
     }
 
     deleteComment(comment, index){

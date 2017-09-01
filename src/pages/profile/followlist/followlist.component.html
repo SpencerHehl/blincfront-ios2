@@ -4,10 +4,16 @@
     </ion-navbar>
 </ion-header>
 
-<ion-content padding style="background-color: #cbd3db">
-    <ion-row>
-        <ion-col *ngFor="let user of followList">
-            <user-card [User]="user"></user-card>
-        </ion-col>
-    </ion-row>
+<ion-content style="background-color: #cbd3db">
+    <ion-list>
+        <ion-item *ngFor='let user of followList'>
+            <ion-avatar item-start>
+                <img [src]='user?.profilePicture' (click)="viewProfile(user)">
+            </ion-avatar>
+            <h3 style="font-weight:bold" (click)="viewProfile(user)">{{user?.username}}</h3>
+            <ion-buttons item-end>
+                <button ion-button (click)="followUser(user)" icon-right clear [color]="user.followColor"><ion-icon name="star" [color]="user.followColor"></ion-icon>{{user?.followText}}</button>
+            </ion-buttons>
+        </ion-item>
+    </ion-list>
 </ion-content>

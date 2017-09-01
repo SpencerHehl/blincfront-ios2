@@ -6,6 +6,7 @@ import { CommentPage } from '../../../pages/comments/comment.component';
 import { ProfilePage } from '../../../pages/profile/profile.component';
 import { MediaService } from '../../services/media.service';
 import { AuthService } from '../../services/auth.service';
+import { LikesModalComponent } from '../../modals/likes/likes.modal';
 
 @Component({
     selector: 'post-card',
@@ -176,6 +177,11 @@ export class PostCardComponent {
             }
         )
         
+    }
+
+    viewLikes(){
+        let likesModal = this.modalCtrl.create(LikesModalComponent, {type: 'post', content: this.Post});
+        likesModal.present();
     }
 
     viewProfile(){
