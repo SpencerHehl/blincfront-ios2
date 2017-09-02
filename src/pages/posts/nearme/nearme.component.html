@@ -12,7 +12,7 @@
   <ion-refresher (ionRefresh)="reloadPosts($event)">
     <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull down to refresh" refreshingSpinner="circles" refreshingText="Reloading..."></ion-refresher-content>
   </ion-refresher>
-  <ion-item>
+  <ion-item no-lines>
     <ion-label>Sort By:</ion-label>
     <ion-select [(ngModel)]="postFilter" (ionChange)="onFilterChange()">
       <ion-option value="date">Most Recent</ion-option>

@@ -12,26 +12,14 @@
 </ion-header>
 
 <ion-content style="background-color: #cbd3db">
-  <ion-row>
-    <ion-col>
-      <ion-avatar>
+  <ion-item no-lines>
+      <ion-avatar item-start>
         <img [src]="user?.profilePicture">
       </ion-avatar>
-    </ion-col>
-    <ion-col>
-      <ion-row>
-        <ion-title color="dark">{{user?.fullName}}</ion-title>
-      </ion-row>
-      <ion-row>
-        <ion-col>
-          <div (click)="viewFollowerList()">{{user?.numFollowers}} Followers</div>
-        </ion-col>
-        <ion-col>
-          <div (click)="viewFollowingList()">{{user?.numFollowed}} Following</div>
-        </ion-col>
-      </ion-row>
-    </ion-col>
-  </ion-row>
+      <h4 style="font-weight:bold" color="dark">{{user?.fullName}}</h4>
+      <button ion-button clear color="dark" (click)="viewFollowerList()" float-left>{{user?.numFollowers}} Followers</button>
+      <button ion-button clear color="dark" (click)="viewFollowingList()" float-right>{{user?.numFollowed}} Following</button>
+  </ion-item>
   <ion-row *ngFor="let post of user?.myPosts">
       <post-card [Post]="post" (reportEmitter)="reportPost($event, i)" (deleteEmitter)="deletePost($event, i)"></post-card>
   </ion-row>
