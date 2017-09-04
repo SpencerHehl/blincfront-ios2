@@ -16,9 +16,10 @@ export class FollowListPage{
 
     ionViewWillLoad(){
         this.followList = this.navParams.get('followList');
+        console.log(this.followList);
         this.followList.map((user)=>{
             if(user.followed){
-                user.followColor = 'warning';
+                user.followColor = 'dark';
                 user.followText = "Followed";
             }else{
                 user.followColor = 'dark';
@@ -31,7 +32,7 @@ export class FollowListPage{
     followUser(user){
         user.followed = !user.followed;
         if(user.followed){
-            user.followColor = 'warning';
+            user.followColor = 'dark';
             user.followText = "Followed";
             this.profileService.follow(user._id).subscribe(
                 response => {},
@@ -40,7 +41,7 @@ export class FollowListPage{
         }else{
             user.followColor = 'dark';
             user.followText = "Unfollowed";
-            user.profileService.unfollow(user._id).subscribe(
+            this.profileService.unfollow(user._id).subscribe(
                 response => {},
                 err => this.failAlert(err)
             )

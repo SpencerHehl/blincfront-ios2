@@ -16,7 +16,7 @@
       <ion-avatar item-start>
         <img [src]="user?.profilePicture">
       </ion-avatar>
-      <h4 style="font-weight:bold" color="dark">{{user?.fullName}}</h4>
+      <h4 style="font-weight:bold;font-size:large" color="dark">{{user?.fullName}}</h4>
       <button ion-button clear color="dark" (click)="viewFollowerList()" float-left>{{user?.numFollowers}} Followers</button>
       <button ion-button clear color="dark" (click)="viewFollowingList()" float-right>{{user?.numFollowed}} Following</button>
   </ion-item>
