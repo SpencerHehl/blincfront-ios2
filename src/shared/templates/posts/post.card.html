@@ -15,8 +15,8 @@
       </ion-buttons>
     </ion-item>
     <ion-card-content style="margin-top:10px">
-      <h2 style="font-weight:bold;">{{Post.content?.title}} <ion-icon *ngIf="Post.content?.location" name="at" color="primary"></ion-icon> {{Post.content?.location}}</h2>
-      <p style="font-weight:bold">{{Post.content.body}}</p>      
+      <h2 style="font-weight:bold;font-size:large">{{Post.content?.title}} <ion-icon *ngIf="Post.content?.location" name="at" color="primary"></ion-icon> {{Post.content?.location}}</h2>
+      <p style="font-size:large">{{Post.content.body}}</p>      
       <img *ngIf="Post.content.contentType == 'photo'" [src]="Post?.content.img">
     </ion-card-content>
     <ion-row>

@@ -40,7 +40,7 @@ export class ProfilePage {
                     this.followColor = 'warning';
                     this.followText = "Followed";
                 }else{
-                    this.followColor = 'dark';
+                    this.followColor = 'light';
                     this.followText = "Unfollowed";
                 }
                 if(this.user._id == this.authService.mongoUser._id){
@@ -72,7 +72,7 @@ export class ProfilePage {
                     this.followColor = 'warning';
                     this.followText = "Followed";
                 }else{
-                    this.followColor = 'dark';
+                    this.followColor = 'light';
                     this.followText = "Unfollowed";
                 }
             }
