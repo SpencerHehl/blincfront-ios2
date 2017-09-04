@@ -28,7 +28,11 @@ export class LoginPage {
                             this.navController.setRoot(TabsPage)  
                         })
                     },
-                    err => this.failAlert(err)
+                    err => {
+                        this.loading.dismiss().then(() => {
+                            this.failAlert(err); 
+                        })
+                    }
                 )
             }else if(this.user.social.google){
                 this.authService.authMethod = "google";
@@ -39,7 +43,11 @@ export class LoginPage {
                             this.navController.setRoot(TabsPage)  
                         })
                     },
-                    err => this.failAlert(err)
+                    err => {
+                        this.loading.dismiss().then(() => {
+                            this.failAlert(err); 
+                        })
+                    }
                 )
             }
         }
@@ -73,7 +81,11 @@ export class LoginPage {
                             this.navController.setRoot(TabsPage)  
                         })
                     },
-                    err => this.failAlert(err)
+                    err => {
+                        this.loading.dismiss().then(() => {
+                            this.failAlert(err); 
+                        })
+                    }
                 );
             }else{
                 console.log("logging in");                
@@ -83,13 +95,21 @@ export class LoginPage {
                             this.navController.setRoot(TabsPage)  
                         })
                     },
-                    err => this.failAlert(err)
+                    err => {
+                        this.loading.dismiss().then(() => {
+                            this.failAlert(err); 
+                        })
+                    }
                 )
             }
         })
         .catch((err) => {
             console.log(err);            
-            this.failAlert(err);
+            {
+                this.loading.dismiss().then(() => {
+                    this.failAlert(err); 
+                })
+            };
         });
     }
 
@@ -107,7 +127,11 @@ export class LoginPage {
                             this.navController.setRoot(TabsPage)  
                         })
                     },
-                    err => this.failAlert(err)
+                    err => {
+                        this.loading.dismiss().then(() => {
+                            this.failAlert(err); 
+                        })
+                    }
                 );
             }else{
                 this.authService.login().subscribe(
@@ -116,12 +140,20 @@ export class LoginPage {
                             this.navController.setRoot(TabsPage)  
                         })
                     },
-                    err => this.failAlert(err)
+                    err => {
+                        this.loading.dismiss().then(() => {
+                            this.failAlert(err); 
+                        })
+                    }
                 )
             }
         })
         .catch((err) => {
-            this.failAlert(err);
+            {
+                this.loading.dismiss().then(() => {
+                    this.failAlert(err); 
+                })
+            }
         });
     }
 
