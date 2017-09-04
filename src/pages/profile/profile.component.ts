@@ -34,6 +34,7 @@ export class ProfilePage {
         }
         this.profileService.getProfile(passedUser._id).subscribe(
             response => {
+                console.log(response);
                 this.user = response;
                 if(this.user.followed){
                     this.followColor = 'warning';

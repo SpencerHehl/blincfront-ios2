@@ -28,15 +28,19 @@ export class AuthService {
 
     login(){
         let ionicId;
+        let email;
         if(this.authMethod == 'facebook'){
             this.authToken = this.facebookAuth.getToken();
             ionicId = this.user.id;
+            email = this.user.social.facebook.data.email;
         }else{
             this.authToken = this.googleAuth.getToken();
             ionicId = this.user.id;
+            email = this.user.social.google.data.email;
         }
         let body = {
-            ionicId: ionicId
+            ionicId: ionicId,
+            email: email
         };
         let headers = new Headers({'Content-type': 'application/json'});
         headers.append('Authorization', this.authToken);
