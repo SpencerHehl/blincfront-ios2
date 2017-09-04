@@ -26,7 +26,7 @@ export class PostCardComponent {
 
     ngOnInit(){
         if(this.Post.likedByUser){
-            this.likeColor = 'primary';
+            this.likeColor = 'ionicblue';
         }else{
             this.likeColor = 'dark';
         }
@@ -47,7 +47,7 @@ export class PostCardComponent {
         this.Post.likedByUser = !this.Post.likedByUser;
         if(this.Post.likedByUser){
             this.Post.numLikes += 1;
-            this.likeColor = 'primary';
+            this.likeColor = 'ionicblue';
             this.postService.likePost(postId).subscribe(
                 response => {}
             )

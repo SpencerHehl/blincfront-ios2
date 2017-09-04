@@ -29,7 +29,7 @@ export class CommentPage {
     ionViewWillLoad(){
         this.post = this.navParams.get('post');
         if(this.post.likedByUser){
-            this.likeColor = 'primary';
+            this.likeColor = 'warning';
         }else{
             this.likeColor = 'dark';
         }
@@ -56,7 +56,7 @@ export class CommentPage {
         this.post.likedByUser = !this.post.likedByUser;
         if(this.post.likedByUser){
             this.post.numLikes += 1;
-            this.likeColor = 'primary';
+            this.likeColor = 'warning';
             this.postService.likePost(postId).subscribe(
                 response => {}
             )

@@ -25,7 +25,7 @@ export class CommentCardComponent{
 
     ngOnInit(){
         if(this.Comment.likedByUser){
-            this.likeColor = 'secondary';
+            this.likeColor = 'ionicblue';
         }else{
             this.likeColor = 'dark';
         }
@@ -46,7 +46,7 @@ export class CommentCardComponent{
         this.Comment.likedByUser = !this.Comment.likedByUser;
         if(this.Comment.likedByUser){
             this.Comment.numLikes += 1;
-            this.likeColor = 'secondary';
+            this.likeColor = 'ionicblue';
             this.commentService.likeComment(commentId).subscribe(
                 response => {}
             )
