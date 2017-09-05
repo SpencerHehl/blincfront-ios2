@@ -17,21 +17,16 @@ export class LoginPage {
         private loadingCtrl: LoadingController){}
 
     ionViewWillLoad(){
-        this.presentLoader();
         if(this.facebookAuth.getToken()){
             if(this.user.social.facebook){
                 this.authService.authMethod = "facebook";
                 this.authService.currentUser = this.user.social.facebook.data;
                 this.authService.login().subscribe(
                     response => {
-                        this.loading.dismiss().then(() => {
-                            this.navController.setRoot(TabsPage)  
-                        })
+                        this.navController.setRoot(TabsPage)  
                     },
                     err => {
-                        this.loading.dismiss().then(() => {
-                            this.failAlert(err); 
-                        })
+                        this.failAlert(err);
                     }
                 )
             }else if(this.user.social.google){
@@ -39,14 +34,10 @@ export class LoginPage {
                 this.authService.currentUser = this.user.social.google.data;
                 this.authService.login().subscribe(
                     response => {
-                        this.loading.dismiss().then(() => {
                             this.navController.setRoot(TabsPage)  
-                        })
                     },
                     err => {
-                        this.loading.dismiss().then(() => {
-                            this.failAlert(err); 
-                        })
+                            this.failAlert(err);                            
                     }
                 )
             }
@@ -83,8 +74,8 @@ export class LoginPage {
                     },
                     err => {
                         this.loading.dismiss().then(() => {
-                            this.failAlert(err); 
-                        })
+                            this.failAlert(err);                            
+                        })                    
                     }
                 );
             }else{
@@ -97,8 +88,8 @@ export class LoginPage {
                     },
                     err => {
                         this.loading.dismiss().then(() => {
-                            this.failAlert(err); 
-                        })
+                            this.failAlert(err);                            
+                        })                    
                     }
                 )
             }
@@ -107,8 +98,8 @@ export class LoginPage {
             console.log(err);            
             {
                 this.loading.dismiss().then(() => {
-                    this.failAlert(err); 
-                })
+                    this.failAlert(err);                            
+                })            
             };
         });
     }
@@ -129,8 +120,8 @@ export class LoginPage {
                     },
                     err => {
                         this.loading.dismiss().then(() => {
-                            this.failAlert(err); 
-                        })
+                            this.failAlert(err);                            
+                        })                    
                     }
                 );
             }else{
@@ -142,8 +133,8 @@ export class LoginPage {
                     },
                     err => {
                         this.loading.dismiss().then(() => {
-                            this.failAlert(err); 
-                        })
+                            this.failAlert(err);                            
+                        })                    
                     }
                 )
             }
@@ -151,8 +142,8 @@ export class LoginPage {
         .catch((err) => {
             {
                 this.loading.dismiss().then(() => {
-                    this.failAlert(err); 
-                })
+                    this.failAlert(err);                            
+                })            
             }
         });
     }
