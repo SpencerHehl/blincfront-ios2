@@ -30,7 +30,9 @@ export class MapViewPage{
     }
 
     ionViewWillEnter(){
-        this.initMap(this.center, this.zoom);
+        if(this.center){
+            this.initMap(this.center, this.zoom);
+        }
     }
 
     centerLocation(){
