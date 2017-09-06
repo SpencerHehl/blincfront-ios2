@@ -26,11 +26,11 @@ export class MapViewPage{
         public alertCtrl: AlertController, private postService: PostService,
         private locService: LocationService){}
 
-    ionViewWillLoad(){
+    ionViewDidLoad(){
         this.centerLocation();
     }
 
-    ionViewWillEnter(){
+    ionViewDidEnter(){
         if(this.center){
             console.log('not first load');
             this.initMap(this.center, this.zoom);
@@ -43,6 +43,7 @@ export class MapViewPage{
                 lat: this.locService.lat,
                 lng: this.locService.lng
             }
+            console.log(this.myLocation);
             this.initMap(this.myLocation, 15)
         }else{
             this.locService.getMyLocation().subscribe(
