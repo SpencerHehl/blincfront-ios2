@@ -25,11 +25,11 @@ export class MapViewPage{
     constructor(public navCtrl: NavController, private navParams: NavParams,
         public alertCtrl: AlertController, private postService: PostService){}
 
-    ionViewWillLoad(){
+    ionViewDidLoad(){
         this.centerLocation();
     }
 
-    ionViewWillEnter(){
+    ionViewDidEnter(){
         if(this.center){
             console.log('not first load');
             this.initMap(this.center, this.zoom);
