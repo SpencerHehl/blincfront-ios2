@@ -31,13 +31,11 @@ export class MapViewPage{
 
     ionViewDidEnter(){
         if(this.center){
-            console.log('not first load');
             this.initMap(this.center, this.zoom);
         }
     }
 
     centerLocation(){
-        console.log('getting location');
         this.postService.getMyLocation().subscribe(
             resp => {
                 this.myLocation = resp;
@@ -48,7 +46,6 @@ export class MapViewPage{
     }
 
     initMap(mapCenter, zoom){
-        console.log('initializing map');
         this.map = new google.maps.Map(document.getElementById('map'), {
           zoom: zoom,
           center: mapCenter,
@@ -67,7 +64,6 @@ export class MapViewPage{
     }
 
     updateMarkers(zoom, location){
-        console.log('getting map markers');
         var distance = this.calcDistance(location.lat, zoom);
         this.postService.getMapMarkers(distance, location).subscribe(
             resp => {
