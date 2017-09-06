@@ -1,0 +1,10 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title style="font-weight:bold;">
+            Marker Post
+        </ion-title>
+    </ion-navbar>
+</ion-header>
+<ion-content style="background-color: #cbd3db">
+    <post-card [Post]="post" (reportEmitter)="reportPost($event)" (deleteEmitter)="deletePost($event)"></post-card>
+</ion-content>

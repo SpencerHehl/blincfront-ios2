@@ -20,6 +20,34 @@
       <button ion-button clear color="dark" (click)="viewFollowerList()" float-left>{{user?.numFollowers}} Followers</button>
       <button ion-button clear color="dark" (click)="viewFollowingList()" float-right>{{user?.numFollowed}} Following</button>
   </ion-item>
+  <!--<ion-row style="background:white;">
+      <ion-col col-auto>
+          <div style="margin-left:10%;">
+          <ion-avatar>
+              <img [src]="user?.profilePicture" style="border-radius: 50%; margin-top:10px;">
+            </ion-avatar>
+          </div>
+      </ion-col>
+      <ion-col col-auto>
+        
+            
+          <div style="margin-left:10px;"> 
+            
+        <ion-row>
+          <span style="color:black; font-size:200%;">{{user?.fullName}}</span>
+        </ion-row>
+      
+        <ion-row>
+          <ion-col>
+            <div (click)="viewFollowerList()">Followers:  {{user?.numFollowers}}</div>
+            <div (click)="viewFollowingList()">Following: {{user?.numFollowed}}</div>
+          </ion-col>
+        </ion-row>
+          </div>
+        
+      </ion-col>
+      
+    </ion-row>-->
   <ion-row *ngFor="let post of user?.myPosts">
       <post-card [Post]="post" (reportEmitter)="reportPost($event, i)" (deleteEmitter)="deletePost($event, i)"></post-card>
   </ion-row>

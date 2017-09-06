@@ -3,7 +3,7 @@ import { NavController, NavParams, AlertController } from 'ionic-angular';
 
 import { PostService } from '../../../shared/services/post.service';
 import { ListViewPage } from '../listview/listview.component';
-import { CommentPage } from '../../comments/comment.component';
+import { PostPage } from '../../posts/single/post.component';
 
 declare var google: any;
 
@@ -31,11 +31,13 @@ export class MapViewPage{
 
     ionViewWillEnter(){
         if(this.center){
+            console.log('not first load');
             this.initMap(this.center, this.zoom);
         }
     }
 
     centerLocation(){
+        console.log('getting location');
         this.postService.getMyLocation().subscribe(
             resp => {
                 this.myLocation = resp;
@@ -46,6 +48,7 @@ export class MapViewPage{
     }
 
     initMap(mapCenter, zoom){
+        console.log('initializing map');
         this.map = new google.maps.Map(document.getElementById('map'), {
           zoom: zoom,
           center: mapCenter,
@@ -64,6 +67,7 @@ export class MapViewPage{
     }
 
     updateMarkers(zoom, location){
+        console.log('getting map markers');
         var distance = this.calcDistance(location.lat, zoom);
         this.postService.getMapMarkers(distance, location).subscribe(
             resp => {
@@ -82,7 +86,7 @@ export class MapViewPage{
                     marker.addListener('click', function(){
                         self.postService.getMarkerPost(marker.postId).subscribe(
                             response => {
-                                self.navCtrl.push(CommentPage, {post: response});
+                                self.navCtrl.push(PostPage, {post: response});
                             },
                             err => self.failAlert(err)
                         )
