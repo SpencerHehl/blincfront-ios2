@@ -4,7 +4,7 @@ import { NavController, NavParams, AlertController } from 'ionic-angular';
 import { PostService } from '../../../shared/services/post.service';
 import { ListViewPage } from '../listview/listview.component';
 import { PostPage } from '../../posts/single/post.component';
-
+import { LocationService } from '../../../shared/services/location.service';
 declare var google: any;
 
 @Component({
@@ -23,7 +23,8 @@ export class MapViewPage{
     zoom: any;
 
     constructor(public navCtrl: NavController, private navParams: NavParams,
-        public alertCtrl: AlertController, private postService: PostService){}
+        public alertCtrl: AlertController, private postService: PostService,
+        private locService: LocationService){}
 
     ionViewDidLoad(){
         this.centerLocation();
@@ -36,13 +37,21 @@ export class MapViewPage{
     }
 
     centerLocation(){
-        this.postService.getMyLocation().subscribe(
-            resp => {
-                this.myLocation = resp;
-                this.initMap(this.myLocation, 15);
-            },
-            err => this.failAlert(err)
-        );
+        if(this.locService.tracking){
+            this.myLocation = {
+                lat: this.locService.lat,
+                lng: this.locService.lng
+            }
+            this.initMap(this.myLocation, 15);
+        }else{
+            this.postService.getMyLocation().subscribe(
+                resp => {
+                    this.myLocation = resp;
+                    this.initMap(this.myLocation, 15);
+                },
+                err => this.failAlert(err)
+            );
+        }
     }
 
     initMap(mapCenter, zoom){

@@ -40,6 +40,7 @@ import { CommentService } from '../shared/services/comment.service';
 import { MediaService } from '../shared/services/media.service';
 import { NotificationService } from '../shared/services/notifications.service';
 import { DateAgePipe } from '../shared/pipes/date.pipe';
+import { LocationService } from '../shared/services/location.service';
 
 const cloudSettings: CloudSettings = {
   'core': {
@@ -118,6 +119,7 @@ const cloudSettings: CloudSettings = {
     MediaService,
     NotificationService,
     Camera,
+    LocationService,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
