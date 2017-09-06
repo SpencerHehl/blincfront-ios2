@@ -3,7 +3,7 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Geolocation } from '@ionic-native/geolocation';
 import { Observable } from 'rxjs/Rx';
 import { AuthService } from './auth.service';
-
+import { LocationService } from './location.service';
 
 @Injectable()
 export class PostService{
@@ -12,22 +12,11 @@ export class PostService{
     likesPage: number;
     
     constructor(private http: Http, private geolocation: Geolocation,
-        private authService: AuthService){
+        private authService: AuthService, private locService: LocationService){
         this.datePage = 1;
         this.likesPage = 1;
     }
-
-    getMyLocation(){
-        return Observable.fromPromise(this.geolocation.getCurrentPosition())
-            .map((resp) => {
-                this.myLocation = {
-                    lat: resp.coords.latitude,
-                    lng: resp.coords.longitude
-                }
-                return this.myLocation;
-            }).catch(this.handleError);
-    }
-
+    
     getPost(postId){
         let token = this.authService.authToken;
         let headers = new Headers({'Authorization': token});
@@ -40,45 +29,75 @@ export class PostService{
     }
 
     getNearbyPostsDate(){
-        return Observable.fromPromise(this.geolocation.getCurrentPosition())
-            .map((resp) => {
-                this.myLocation = {
-                    lat: resp.coords.latitude,
-                    lng: resp.coords.longitude
-                }
-                return resp;
-            })
-            .flatMap((resp) => {
-                let token = this.authService.authToken;
-                let headers = new Headers({'Authorization': token});
-                let options = new RequestOptions({headers: headers});
-                return this.http.get('http://www.blincapp.com/post/nearme/date?lat=' + resp.coords.latitude + '&lng=' + resp.coords.longitude + '&page=0', options)
-                    .map((resp) => {
-                        return resp.json();
-                    })
-            })
-            .catch(this.handleError);
+        if(this.locService.tracking){
+            this.myLocation = {
+                lat: this.locService.lat,
+                lng: this.locService.lng
+            }
+            let token = this.authService.authToken;
+            let headers = new Headers({'Authorization': token});
+            let options = new RequestOptions({headers: headers});
+            return this.http.get('http://www.blincapp.com/post/nearme/date?lat=' + this.locService.lat + '&lng=' + this.locService.lng + '&page=0', options)
+                .map((resp) => {
+                    return resp.json();
+                })
+                .catch(this.handleError);
+        }else{
+            return Observable.fromPromise(this.geolocation.getCurrentPosition())
+                .map((resp) => {
+                    this.myLocation = {
+                        lat: resp.coords.latitude,
+                        lng: resp.coords.longitude
+                    }
+                    return resp;
+                })
+                .flatMap((resp) => {
+                    let token = this.authService.authToken;
+                    let headers = new Headers({'Authorization': token});
+                    let options = new RequestOptions({headers: headers});
+                    return this.http.get('http://www.blincapp.com/post/nearme/date?lat=' + resp.coords.latitude + '&lng=' + resp.coords.longitude + '&page=0', options)
+                        .map((resp) => {
+                            return resp.json();
+                        })
+                })
+                .catch(this.handleError);
+            }
     }
 
     getNearbyPostsLikes(){
-        return Observable.fromPromise(this.geolocation.getCurrentPosition())
-            .map((resp) => {
-                this.myLocation = {
-                    lat: resp.coords.latitude,
-                    lng: resp.coords.longitude
-                }
-                return resp;
-            })
-            .flatMap((resp) => {
-                let token = this.authService.authToken;
-                let headers = new Headers({'Authorization': token});
-                let options = new RequestOptions({headers: headers});
-                return this.http.get('http://www.blincapp.com/post/nearme/likes?lat=' + resp.coords.latitude + '&lng=' + resp.coords.longitude + '&page=0', options)
-                    .map((resp) => {
-                        return resp.json();
-                    })
-            })
-            .catch(this.handleError);
+        if(this.locService.tracking){
+            this.myLocation = {
+                lat: this.locService.lat,
+                lng: this.locService.lng
+            }
+            let token = this.authService.authToken;
+            let headers = new Headers({'Authorization': token});
+            let options = new RequestOptions({headers: headers});
+            return this.http.get('http://www.blincapp.com/post/nearme/likes?lat=' + this.locService.lat + '&lng=' + this.locService.lng + '&page=0', options)
+                .map((resp) => {
+                    return resp.json();
+                })
+                .catch(this.handleError);
+        }else{
+            return Observable.fromPromise(this.geolocation.getCurrentPosition())
+                .map((resp) => {
+                    this.myLocation = {
+                        lat: resp.coords.latitude,
+                        lng: resp.coords.longitude
+                    }
+                    return resp;
+                })
+                .flatMap((resp) => {
+                    let token = this.authService.authToken;
+                    let headers = new Headers({'Authorization': token});
+                    let options = new RequestOptions({headers: headers});
+                    return this.http.get('http://www.blincapp.com/post/nearme/likes?lat=' + resp.coords.latitude + '&lng=' + resp.coords.longitude + '&page=0', options)
+                        .map((resp) => {
+                            return resp.json();
+                        })
+                })
+                .catch(this.handleError);
+            }
     }
 
     getLikes(postId){

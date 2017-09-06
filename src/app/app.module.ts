@@ -29,6 +29,7 @@ import { NotificationCardComponent } from '../shared/templates/notifications/not
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { BackgroundGeolocation } from '@ionic-native/background-geolocation';
 import { Geolocation } from '@ionic-native/geolocation';
 import { Network } from '@ionic-native/network';
 import { Camera } from '@ionic-native/camera';
@@ -39,6 +40,7 @@ import { ProfileService } from '../pages/profile/shared/profile.service';
 import { CommentService } from '../shared/services/comment.service';
 import { MediaService } from '../shared/services/media.service';
 import { NotificationService } from '../shared/services/notifications.service';
+import { LocationService } from '../shared/services/location.service';
 import { DateAgePipe } from '../shared/pipes/date.pipe';
 
 const cloudSettings: CloudSettings = {
@@ -110,6 +112,7 @@ const cloudSettings: CloudSettings = {
     PostService,
     StatusBar,
     SplashScreen,
+    BackgroundGeolocation,
     Geolocation,
     Network,
     AuthService,
@@ -117,6 +120,7 @@ const cloudSettings: CloudSettings = {
     CommentService,
     MediaService,
     NotificationService,
+    LocationService,
     Camera,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
