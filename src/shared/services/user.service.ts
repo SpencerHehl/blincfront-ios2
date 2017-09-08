@@ -12,7 +12,7 @@ export class UserService{
         let token = this.authService.authToken;
         let headers = new Headers({'Authorization': token});
         let options = new RequestOptions({headers: headers});
-        return this.http.get('http://104.238.138.146:80/user/getusers', options)
+        return this.http.get('http://www.blincapp.com/user/getusers', options)
             .map((resp) => {
                 return resp.json();
             })
@@ -21,9 +21,9 @@ export class UserService{
 
     searchUsers(username){
         let token = this.authService.authToken;
-        let headers = new Headers({'Authorization': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI5YjI5MzU3YS0zOTQ1LTRlZWQtYTBkNC0zMjVlNzViYjI3NGMifQ.a7G19890MEenRJwayz7QUze9Q-krZlEi6RPrubWzUj0"});
+        let headers = new Headers({'Authorization': token});
         let options = new RequestOptions({headers: headers});
-        return this.http.get('http://104.238.138.146:8082/user/searchusers?name=' + username, options)
+        return this.http.get('http://www.blincapp.com/user/searchusers?name=' + username, options)
             .map((resp) => {
                 return resp.json();
             })
