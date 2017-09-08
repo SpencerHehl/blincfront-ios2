@@ -25,7 +25,7 @@ export class PeoplePage{
     followUser(user){
         user.followed = !user.followed;
         if(user.followed){
-            user.followColor = 'dark';
+            user.followColor = 'primary';
             user.followText = "Followed";
             this.profileService.follow(user._id).subscribe(
                 response => {},

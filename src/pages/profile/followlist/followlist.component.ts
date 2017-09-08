@@ -19,7 +19,7 @@ export class FollowListPage{
         console.log(this.followList);
         this.followList.map((user)=>{
             if(user.followed){
-                user.followColor = 'dark';
+                user.followColor = 'primary';
                 user.followText = "Followed";
             }else{
                 user.followColor = 'dark';
@@ -32,7 +32,7 @@ export class FollowListPage{
     followUser(user){
         user.followed = !user.followed;
         if(user.followed){
-            user.followColor = 'dark';
+            user.followColor = 'Primary';
             user.followText = "Followed";
             this.profileService.follow(user._id).subscribe(
                 response => {},
