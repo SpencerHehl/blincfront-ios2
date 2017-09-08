@@ -12,11 +12,16 @@ export class LocationService {
     constructor(public zone: NgZone, public geolocation: Geolocation){}
 
     startTracking(){
-        this.tracking = true;
         let options = {
             frequency: 3000,
             enableHighAccuracy: true
         }
+
+        this.geolocation.getCurrentPosition().then((response) => {
+            this.lat = response.coords.latitude;
+            this.lng = response.coords.longitude;
+            this.tracking = true;
+        })
 
         this.watch = this.geolocation.watchPosition(options).filter((p: any) => p.code === undefined).subscribe((position: Geoposition) => {
             this.zone.run(() => {

@@ -8,11 +8,12 @@ import { PostFormModal } from '../../../shared/modals/posts/post-form.modal';
 @Component({
     templateUrl: 'nearme.component.html'
 })
-export class NearMePage implements OnInit{
+export class NearMePage{
     nearbyPostsDate: any[];
     nearbyPostsLikes: any[];
     postFilter: string;
     loading: any;
+    topPost: any;
 
     constructor(public navCtrl: NavController, public modalCtrl: ModalController, 
         private postService: PostService, public navParams: NavParams, 
@@ -21,11 +22,17 @@ export class NearMePage implements OnInit{
         this.postFilter = 'date';
     }
 
-    ngOnInit(){
+    ionViewWillLoad(){
+        this.postService.getTopPost().subscribe(
+            response => {
+                this.topPost = response;
+            }
+        )
         this.presentLoader();
         this.postService.getNearbyPostsDate().subscribe(
             response => {
                 this.loading.dismiss().then(() => {
+                    console.log(response);
                     this.nearbyPostsDate = response;
                 })
             },
@@ -94,6 +101,10 @@ export class NearMePage implements OnInit{
                 }
             });
         });
+    }
+
+    viewSpencerProfile(){
+        
     }
 
     loadMore(){

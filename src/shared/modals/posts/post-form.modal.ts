@@ -19,7 +19,7 @@ export class PostFormModal {
             if(this.postType == 'photo'){
                 this.imageData = this.navParams.get('image');
             }
-            this.mapable = false;
+            this.mapable = true;
         }
 
     submitPost(formValues){

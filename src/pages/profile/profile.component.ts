@@ -164,15 +164,11 @@ export class ProfilePage {
     }
 
     viewFollowerList(){
-        if(this.isActiveUser){
-            this.navCtrl.push(FollowListPage, {followList: this.user.followedBy, listType: 'Followers'});
-        }
+        this.navCtrl.push(FollowListPage, {followList: this.user.followedBy, listType: 'Followers'});
     }
 
     viewFollowingList(){
-        if(this.isActiveUser){
-            this.navCtrl.push(FollowListPage, {followList: this.user.followList, listType: 'Following'});
-        }
+        this.navCtrl.push(FollowListPage, {followList: this.user.followList, listType: 'Following'});
     }
 
     reportPost(post, index){

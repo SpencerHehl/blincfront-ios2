@@ -3,6 +3,7 @@ import { NavParams, AlertController, NavController, LoadingController } from 'io
 import { FacebookAuth, GoogleAuth, User } from '@ionic/cloud-angular';
 
 import { AuthService } from '../../shared/services/auth.service';
+import { PostService } from '../../shared/services/post.service';
 import { TabsPage } from '../tabs/tabs';
 
 @Component({
@@ -14,7 +15,7 @@ export class LoginPage {
     constructor(public alertCtrl: AlertController, private authService: AuthService,
         private NavParams: NavParams, private user: User, public navController: NavController,
         private facebookAuth: FacebookAuth, private googleAuth: GoogleAuth,
-        private loadingCtrl: LoadingController){}
+        private loadingCtrl: LoadingController, private postService: PostService){}
 
     ionViewWillLoad(){
         if(this.facebookAuth.getToken()){
@@ -23,7 +24,7 @@ export class LoginPage {
                 this.authService.currentUser = this.user.social.facebook.data;
                 this.authService.login().subscribe(
                     response => {
-                        this.navController.setRoot(TabsPage)  
+                        this.navController.setRoot(TabsPage);
                     },
                     err => {
                         this.failAlert(err);
@@ -34,7 +35,7 @@ export class LoginPage {
                 this.authService.currentUser = this.user.social.google.data;
                 this.authService.login().subscribe(
                     response => {
-                            this.navController.setRoot(TabsPage)  
+                        this.navController.setRoot(TabsPage);
                     },
                     err => {
                             this.failAlert(err);                            
@@ -69,7 +70,7 @@ export class LoginPage {
                 this.authService.newUser(this.user.social.facebook.data).subscribe(
                     response => {
                         this.loading.dismiss().then(() => {
-                            this.navController.setRoot(TabsPage)  
+                            this.navController.setRoot(TabsPage); 
                         })
                     },
                     err => {
@@ -83,7 +84,7 @@ export class LoginPage {
                 this.authService.login().subscribe(
                     response => {
                         this.loading.dismiss().then(() => {
-                            this.navController.setRoot(TabsPage)  
+                            this.navController.setRoot(TabsPage);
                         })
                     },
                     err => {
@@ -115,7 +116,7 @@ export class LoginPage {
                 this.authService.newUser(this.user.social.google.data).subscribe(
                     response => {
                         this.loading.dismiss().then(() => {
-                            this.navController.setRoot(TabsPage)  
+                            this.navController.setRoot(TabsPage);
                         })
                     },
                     err => {
@@ -128,7 +129,7 @@ export class LoginPage {
                 this.authService.login().subscribe(
                     response => {
                         this.loading.dismiss().then(() => {
-                            this.navController.setRoot(TabsPage)  
+                            this.navController.setRoot(TabsPage);
                         })
                     },
                     err => {

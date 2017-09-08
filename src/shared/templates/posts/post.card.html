@@ -1,11 +1,11 @@
-  <ion-card [hidden]="Post.isFlagged" style="width: 95vw;">
+  <ion-card [hidden]="Post?.isFlagged" style="width: 95vw;">
     <ion-item>
       <ion-avatar item-start>
-        <img [src]="Post.poster?.profilePicture" (click)="viewProfile()">
+        <img [src]="Post?.poster?.profilePicture" (click)="viewProfile()">
       </ion-avatar>
-      <h2 (click)="viewProfile()" style="font-weight:bold;">{{Post.poster?.fullName}}</h2>
+      <h2 (click)="viewProfile()" style="font-weight:bold;">{{Post?.poster?.fullName}}</h2>
       <ion-note>
-          {{Post.createdDate | dateAge}}
+          {{Post?.createdDate | dateAge}}
       </ion-note>
       <ion-buttons item-end>
             <button ion-button icon-left clear small (click)="likePost(Post._id)" [color]="likeColor">
@@ -15,20 +15,20 @@
       </ion-buttons>
     </ion-item>
     <ion-card-content style="margin-top:10px">
-      <h2 style="font-weight:bold;font-size:large">{{Post.content?.title}} <ion-icon *ngIf="Post.content?.location" name="at" color="primary"></ion-icon> {{Post.content?.location}}</h2>
-      <p style="font-size:large">{{Post.content.body}}</p>      
+      <h2 style="font-weight:bold;font-size:large">{{Post?.content?.title}} <ion-icon *ngIf="Post.content?.location" name="at" color="primary"></ion-icon> {{Post?.content?.location}}</h2>
+      <p style="font-size:large">{{Post?.content.body}}</p>      
       <img *ngIf="Post.content.contentType == 'photo'" [src]="Post?.content.img">
     </ion-card-content>
     <ion-row>
       <ion-col>
         <button ion-button icon-left clear small (click)="viewLikes()" color="dark">
-          {{Post.numLikes}} Likes
+          {{Post?.numLikes}} Likes
           <ion-icon name="arrow-forward" style="margin-left:5px"></ion-icon>
         </button>
       </ion-col>
       <ion-col>
         <button ion-button icon-left clear small (click)="viewComments(Post)" color="dark">
-          <ion-icon name="text" style="margin-right:5px;"></ion-icon> {{Post.numComments}} Comments
+          <ion-icon name="text" style="margin-right:5px;"></ion-icon> {{Post?.numComments}} Comments
         </button>
       </ion-col>
     </ion-row>

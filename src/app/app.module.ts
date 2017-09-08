@@ -21,6 +21,7 @@ import { FollowListPage } from '../pages/profile/followlist/followlist.component
 import { NotificationPage } from '../pages/notifications/notification/notification.component';
 import { NotificationListPage } from '../pages/notifications/listview/list.notification.component';
 import { PostPage } from '../pages/posts/single/post.component';
+import { PeoplePage } from '../pages/people/people.component';
 
 import { PostCardComponent } from '../shared/templates/posts/post.card'
 import { CommentCardComponent } from '../shared/templates/comments/comment.card';
@@ -41,6 +42,7 @@ import { MediaService } from '../shared/services/media.service';
 import { NotificationService } from '../shared/services/notifications.service';
 import { DateAgePipe } from '../shared/pipes/date.pipe';
 import { LocationService } from '../shared/services/location.service';
+import { UserService } from '../shared/services/user.service';
 
 const cloudSettings: CloudSettings = {
   'core': {
@@ -79,7 +81,8 @@ const cloudSettings: CloudSettings = {
     NotificationListPage,
     CommentFormModal,
     LikesModalComponent,
-    PostPage
+    PostPage,
+    PeoplePage
   ],
   imports: [
     BrowserModule,
@@ -105,7 +108,8 @@ const cloudSettings: CloudSettings = {
     NotificationListPage,
     CommentFormModal,
     LikesModalComponent,
-    PostPage
+    PostPage,
+    PeoplePage
   ],
   providers: [
     PostService,
@@ -120,6 +124,7 @@ const cloudSettings: CloudSettings = {
     NotificationService,
     Camera,
     LocationService,
+    UserService,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

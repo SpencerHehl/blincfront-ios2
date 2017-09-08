@@ -233,6 +233,17 @@ export class PostService{
             .catch(this.handleError);
     }
 
+    getTopPost(){
+        let token = this.authService.authToken;
+        let headers = new Headers({'Authorization': token});
+        let options = new RequestOptions({headers: headers});
+        return this.http.get('http://www.blincapp.com/post/toppost', options)
+            .map((resp) => {
+                return resp.json();
+            })
+            .catch(this.handleError);
+    }
+
     deletePost(post){
         let token = this.authService.authToken;
         let headers = new Headers({'Authorization': token});
