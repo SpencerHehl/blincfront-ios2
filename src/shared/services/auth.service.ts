@@ -19,7 +19,7 @@ export class AuthService {
         let headers = new Headers({'Content-type': 'application/json'});
         headers.append('Authorization', this.authToken);
         let options = new RequestOptions({headers: headers});
-        return this.http.post('http://www.blincapp.com/user/newuser', newUser, options).map((response: Response) => {
+        return this.http.post('http://www.blincapp.com/auth/newuser', newUser, options).map((response: Response) => {
             console.log(response.json());
             this.mongoUser = response.json();
             return response.json();
@@ -47,7 +47,7 @@ export class AuthService {
         let options = new RequestOptions({headers: headers});
         console.log(options);
         console.log(body);
-        return this.http.post('http://www.blincapp.com/user/login', body, options)
+        return this.http.post('http://www.blincapp.com/auth/login', body, options)
             .map((response: Response) => {
                 console.log(response.json());
                 this.mongoUser = response.json();
@@ -69,7 +69,7 @@ export class AuthService {
         let headers = new Headers({'Content-type': 'application/json'});
         headers.append('Authorization', token);
         let options = new RequestOptions({headers: headers});
-        return this.http.post('http://www.blincapp.com/user/logout', body, options)
+        return this.http.post('http://www.blincapp.com/auth/logout', body, options)
         .map((response) =>{
             return response.json();
         })
