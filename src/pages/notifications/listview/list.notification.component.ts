@@ -35,7 +35,7 @@ export class NotificationListPage{
     }
 
     viewProfile(notification){
-        this.navCtrl.push(ProfilePage, { followUser: notification.sourceUser._id });
+        this.navCtrl.push(ProfilePage, { user: notification.sourceUser });
         this.notificationService.updateNotification(notification._id).subscribe(
             response => {
                 notification.viewed = true;
@@ -74,7 +74,7 @@ export class NotificationListPage{
                     notification.viewed = true;
                 }
             );
-            this.navCtrl.push(ProfilePage, { followUser: notification.sourceUser._id });
+            this.navCtrl.push(ProfilePage, { user: notification.sourceUser });
         }
     }
 

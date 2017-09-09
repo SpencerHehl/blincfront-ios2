@@ -4,6 +4,7 @@ import { Camera, CameraOptions } from '@ionic-native/camera';
 
 import { PostService } from '../../../shared/services/post.service';
 import { PostFormModal } from '../../../shared/modals/posts/post-form.modal';
+import { LocationService } from '../../../shared/services/location.service';
 
 @Component({
     templateUrl: 'nearme.component.html'
@@ -18,26 +19,38 @@ export class NearMePage{
     constructor(public navCtrl: NavController, public modalCtrl: ModalController, 
         private postService: PostService, public navParams: NavParams, 
         public alertCtrl: AlertController, private camera: Camera,
-        private loadingCtrl: LoadingController){
+        private loadingCtrl: LoadingController, private locService: LocationService){
         this.postFilter = 'date';
     }
 
     ionViewWillLoad(){
-        this.postService.getTopPost().subscribe(
-            response => {
-                this.topPost = response;
-            }
-        )
         this.presentLoader();
-        this.postService.getNearbyPostsDate().subscribe(
-            response => {
-                this.loading.dismiss().then(() => {
-                    console.log(response);
-                    this.nearbyPostsDate = response;
-                })
-            },
-            err => this.failAlert(err)
-        );
+        this.locService.checkLocation().then((response) => {
+            this.locService.lat = response.coords.latitude;
+            this.locService.lng = response.coords.longitude;
+            this.locService.tracking = true;
+            this.locService.enabled = true;
+            this.postService.getTopPost().subscribe(
+                response => {
+                    this.topPost = response;
+                }
+            )
+            this.postService.getNearbyPostsDate().subscribe(
+                response => {
+                    this.loading.dismiss().then(() => {
+                        console.log(response);
+                        this.nearbyPostsDate = response;
+                    })
+                },
+                err => this.failAlert(err)
+            );
+        })
+        .catch((err) => {
+            this.loading.dismiss().then(() => {
+                this.locService.enabled = false;
+                this.locationFail();
+            })
+        })
     }
 
     presentLoader(){
@@ -101,10 +114,6 @@ export class NearMePage{
                 }
             });
         });
-    }
-
-    viewSpencerProfile(){
-        
     }
 
     loadMore(){
@@ -202,12 +211,60 @@ export class NearMePage{
         )
     }
 
+    checkLocation(){
+        this.presentLoader();
+        this.locService.checkLocation().then((response) => {
+            this.locService.lat = response.coords.latitude;
+            this.locService.lng = response.coords.longitude;
+            this.locService.tracking = true;
+            this.locService.enabled = true;
+            this.postService.getTopPost().subscribe(
+                response => {
+                    this.topPost = response;
+                }
+            )
+            this.postService.getNearbyPostsDate().subscribe(
+                response => {
+                    this.loading.dismiss().then(() => {
+                        console.log(response);
+                        this.nearbyPostsDate = response;
+                    })
+                },
+                err => this.failAlert(err)
+            );
+        })
+        .catch((err) => {
+            this.loading.dismiss().then(() => {
+                this.locService.enabled = false;
+                this.locationFail();
+            })
+        })
+    }
+
     failAlert(message){
         let alert = this.alertCtrl.create({
         title: 'Error',
         subTitle: message,
         buttons: ['OK']
         });
+        alert.present();
+    }
+
+    locationFail(){
+        let alert = this.alertCtrl.create({
+            title: 'Location',
+            subTitle: 'Location services must be enabled to use this app. Please enable and then press "OK" to continue',
+            buttons: [
+                {
+                    text: 'OK',
+                    handler: () => {
+                        alert.dismiss().then(() => {
+                            this.checkLocation();
+                        })
+                    }
+                }
+            ]
+        })
         alert.present();
     }
 }

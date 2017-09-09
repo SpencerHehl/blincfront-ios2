@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
-import { AlertController } from 'ionic-angular';
+import { AlertController, NavController } from 'ionic-angular';
 
 import { UserService } from '../../shared/services/user.service';
 import { ProfileService } from '../profile/shared/profile.service';
+import { ProfilePage } from '../profile/profile.component';
+import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
     templateUrl: 'people.component.html'
@@ -12,7 +14,8 @@ export class PeoplePage{
     searchList: any[];
 
     constructor(private userService: UserService, private profileService: ProfileService,
-         private alertCtrl: AlertController){}
+         private alertCtrl: AlertController, private navCtrl: NavController,
+         private authService: AuthService){}
 
     ionViewDidLoad(){
         /*this.userService.getTopUsers().subscribe(
@@ -39,6 +42,10 @@ export class PeoplePage{
                 err => this.failAlert(err)
             )
         }
+    }
+
+    viewProfile(user){
+        this.navCtrl.push(ProfilePage, {user: user});
     }
 
     searchUsers(input: any){
