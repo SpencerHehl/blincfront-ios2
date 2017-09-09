@@ -33,6 +33,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { Geolocation } from '@ionic-native/geolocation';
 import { Network } from '@ionic-native/network';
 import { Camera } from '@ionic-native/camera';
+import { Diagnostic } from '@ionic-native/diagnostic';
 
 import { PostService } from '../shared/services/post.service';
 import { AuthService } from '../shared/services/auth.service';
@@ -125,6 +126,7 @@ const cloudSettings: CloudSettings = {
     Camera,
     LocationService,
     UserService,
+    Diagnostic,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController, NavParams, ModalController, AlertController, LoadingController } from 'ionic-angular';
 import { Camera, CameraOptions } from '@ionic-native/camera';
+import { Diagnostic } from '@ionic-native/diagnostic';
 
 import { PostService } from '../../../shared/services/post.service';
 import { PostFormModal } from '../../../shared/modals/posts/post-form.modal';
@@ -19,38 +20,15 @@ export class NearMePage{
     constructor(public navCtrl: NavController, public modalCtrl: ModalController, 
         private postService: PostService, public navParams: NavParams, 
         public alertCtrl: AlertController, private camera: Camera,
-        private loadingCtrl: LoadingController, private locService: LocationService){
+        private loadingCtrl: LoadingController, private locService: LocationService,
+        private diagnostic: Diagnostic){
         this.postFilter = 'date';
     }
 
-    ionViewWillLoad(){
-        this.presentLoader();
-        this.locService.checkLocation().then((response) => {
-            this.locService.lat = response.coords.latitude;
-            this.locService.lng = response.coords.longitude;
-            this.locService.tracking = true;
-            this.locService.enabled = true;
-            this.postService.getTopPost().subscribe(
-                response => {
-                    this.topPost = response;
-                }
-            )
-            this.postService.getNearbyPostsDate().subscribe(
-                response => {
-                    this.loading.dismiss().then(() => {
-                        console.log(response);
-                        this.nearbyPostsDate = response;
-                    })
-                },
-                err => this.failAlert(err)
-            );
-        })
-        .catch((err) => {
-            this.loading.dismiss().then(() => {
-                this.locService.enabled = false;
-                this.locationFail();
-            })
-        })
+    ionViewDidEnter(){
+        if(!this.nearbyPostsDate){
+            this.checkLocation();
+        }
     }
 
     presentLoader(){
@@ -158,6 +136,11 @@ export class NearMePage{
     }
 
     reloadPosts(refresher){
+        this.postService.getTopPost().subscribe(
+            response => {
+                this.topPost = response;
+            }
+        )
         if(this.postFilter == 'date'){
             this.postService.getNearbyPostsDate().subscribe(
                 response => {
@@ -212,32 +195,35 @@ export class NearMePage{
     }
 
     checkLocation(){
-        this.presentLoader();
-        this.locService.checkLocation().then((response) => {
-            this.locService.lat = response.coords.latitude;
-            this.locService.lng = response.coords.longitude;
-            this.locService.tracking = true;
-            this.locService.enabled = true;
-            this.postService.getTopPost().subscribe(
-                response => {
-                    this.topPost = response;
-                }
-            )
-            this.postService.getNearbyPostsDate().subscribe(
-                response => {
-                    this.loading.dismiss().then(() => {
-                        console.log(response);
-                        this.nearbyPostsDate = response;
-                    })
-                },
-                err => this.failAlert(err)
-            );
-        })
-        .catch((err) => {
-            this.loading.dismiss().then(() => {
-                this.locService.enabled = false;
+        this.locService.checkLocationEnabled().then((isAvailable) => {
+            if(isAvailable){
+                this.presentLoader();
+                this.locService.initializeLocation().then((resp) => {
+                    this.locService.lat = resp.coords.latitude;
+                    this.locService.lng = resp.coords.longitude;
+                    this.locService.startTracking();
+                    this.postService.getTopPost().subscribe(
+                        response => {
+                            this.topPost = response;
+                        }
+                    )
+                    this.postService.getNearbyPostsDate().subscribe(
+                        response => {
+                            this.loading.dismiss().then(() => {
+                                console.log(response);
+                                this.nearbyPostsDate = response;
+                            })
+                        },
+                        err => {
+                            this.loading.dismiss().then(() => {
+                                this.failAlert(err);
+                            })
+                        }
+                    );
+                })
+            }else{
                 this.locationFail();
-            })
+            }
         })
     }
 
@@ -253,13 +239,13 @@ export class NearMePage{
     locationFail(){
         let alert = this.alertCtrl.create({
             title: 'Location',
-            subTitle: 'Location services must be enabled to use this app. Please enable and then press "OK" to continue',
+            subTitle: 'Location services must be enabled to use this app. Press "OK" to enable and then swipe down to refresh when you return to the app.',
             buttons: [
                 {
                     text: 'OK',
                     handler: () => {
                         alert.dismiss().then(() => {
-                            this.checkLocation();
+                            this.diagnostic.switchToLocationSettings();
                         })
                     }
                 }

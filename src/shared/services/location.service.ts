@@ -1,5 +1,6 @@
 import { Injectable, NgZone } from '@angular/core';
 import { Geolocation, Geoposition } from '@ionic-native/geolocation';
+import { Diagnostic } from '@ionic-native/diagnostic';
 import 'rxjs/add/operator/filter';
 
 @Injectable()
@@ -8,12 +9,16 @@ export class LocationService {
     public lat: number = 0;
     public lng: number = 0;
     public tracking: boolean = false;
-    public enabled: boolean = true;
 
-    constructor(public zone: NgZone, public geolocation: Geolocation){}
+    constructor(public zone: NgZone, public geolocation: Geolocation, 
+        private diagnostic: Diagnostic){}
 
-    checkLocation(){
-        return this.geolocation.getCurrentPosition({timeout:5000});
+    checkLocationEnabled(){
+        return this.diagnostic.isLocationEnabled();
+    }
+    
+    initializeLocation(){
+        return this.geolocation.getCurrentPosition();
     }
 
     startTracking(){
