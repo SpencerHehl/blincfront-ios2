@@ -6,7 +6,7 @@
     <ion-buttons end>
       <button *ngIf="isActiveUser" ion-button (click)="viewNotifications()" icon-right><ion-icon name="flag" color="light"></ion-icon><ion-badge *ngIf="notifications && notifications.length > 0" color="danger">{{notifications?.length}}</ion-badge></button>
       <button *ngIf="isActiveUser" ion-button (click)="settings()" icon-right><ion-icon name="settings" color="light"></ion-icon></button>
-      <button *ngIf="!isActiveUser" ion-button (click)="followUser()" icon-right [color]="followColor"><ion-icon name="star" [color]="followColor"></ion-icon>{{followText}}</button>
+      <button *ngIf="!isActiveUser && !user?.settings.profilePrivate && !isViewable" ion-button (click)="followUser()" icon-right [color]="followColor"><ion-icon name="star" [color]="followColor"></ion-icon>{{followText}}</button>
     </ion-buttons>
   </ion-navbar>
 </ion-header>
@@ -16,42 +16,22 @@
       <ion-avatar item-start>
         <img [src]="user?.profilePicture">
       </ion-avatar>
-      <h4 style="font-weight:bold;font-size:large" color="dark">{{user?.fullName}}</h4>
+      <h4 style="font-weight:bold;font-size:large" color="dark" text-wrap>{{user?.fullName}}</h4>
       <button ion-button clear color="dark" (click)="viewFollowerList()" float-left>{{user?.numFollowers}} Followers</button>
       <button ion-button clear color="dark" (click)="viewFollowingList()" float-right>{{user?.numFollowed}} Following</button>
   </ion-item>
-  <!--<ion-row style="background:white;">
-      <ion-col col-auto>
-          <div style="margin-left:10%;">
-          <ion-avatar>
-              <img [src]="user?.profilePicture" style="border-radius: 50%; margin-top:10px;">
-            </ion-avatar>
-          </div>
-      </ion-col>
-      <ion-col col-auto>
-        
-            
-          <div style="margin-left:10px;"> 
-            
-        <ion-row>
-          <span style="color:black; font-size:200%;">{{user?.fullName}}</span>
-        </ion-row>
-      
-        <ion-row>
-          <ion-col>
-            <div (click)="viewFollowerList()">Followers:  {{user?.numFollowers}}</div>
-            <div (click)="viewFollowingList()">Following: {{user?.numFollowed}}</div>
-          </ion-col>
-        </ion-row>
-          </div>
-        
-      </ion-col>
-      
-    </ion-row>-->
-  <ion-row *ngFor="let post of user?.myPosts">
-      <post-card [Post]="post" (reportEmitter)="reportPost($event, i)" (deleteEmitter)="deletePost($event, i)"></post-card>
-  </ion-row>
-  <button ion-button block (click)="loadMore()">Load more posts</button>
+  <div *ngIf="isViewable">
+    <ion-row *ngFor="let post of user?.myPosts">
+        <post-card [Post]="post" (reportEmitter)="reportPost($event, i)" (deleteEmitter)="deletePost($event, i)"></post-card>
+    </ion-row>
+    <button *ngIf="isViewable" ion-button block (click)="loadMore()">Load more posts</button>
+  </div>
+  <div *ngIf="!isViewable" style="text-align:center">
+    <h3 style="font-weight: bold;font-size:large">This user's profile is set to private. </h3>
+    <p [hidden]="!hasRequested">You have already submitted a request to follow this account.</p>
+    <p [hidden]="hasRequested">You must request to follow them to view their posts.</p>
+    <button [hidden]="hasRequested" ion-button large (click)="requestFollow()">Send Request</button>
+  </div>
   <ion-fab right bottom>
     <button ion-fab  color="warning"><ion-icon name="add"></ion-icon></button>
     <ion-fab-list side="top">

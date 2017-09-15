@@ -6,12 +6,24 @@
     </ion-navbar>
 </ion-header>
 <ion-content padding style="background-color: #cbd3db">
-    <div style="vertical-align:middle">
-        <div style="text-align:center">
-            <button ion-button (click)="facebookLogin()" color="primaryblue" large><ion-icon name="logo-facebook" style="padding-right:1em"></ion-icon>Facebook</button>
-        </div>
-        <div style="text-align:center">
-            <button ion-button color="danger" (click)="googleLogin()" large><ion-icon name="logo-google" style="padding-right:1em"></ion-icon>Google</button>
-        </div>
-    </div>
+    <ion-grid>
+        <ion-row>
+            <ion-col>
+                <div>
+                    <img src="img/icon.png">
+                </div>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+                <div style="text-align:center">
+                    <button ion-button (click)="facebookLogin()" color="primaryblue" large block><ion-icon name="logo-facebook" style="padding-right:1em"></ion-icon>Facebook</button>
+                </div>
+                <br>
+                <div style="text-align:center">
+                    <button ion-button color="danger" (click)="googleLogin()" large block><ion-icon name="logo-google" style="padding-right:1em"></ion-icon>Google</button>
+                </div>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
 </ion-content>

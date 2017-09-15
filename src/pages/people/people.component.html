@@ -5,16 +5,30 @@
         </ion-title>
     </ion-navbar>
 </ion-header>
-<ion-content>
-    <ion-searchbar placeholder="Search nearby users..." (ionInput)="searchUsers($event)"></ion-searchbar>
+<ion-content style="background-color: #cbd3db">
+    <ion-searchbar placeholder="Search nearby users..." [(ngModel)]="searchText" (ionInput)="searchUsers($event)"></ion-searchbar>
     <ion-list>
+        <ion-item *ngFor='let req of followRequests'>
+            <ion-avatar item-start>
+                <img [src]='req.sourceUser?.profilePicture' (click)='viewProfile(req.sourceUser)'>
+            </ion-avatar>
+            <h3 style="font-weight:bold" (click)='viewProfile(req.sourceUser)' text-wrap>{{req.sourceUser?.fullName}}</h3>
+            <p text-wrap> has requested to follow you </p>
+            <ion-buttons item-end>
+                <button ion-button [hidden]="req.status === 'pending'" disabled color="light">{{req.status}}</button>
+                <button ion-button [hidden]="req.status !== 'pending'" (click)="approveRequest(req)">Approve</button>
+                <button ion-button [hidden]="req.status !== 'pending'" color="danger" (click)="declineRequest(req)">Decline</button>
+            </ion-buttons>
+        </ion-item>
+    </ion-list>
+    <ion-list [hidden]="!searchText">
         <ion-item *ngFor='let user of searchList'>
             <ion-avatar item-start>
                 <img [src]='user?.profilePicture' (click)="viewProfile(user)">
             </ion-avatar>
             <h3 style="font-weight:bold" (click)="viewProfile(user)">{{user?.fullName}}</h3>
             <ion-buttons item-end>
-                <button ion-button (click)="followUser(user)" icon-right clear [color]="user.followColor" [hidden]="user._id == authService.mongoUser._id"><ion-icon name="star" [color]="user.followColor"></ion-icon>{{user?.followText}}</button>
+                <button ion-button icon-right clear [color]="user.followColor" [hidden]="user._id == authService.mongoUser._id"><ion-icon name="star" [color]="user.followColor"></ion-icon>{{user?.followText}}</button>
             </ion-buttons>
         </ion-item>
     </ion-list>

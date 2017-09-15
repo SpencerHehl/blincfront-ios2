@@ -17,6 +17,10 @@ export class LocationService {
         return this.diagnostic.isLocationEnabled();
     }
     
+    checkLocationAuth(){
+        return this.diagnostic.isLocationAuthorized();
+    }
+    
     initializeLocation(){
         return this.geolocation.getCurrentPosition();
     }

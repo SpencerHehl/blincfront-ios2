@@ -12,6 +12,8 @@ import { AuthService } from '../../shared/services/auth.service';
 export class PeoplePage{
     nearbyList: any[];
     searchList: any[];
+    followRequests: any[];
+    searchText: any;
 
     constructor(private userService: UserService, private profileService: ProfileService,
          private alertCtrl: AlertController, private navCtrl: NavController,
@@ -23,6 +25,11 @@ export class PeoplePage{
                 this.nearbyList = response;
             }
         )*/
+        this.userService.getFollowRequests().subscribe(
+            response => {
+                this.followRequests = response;
+            }
+        )
     }
 
     followUser(user){
@@ -46,6 +53,26 @@ export class PeoplePage{
 
     viewProfile(user){
         this.navCtrl.push(ProfilePage, {user: user});
+    }
+
+    approveRequest(req){
+        console.log(req);
+        this.userService.approveFollowReq(req._id, true).subscribe(
+            response => {
+                req.status = 'Approved';
+                console.log(req);
+            }
+        )
+    }
+
+    declineRequest(req){
+        console.log(req);
+        this.userService.approveFollowReq(req._id, false).subscribe(
+            response => {
+                req.status = 'Declined';
+                console.log(req);
+            }
+        )
     }
 
     searchUsers(input: any){

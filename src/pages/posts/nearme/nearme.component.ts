@@ -26,9 +26,7 @@ export class NearMePage{
     }
 
     ionViewDidEnter(){
-        if(!this.nearbyPostsDate){
-            this.checkLocation();
-        }
+        this.checkLocation();
     }
 
     presentLoader(){
@@ -78,7 +76,8 @@ export class NearMePage{
             destinationType: this.camera.DestinationType.DATA_URL,
             encodingType: this.camera.EncodingType.JPEG,
             mediaType: this.camera.MediaType.PICTURE,
-            saveToPhotoAlbum: true
+            saveToPhotoAlbum: true,
+            correctOrientation: true
         }
 
         this.camera.getPicture(options).then((imageData) => {
@@ -220,11 +219,39 @@ export class NearMePage{
                             })
                         }
                     );
+                }).catch((err) => {
+                    this.loading.dismiss().then(() => {
+                        this.locService.checkLocationAuth().then((isAuthorized) => {
+                            if(isAuthorized){
+                                this.failAlert("Oops! Looks like something went wrong and we can't seem to find your location.");
+                            }else{
+                                this.locationAuthFail();
+                            }
+                        });
+                    })
                 })
             }else{
                 this.locationFail();
             }
         })
+    }
+
+    locationAuthFail(){
+        let alert = this.alertCtrl.create({
+            title: 'Location',
+            subTitle: 'This app must have access to your location to function. Press "OK" to enable and then swipe down to refresh when you return to the app.',
+            buttons: [
+                {
+                    text: 'OK',
+                    handler: () => {
+                        alert.dismiss().then(() => {
+                            this.diagnostic.switchToSettings();
+                        })
+                    }
+                }
+            ]
+        })
+        alert.present();
     }
 
     failAlert(message){

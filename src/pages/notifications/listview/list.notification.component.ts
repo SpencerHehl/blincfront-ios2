@@ -4,6 +4,7 @@ import { NavController, AlertController, NavParams } from 'ionic-angular';
 import { NotificationService } from '../../../shared/services/notifications.service';
 import { NotificationPage } from '../notification/notification.component';
 import { ProfilePage } from '../../profile/profile.component';
+import { PeoplePage } from '../../people/people.component';
 
 @Component({
     templateUrl: 'list.notification.component.html'
@@ -68,6 +69,13 @@ export class NotificationListPage{
                 },
                 err => this.failAlert(err),
             )
+        }else if(notification.followReqId){
+            this.notificationService.updateNotification(notification._id).subscribe(
+                response => {
+                    notification.viewed = true;
+                }
+            );
+            this.navCtrl.push(PeoplePage)
         }else{
             this.notificationService.updateNotification(notification._id).subscribe(
                 response => {

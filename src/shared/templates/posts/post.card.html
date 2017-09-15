@@ -3,7 +3,7 @@
       <ion-avatar item-start>
         <img [src]="Post?.poster?.profilePicture" (click)="viewProfile()">
       </ion-avatar>
-      <h2 (click)="viewProfile()" style="font-weight:bold;">{{Post?.poster?.fullName}}</h2>
+      <h2 (click)="viewProfile()" style="font-weight:bold;" text-wrap>{{Post?.poster?.fullName}}</h2>
       <ion-note>
           {{Post?.createdDate | dateAge}}
       </ion-note>

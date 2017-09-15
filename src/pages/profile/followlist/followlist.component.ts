@@ -3,6 +3,7 @@ import { NavController, NavParams, AlertController} from 'ionic-angular';
 
 import { ProfileService } from '../shared/profile.service';
 import { ProfilePage } from '../../../pages/profile/profile.component';
+import { AuthService } from '../../../shared/services/auth.service';
 
 @Component({
     templateUrl: 'followlist.component.html'

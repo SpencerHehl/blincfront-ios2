@@ -39,10 +39,10 @@
           <div>
             <img *ngIf="postType == 'photo'" [src]="imageData" style="width:90%; margin-left:5%;padding:none;height:auto;">
           </div>
-          <!--<ion-item *ngIf="postType == 'text'" style="width:95%; padding:none; height:100%;">
+          <ion-item *ngIf="postType == 'text'" style="width:95%; padding:none; height:100%;">
             <ion-textarea rows="10" cols="25" style="font-family: 'Montserrat', sans-serif;font-size:100%;padding:1px, 1px, 1px, 1px;width:105%;background:#f4f5f4;height:auto; border:none;" placeholder="Comment" name="comment" (ngModel)="comment"></ion-textarea>
-          </ion-item>-->
-          <ion-textarea *ngIf="postType == 'text'" rows="15" cols="75" style="font-family: 'Montserrat', sans-serif;font-size:100%;padding:1px 1px 1px 1px;width:90%;margin-left:5%;background:#f4f5f4;height:auto; border:none;" placeholder="Comment" name="comment" (ngModel)="comment"></ion-textarea>
+          </ion-item>
+          <!--<ion-textarea *ngIf="postType == 'text'" rows="15" cols="75" style="font-family: 'Montserrat', sans-serif;font-size:100%;padding:1px 1px 1px 1px;width:90%;margin-left:5%;background:#f4f5f4;height:auto; border:none;" placeholder="Comment" name="comment" (ngModel)="comment"></ion-textarea>-->
           
           
           <!--<div style="height:50px;"></div>-->

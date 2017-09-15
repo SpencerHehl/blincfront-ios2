@@ -10,6 +10,8 @@ import { PostFormModal } from '../../shared/modals/posts/post-form.modal';
 import { FollowListPage } from './followlist/followlist.component';
 import { NotificationListPage } from '../notifications/listview/list.notification.component';
 import { LoginPage } from '../login/login.component';
+import { SettingsPage } from '../profile/settings/settings.component';
+import { UserService } from '../../shared/services/user.service';
 
 @Component({
   templateUrl: 'profile.component.html'
@@ -20,40 +22,62 @@ export class ProfilePage {
   followText: string;
   isActiveUser: boolean;
   notifications: any[];
+  passedUser: any;
+  isViewable: boolean;
+  hasRequested: boolean;
 
   constructor(public navCtrl: NavController, private authService: AuthService,
     private profileService: ProfileService, public alertCtrl: AlertController,
     private postService: PostService, public modalCtrl: ModalController,
-    private camera: Camera, private navParams: NavParams,
+    private camera: Camera, private navParams: NavParams, private userService: UserService,
     private notifcationService: NotificationService, private actionSheetCtrl: ActionSheetController) {}
 
-    ionViewWillEnter(){
-        var passedUser = this.navParams.get('user');
-        if(!passedUser){
-            passedUser = this.authService.mongoUser;
+    ionViewDidEnter(){
+        if(!this.passedUser){
+            if(this.navParams.get('user')){
+                this.passedUser = this.navParams.get('user');
+            }else{
+                this.passedUser = this.authService.mongoUser;
+            }
         }
-        this.profileService.getProfile(passedUser._id).subscribe(
+        this.profileService.getProfile(this.passedUser._id).subscribe(
             response => {
-                console.log(response);
                 this.user = response;
-                if(this.user.followed){
-                    this.followColor = 'warning';
-                    this.followText = "Followed";
-                }else{
-                    this.followColor = 'light';
-                    this.followText = "Unfollowed";
-                }
+                console.log(this.user);
                 if(this.user._id == this.authService.mongoUser._id){
                     this.isActiveUser = true;
+                    this.isViewable = true;
+                    this.hasRequested = false;
                 }else{
                     this.isActiveUser = false;
+                    if(this.user.settings.profilePrivate){
+                        if(this.user.followed){
+                            this.isViewable = true;
+                        }else{
+                            this.isViewable = false;
+                            this.profileService.getFollowReq(this.user._id).subscribe(
+                                response => {
+                                    console.log(response);
+                                    this.hasRequested = response.hasRequested;
+                                    console.log(this.hasRequested);
+                                }
+                            )
+                        }
+                    }else{
+                        this.isViewable = true;
+                    }
+                    if(this.user.followed){
+                        this.followColor = 'warning';
+                        this.followText = "Followed";
+                    }else{
+                        this.followColor = 'light';
+                        this.followText = "Unfollowed";
+                    }
                 }
+                
             },
             err => this.failAlert(err)
         )
-    }
-
-    ionViewDidEnter(){
         this.notifcationService.getUnreadNotifications().subscribe(
             response => {
                 console.log(response);
@@ -129,7 +153,8 @@ export class ProfilePage {
             destinationType: this.camera.DestinationType.DATA_URL,
             encodingType: this.camera.EncodingType.JPEG,
             mediaType: this.camera.MediaType.PICTURE,
-            saveToPhotoAlbum: true
+            saveToPhotoAlbum: true,
+            correctOrientation: true
         }
 
         this.camera.getPicture(options).then((imageData) => {
@@ -164,11 +189,20 @@ export class ProfilePage {
     }
 
     viewFollowerList(){
-        this.navCtrl.push(FollowListPage, {followList: this.user.followedBy, listType: 'Followers'});
+        if(this.isViewable){
+            this.navCtrl.push(FollowListPage, {followList: this.user.followedBy, listType: 'Followers'});            
+        }
     }
 
     viewFollowingList(){
-        this.navCtrl.push(FollowListPage, {followList: this.user.followList, listType: 'Following'});
+        if(this.isViewable){
+            this.navCtrl.push(FollowListPage, {followList: this.user.followList, listType: 'Following'});            
+        }
+    }
+
+    requestFollow(){
+        this.userService.newFollowReq(this.user._id).subscribe();
+        this.hasRequested = true;
     }
 
     reportPost(post, index){
@@ -194,54 +228,7 @@ export class ProfilePage {
     }
 
     settings(){
-        let actionSheet = this.actionSheetCtrl.create({
-            title: 'Settings',
-            buttons: [
-                {
-                    text: 'Log Out',
-                    handler: () => {
-                        actionSheet.dismiss().then(() => {
-                            this.confirmLogout();
-                        })
-                    }
-                },{
-                    text: 'Cancel',
-                    role: 'cancel',
-                    handler: () => {
-                        actionSheet.dismiss();
-                    }
-                }
-            ]
-        });
-        actionSheet.present();
-    }
-
-    confirmLogout(){
-        let confirmAlert = this.alertCtrl.create({
-            title: 'Confirm',
-            subTitle: 'Are you sure you want to log out?',
-            buttons: [
-                {
-                    text: 'Yes',
-                    handler: () => {
-                        this.authService.logout().subscribe(
-                            response => {},
-                            err => this.failAlert(err),
-                            () => {
-                                this.navCtrl.setRoot(LoginPage);
-                            }
-                        )
-                    }
-                },{
-                    text: 'No',
-                    role: 'cancel',
-                    handler: () => {
-                        confirmAlert.dismiss();
-                    }
-                }
-            ]
-        });
-        confirmAlert.present();
+        this.navCtrl.push(SettingsPage, {settings: this.user.settings});
     }
 
     failAlert(message){

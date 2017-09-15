@@ -77,6 +77,34 @@ export class ProfileService{
             .catch(this.handleError);
     }
 
+    updateProfile(mappable, profPrivate){
+        let headers = new Headers({'Content-type': 'application/json'});
+        let token = this.authService.authToken;
+        headers.append('Authorization', token);
+        let options = new RequestOptions({headers: headers});
+        let body = {
+            mappableDefault: mappable,
+            profPrivate: profPrivate
+        }
+        this.authService.mongoUser.settings.mappableDefault = mappable;
+        return this.http.put('http://www.blincapp.com/profile/updatesettings', body, options)
+            .map((resp) => {
+                return resp.json();
+            })
+            .catch(this.handleError);
+    }
+
+    getFollowReq(userid){
+        let token = this.authService.authToken;
+        let headers = new Headers({'Authorization': token});
+        let options = new RequestOptions({headers: headers});
+        return this.http.get('http://www.blincapp.com/profile/getfollowreq?userid=' + userid, options)
+            .map((resp) => {
+                return resp.json();
+            })
+            .catch(this.handleError);
+    }
+    
     private handleError(error){
         return Observable.throw(error);
     }

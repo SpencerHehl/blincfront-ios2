@@ -22,6 +22,7 @@ import { NotificationPage } from '../pages/notifications/notification/notificati
 import { NotificationListPage } from '../pages/notifications/listview/list.notification.component';
 import { PostPage } from '../pages/posts/single/post.component';
 import { PeoplePage } from '../pages/people/people.component';
+import { SettingsPage } from '../pages/profile/settings/settings.component';
 
 import { PostCardComponent } from '../shared/templates/posts/post.card'
 import { CommentCardComponent } from '../shared/templates/comments/comment.card';
@@ -83,7 +84,8 @@ const cloudSettings: CloudSettings = {
     CommentFormModal,
     LikesModalComponent,
     PostPage,
-    PeoplePage
+    PeoplePage,
+    SettingsPage
   ],
   imports: [
     BrowserModule,
@@ -110,7 +112,8 @@ const cloudSettings: CloudSettings = {
     CommentFormModal,
     LikesModalComponent,
     PostPage,
-    PeoplePage
+    PeoplePage,
+    SettingsPage
   ],
   providers: [
     PostService,

@@ -1,0 +1,23 @@
+<ion-header style="padding-top:5%">
+    <ion-navbar style="padding-top:3%">
+        <ion-title style="font-weight: bold">
+            Settings
+        </ion-title>
+        <ion-buttons end>
+            <button ion-button (click)="logout()" color="light">Log Out</button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+<ion-content style="background-color: #cbd3db">
+    <ion-list>
+        <ion-item>
+            <ion-label>Default Mappable</ion-label>
+            <ion-toggle item-end name="mappable" [(ngModel)]="mappable"></ion-toggle>
+        </ion-item>
+        <ion-item>
+            <ion-label>Make Profile Private</ion-label>
+            <ion-toggle name="profilePrivate" [(ngModel)]="profilePrivate"></ion-toggle>
+        </ion-item>
+    </ion-list>
+    <button ion-button block (click)="save()">Save</button>
+</ion-content>

@@ -3,7 +3,7 @@
         <ion-avatar item-start>
             <img [src]="Comment.commenter?.profilePicture" (click)="viewProfile()">
         </ion-avatar>
-        <h2 (click)="viewProfile()" style="font-weight:bold;">{{Comment.commenter?.fullName}}</h2>
+        <h2 (click)="viewProfile()" style="font-weight:bold;" text-wrap>{{Comment.commenter?.fullName}}</h2>
         <ion-buttons item-end style="vertical-align:top">
             <button ion-button item-start clear (click)="likeComment(Comment._id)" [color]="likeColor">
                 <ion-icon name="thumbs-up"></ion-icon>
