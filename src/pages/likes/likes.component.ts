@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, ModalController, AlertController, ViewController } from 'ionic-angular';
 
-import { ProfilePage } from '../../../pages/profile/profile.component';
-import { PostService } from '../../services/post.service';
-import { CommentService } from '../../services/comment.service';
-import { ProfileService } from '../../../pages/profile/shared/profile.service';
-import { AuthService } from '../../services/auth.service';
+import { ProfilePage } from '../profile/profile.component';
+import { PostService } from '../../shared/services/post.service';
+import { CommentService } from '../../shared/services/comment.service';
+import { ProfileService } from '../profile/shared/profile.service';
+import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
-    templateUrl: 'likes.modal.html'
+    templateUrl: 'likes.component.html'
 })
 export class LikesModalComponent{
     content: any;

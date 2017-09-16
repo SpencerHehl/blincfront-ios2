@@ -8,7 +8,6 @@ import { PostService } from '../../shared/services/post.service';
 import { MediaService } from '../../shared/services/media.service';
 import { TabsPage } from '../tabs/tabs';
 import { CommentFormModal } from '../../shared/modals/comments/comment-form.modal';
-import { LikesModalComponent } from '../../shared/modals/likes/likes.modal';
 
 @Component({
     templateUrl: 'comment.component.html'
@@ -45,11 +44,6 @@ export class CommentPage {
             },
             err => this.failAlert(err)
         )
-    }
-
-    viewLikes(){
-        let likesModal = this.modalCtrl.create(LikesModalComponent, {type: 'post', content: this.post});
-        likesModal.present();
     }
 
     likePost(postId) {

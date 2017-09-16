@@ -6,7 +6,7 @@
     <ion-buttons end>
       <button *ngIf="isActiveUser" ion-button (click)="viewNotifications()" icon-right><ion-icon name="flag" color="light"></ion-icon><ion-badge *ngIf="notifications && notifications.length > 0" color="danger">{{notifications?.length}}</ion-badge></button>
       <button *ngIf="isActiveUser" ion-button (click)="settings()" icon-right><ion-icon name="settings" color="light"></ion-icon></button>
-      <button *ngIf="!isActiveUser && !user?.settings.profilePrivate && !isViewable" ion-button (click)="followUser()" icon-right [color]="followColor"><ion-icon name="star" [color]="followColor"></ion-icon>{{followText}}</button>
+      <button *ngIf="!isActiveUser && isViewable" ion-button (click)="followUser()" icon-right [color]="followColor"><ion-icon name="star" [color]="followColor"></ion-icon>{{followText}}</button>
     </ion-buttons>
   </ion-navbar>
 </ion-header>

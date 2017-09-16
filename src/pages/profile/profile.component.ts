@@ -23,7 +23,7 @@ export class ProfilePage {
   isActiveUser: boolean;
   notifications: any[];
   passedUser: any;
-  isViewable: boolean;
+  isViewable: boolean = true;
   hasRequested: boolean;
 
   constructor(public navCtrl: NavController, private authService: AuthService,

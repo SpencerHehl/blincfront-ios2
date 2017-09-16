@@ -5,7 +5,7 @@ import { CommentService } from '../../services/comment.service';
 import { AuthService } from '../../services/auth.service';
 import { ProfilePage } from '../../../pages/profile/profile.component';
 import { MediaService } from '../../services/media.service';
-import { LikesModalComponent } from '../../modals/likes/likes.modal';
+import { LikesPage } from '../../../pages/likes/likes.component';
 
 @Component({
     selector: 'comment-card',
@@ -60,8 +60,7 @@ export class CommentCardComponent{
     }
 
     viewLikes(){
-        let likesModal = this.modalCtrl.create(LikesModalComponent, { type: "comment", content: this.Comment});
-        likesModal.present();
+        this.navCtrl.push(LikesPage, { type: "comment", content: this.Comment});
     }
 
     viewMore(){

@@ -11,7 +11,7 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { NearMePage } from '../pages/posts/nearme/nearme.component';
 import { PostFormModal } from '../shared/modals/posts/post-form.modal';
 import { CommentFormModal } from '../shared/modals/comments/comment-form.modal';
-import { LikesModalComponent } from '../shared/modals/likes/likes.modal';
+import { LikesPage } from '../pages/likes/likes.component';
 import { LoginPage } from '../pages/login/login.component';
 import { ProfilePage } from '../pages/profile/profile.component';
 import { MapViewPage } from '../pages/posts/mapview/mapview.component';
@@ -82,7 +82,7 @@ const cloudSettings: CloudSettings = {
     NotificationPage,
     NotificationListPage,
     CommentFormModal,
-    LikesModalComponent,
+    LikesPage,
     PostPage,
     PeoplePage,
     SettingsPage
@@ -110,7 +110,7 @@ const cloudSettings: CloudSettings = {
     NotificationPage,
     NotificationListPage,
     CommentFormModal,
-    LikesModalComponent,
+    LikesPage,
     PostPage,
     PeoplePage,
     SettingsPage
