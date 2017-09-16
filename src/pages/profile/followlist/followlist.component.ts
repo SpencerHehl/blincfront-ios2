@@ -18,7 +18,7 @@ export class FollowListPage{
 
     ionViewWillLoad(){
         this.followList = this.navParams.get('followList');
-        console.log(this.followList);
+        console.log(this.authService.mongoUser._id);
         this.followList.map((user)=>{
             if(user.followed){
                 user.followColor = 'primary';
