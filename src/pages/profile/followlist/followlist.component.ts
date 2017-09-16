@@ -13,7 +13,7 @@ export class FollowListPage{
     listType: string;
 
     constructor(private profileService: ProfileService, private navCtrl: NavController,
-         private navParams: NavParams, private alertCtrl: AlertController
+         private navParams: NavParams, private alertCtrl: AlertController,
          private authService: AuthService){}
 
     ionViewWillLoad(){
