@@ -181,7 +181,10 @@ export class PostService{
         let token = this.authService.authToken;
         headers.append('Authorization', token);
         let options = new RequestOptions({headers: headers});
-        post["geolocation"] = this.myLocation;
+        post["geolocation"] = {
+            lat: this.locService.lat,
+            lng: this.locService.lng
+        };
         return this.http.post('http://www.blincapp.com/post/text/', post, options).map((response: Response) => {
             return response.json();
         }).catch(this.handleError);
@@ -192,7 +195,10 @@ export class PostService{
         let token = this.authService.authToken;
         headers.append('Authorization', token);
         let options = new RequestOptions({headers: headers});
-        post["geolocation"] = this.myLocation;
+        post["geolocation"] = {
+            lat: this.locService.lat,
+            lng: this.locService.lng
+        };
         post["imageData"] = image;
         console.log(image);
         return this.http.post('http://www.blincapp.com/post/picture/', post, options).map((response: Response) => {

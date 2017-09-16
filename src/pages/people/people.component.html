@@ -6,7 +6,7 @@
     </ion-navbar>
 </ion-header>
 <ion-content style="background-color: #cbd3db">
-    <ion-searchbar placeholder="Search nearby users..." [(ngModel)]="searchText" (ionInput)="searchUsers($event)"></ion-searchbar>
+    <ion-searchbar placeholder="Search users..." [(ngModel)]="searchText" (ionInput)="searchUsers($event)"></ion-searchbar>
     <ion-list>
         <ion-item *ngFor='let req of followRequests'>
             <ion-avatar item-start>
