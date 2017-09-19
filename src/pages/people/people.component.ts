@@ -78,7 +78,7 @@ export class PeoplePage{
     searchUsers(input: any){
         let value = input.data;
         if(value && value.trim() !== ''){
-            this.userService.searchUsers(value).subscribe(
+            this.userService.searchUsers(this.searchText).subscribe(
                 resp => {
                     this.searchList = resp;
                 }
