@@ -40,20 +40,6 @@ export class PostService{
     }
 
     getNearbyPostsDate(){
-        if(this.locService.tracking){
-            this.myLocation = {
-                lat: this.locService.lat,
-                lng: this.locService.lng
-            }
-            let token = this.authService.authToken;
-            let headers = new Headers({'Authorization': token});
-            let options = new RequestOptions({headers: headers});
-            return this.http.get('http://www.blincapp.com/post/nearme/date?lat=' + this.locService.lat + '&lng=' + this.locService.lng + '&page=0', options)
-                .map((resp) => {
-                    return resp.json();
-                })
-                .catch(this.handleError);
-        }else{
             return Observable.fromPromise(this.geolocation.getCurrentPosition())
                 .map((resp) => {
                     this.myLocation = {
@@ -72,24 +58,9 @@ export class PostService{
                         })
                 })
                 .catch(this.handleError);
-            }
     }
 
     getNearbyPostsLikes(){
-        if(this.locService.tracking){
-            this.myLocation = {
-                lat: this.locService.lat,
-                lng: this.locService.lng
-            }
-            let token = this.authService.authToken;
-            let headers = new Headers({'Authorization': token});
-            let options = new RequestOptions({headers: headers});
-            return this.http.get('http://www.blincapp.com/post/nearme/likes?lat=' + this.locService.lat + '&lng=' + this.locService.lng + '&page=0', options)
-                .map((resp) => {
-                    return resp.json();
-                })
-                .catch(this.handleError);
-        }else{
             return Observable.fromPromise(this.geolocation.getCurrentPosition())
                 .map((resp) => {
                     this.myLocation = {
@@ -108,7 +79,6 @@ export class PostService{
                         })
                 })
                 .catch(this.handleError);
-            }
     }
 
     getLikes(postId){

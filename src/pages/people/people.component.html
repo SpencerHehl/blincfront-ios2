@@ -27,9 +27,7 @@
                 <img [src]='user?.profilePicture' (click)="viewProfile(user)">
             </ion-avatar>
             <h3 style="font-weight:bold" (click)="viewProfile(user)">{{user?.fullName}}</h3>
-            <ion-buttons item-end>
-                <button ion-button icon-right clear [color]="user.followColor" [hidden]="user._id == authService.mongoUser._id"><ion-icon name="star" [color]="user.followColor"></ion-icon>{{user?.followText}}</button>
-            </ion-buttons>
+            <h3 [hidden]="user._id == authService.mongoUser._id || !user.followed" item-end><ion-icon name="star" [color]="user.followColor"></ion-icon>{{user.followText}}</h3>                        
         </ion-item>
     </ion-list>
 </ion-content>
