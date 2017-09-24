@@ -42,7 +42,6 @@ import { Network } from '@ionic-native/network';
 import { Camera } from '@ionic-native/camera';
 import { Diagnostic } from '@ionic-native/diagnostic';
 import { Calendar } from '@ionic-native/calendar';
-import { DatePicker } from '@ionic-native/date-picker';
 import { LaunchNavigator } from '@ionic-native/launch-navigator';
 
 import { PostService } from '../shared/services/post.service';
@@ -55,10 +54,6 @@ import { DateAgePipe } from '../shared/pipes/date.pipe';
 import { LocationService } from '../shared/services/location.service';
 import { UserService } from '../shared/services/user.service';
 import { EventService } from '../shared/services/event.service';
-
-import { GoogleMapsProvider } from '../providers/google-maps/google-maps';
-import { ConnectivityProvider } from '../providers/connectivity/connectivity';
-import { GoogleMapsClusterProvider } from '../providers/google-maps-cluster/google-maps-cluster';
 
 const cloudSettings: CloudSettings = {
   'core': {
@@ -157,12 +152,8 @@ const cloudSettings: CloudSettings = {
     UserService,
     Diagnostic,
     Calendar,
-    DatePicker,
     LaunchNavigator,
-    {provide: ErrorHandler, useClass: IonicErrorHandler},
-    GoogleMapsProvider,
-    ConnectivityProvider,
-    GoogleMapsClusterProvider
+    {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
 export class AppModule {}

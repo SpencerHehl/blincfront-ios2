@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController, NavParams, AlertController } from 'ionic-angular';
-import * as MarkerCluster from 'node-js-marker-clusterer';
 
 import { PostService } from '../../../shared/services/post.service';
 import { ListViewPage } from '../listview/listview.component';
@@ -97,7 +96,6 @@ export class MapViewPage{
                     })
                     return marker;
                 })
-                //this.markerCluster = new MarkerCluster(this.map, this.markers, {imagePath: 'assets/m'});
             },
             err => this.failAlert(err)
         )

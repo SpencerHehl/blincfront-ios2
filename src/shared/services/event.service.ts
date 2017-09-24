@@ -31,7 +31,7 @@ export class EventService{
             lat: lat,
             lng: lng
         }
-        return this.http.post('http://www.blincapp.com:8082/events/createevent', body, options)
+        return this.http.post('http://www.blincapp.com/events/createevent', body, options)
             .map((resp) => {
                 return resp.json();
             })
@@ -42,7 +42,7 @@ export class EventService{
         let token = this.authService.authToken;
         let headers = new Headers({'Authorization': token});
         let options = new RequestOptions({headers: headers});
-        return this.http.get('http://www.blincapp.com:8082/events/nearme/mine?page=' + this.minePage + '&lat=' + this.locService.lat + '&lng=' + this.locService.lng, options)
+        return this.http.get('http://www.blincapp.com/events/nearme/mine?page=' + this.minePage + '&lat=' + this.locService.lat + '&lng=' + this.locService.lng, options)
             .map((resp) => {
                 this.minePage += 1;
                 return resp.json();
@@ -54,7 +54,7 @@ export class EventService{
         let token = this.authService.authToken;
         let headers = new Headers({'Authorization': token});
         let options = new RequestOptions({headers: headers});
-        return this.http.get('http://www.blincapp.com:8082/events/nearme/date?page=' + this.datePage + '&lat=' + this.locService.lat + '&lng=' + this.locService.lng, options)
+        return this.http.get('http://www.blincapp.com/events/nearme/date?page=' + this.datePage + '&lat=' + this.locService.lat + '&lng=' + this.locService.lng, options)
             .map((resp) => {
                 this.datePage += 1
                 return resp.json();
@@ -78,7 +78,7 @@ export class EventService{
         let token = this.authService.authToken;
         let headers = new Headers({'Authorization': token});
         let options = new RequestOptions({headers: headers});
-        return this.http.get('http://www.blincapp.com:8082/events/nearme/mine?page=0' + '&lat=' + this.locService.lat + '&lng=' + this.locService.lng, options)
+        return this.http.get('http://www.blincapp.com/events/nearme/mine?page=0' + '&lat=' + this.locService.lat + '&lng=' + this.locService.lng, options)
             .map((resp) => {
                 return resp.json();
             })
@@ -89,7 +89,7 @@ export class EventService{
         let token = this.authService.authToken;
         let headers = new Headers({'Authorization': token});
         let options = new RequestOptions({headers: headers});
-        return this.http.get('http://www.blincapp.com:8082/events/nearme/date?page=0' + '&lat=' + this.locService.lat + '&lng=' + this.locService.lng, options)
+        return this.http.get('http://www.blincapp.com/events/nearme/date?page=0' + '&lat=' + this.locService.lat + '&lng=' + this.locService.lng, options)
             .map((resp) => {
                 return resp.json();
             })
@@ -100,7 +100,7 @@ export class EventService{
         let token = this.authService.authToken;
         let headers = new Headers({'Authorization': token});
         let options = new RequestOptions({headers: headers});
-        return this.http.get('http://www.blincapp.com:8082/events/nearme/attending?page=0' + '&lat=' + this.locService.lat + '&lng=' + this.locService.lng, options)
+        return this.http.get('http://www.blincapp.com/events/nearme/attending?page=0' + '&lat=' + this.locService.lat + '&lng=' + this.locService.lng, options)
             .map((resp) => {
                 return resp.json();
             })
@@ -116,7 +116,7 @@ export class EventService{
             user: user,
             eventId: eventId
         }
-        return this.http.post('http://www.blincapp.com:8082/events/attendees/invite', body, options)
+        return this.http.post('http://www.blincapp.com/events/attendees/invite', body, options)
             .map((resp) => {
                 return resp.json();
             })
@@ -131,7 +131,7 @@ export class EventService{
         let body = {
             eventId: eventId
         }
-        return this.http.put('http://www.blincapp.com:8082/events/attendees/accept', body, options)
+        return this.http.put('http://www.blincapp.com/events/attendees/accept', body, options)
             .map((resp) => {
                 return resp.json();
             })
@@ -146,7 +146,7 @@ export class EventService{
         let body = {
             eventId: eventId
         }
-        return this.http.put('http://www.blincapp.com:8082/events/attendees/decline', body, options)
+        return this.http.put('http://www.blincapp.com/events/attendees/decline', body, options)
             .map((resp) => {
                 return resp.json();
             })
@@ -161,7 +161,7 @@ export class EventService{
         let body = {
             eventId: eventId
         }
-        return this.http.post('http://www.blincapp.com:8082/events/attendees/tentative', body, options)
+        return this.http.post('http://www.blincapp.com/events/attendees/tentative', body, options)
             .map((resp) => {
                 return resp.json();
             })
@@ -172,7 +172,7 @@ export class EventService{
         let token = this.authService.authToken;
         let headers = new Headers({'Authorization': token});
         let options = new RequestOptions({headers: headers});
-        return this.http.get('http://www.blincapp.com:8082/events/attendees/getfollowlist?eventId=' + eventId, options)
+        return this.http.get('http://www.blincapp.com/events/attendees/getfollowlist?eventId=' + eventId, options)
             .map((resp) => {
                 return resp.json();
             })
@@ -189,7 +189,7 @@ export class EventService{
             lng: lng
         };
         post["eventId"] = eventId;
-        return this.http.post('http://www.blincapp.com:8082/events/posttext/', post, options).map((response: Response) => {
+        return this.http.post('http://www.blincapp.com/events/posttext/', post, options).map((response: Response) => {
             return response.json();
         }).catch(this.handleError);
     }
@@ -206,7 +206,7 @@ export class EventService{
         post["imageData"] = image;
         post["eventId"] = eventId;
         console.log(image);
-        return this.http.post('http://www.blincapp.com:8082/events/postphoto/', post, options).map((response: Response) => {
+        return this.http.post('http://www.blincapp.com/events/postphoto/', post, options).map((response: Response) => {
             return response.json();
         }).catch(this.handleError);
     }
@@ -226,7 +226,7 @@ export class EventService{
         let token = this.authService.authToken;
         let headers = new Headers({'Authorization': token});
         let options = new RequestOptions({headers: headers});
-        return this.http.get('http://www.blincapp.com:8082/events/attendees/eventstatus?userid=' + this.authService.mongoUser._id + '&eventId=' + eventId, options)
+        return this.http.get('http://www.blincapp.com/events/attendees/eventstatus?userid=' + this.authService.mongoUser._id + '&eventId=' + eventId, options)
             .map((resp) => {
                 return resp.json();
             })
@@ -237,7 +237,7 @@ export class EventService{
         let token = this.authService.authToken;
         let headers = new Headers({'Authorization': token});
         let options = new RequestOptions({headers: headers});
-        return this.http.get('http://www.blincapp.com:8082/events/getevent?eventId=' + eventId, options)
+        return this.http.get('http://www.blincapp.com/events/getevent?eventId=' + eventId, options)
             .map((resp) => {
                 return resp.json();
             })

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavParams, AlertController, NavController, LoadingController } from 'ionic-angular';
+import { NavParams, AlertController, NavController, LoadingController, Platform } from 'ionic-angular';
 import { FacebookAuth, GoogleAuth, User } from '@ionic/cloud-angular';
 import { Diagnostic } from '@ionic-native/diagnostic';
 
@@ -18,32 +18,48 @@ export class LoginPage {
         private NavParams: NavParams, private user: User, public navController: NavController,
         private facebookAuth: FacebookAuth, private googleAuth: GoogleAuth,
         private loadingCtrl: LoadingController, private postService: PostService,
-        private locService: LocationService, private diagnostic: Diagnostic){}
+        private locService: LocationService, private diagnostic: Diagnostic,
+        private platform: Platform){}
 
     ionViewWillLoad(){
         this.checkLocation();
     }
 
     checkLocation(){
-        this.locService.checkLocationEnabled().then((isAvailable) => {
-            if(isAvailable){
-                this.locService.initializeLocation().then((resp) => {
-                    this.locService.lat = resp.coords.latitude;
-                    this.locService.lng = resp.coords.longitude;
-                    this.locService.startTracking();
-                    this.tokenLogin();
-                }).catch((err) => {
-                    this.locService.checkLocationAuth().then((isAuthorized) => {
-                        if(isAuthorized){
-                            this.failAlert("Oops! Looks like something went wrong and we can't seem to find your location.");
-                        }else{
-                            this.locationAuthFail();
-                        }
+        this.platform.ready().then(() => {
+            this.presentLoader();
+            this.locService.checkLocationEnabled().then((isAvailable) => {
+                if(isAvailable){
+                    this.locService.initializeLocation().then((resp) => {
+                        this.locService.lat = resp.coords.latitude;
+                        this.locService.lng = resp.coords.longitude;
+                        this.locService.startTracking();
+                        this.loading.dismiss().then(() => {
+                            this.tokenLogin();                        
+                        })
+                    }).catch((err) => {
+                        this.locService.checkLocationAuth().then((isAuthorized) => {
+                            if(isAuthorized){
+                                this.loading.dismiss().then(() => {
+                                    this.failAlert("Oops! Looks like something went wrong and we can't seem to find your location.");
+                                })
+                            }else{
+                                this.loading.dismiss().then(() => {
+                                    this.locationAuthFail();
+                                })
+                            }
+                        })
                     })
+                }else{
+                    this.loading.dismiss().then(() => {
+                        this.locationFail();
+                    })
+                }
+            }).catch((err) => {
+                this.loading.dismiss().then(() => {
+                    this.failAlert(err)                
                 })
-            }else{
-                this.locationFail();
-            }
+            })
         })
     }
 
