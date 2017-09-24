@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
 import { NavParams, AlertController, NavController, LoadingController } from 'ionic-angular';
 import { FacebookAuth, GoogleAuth, User } from '@ionic/cloud-angular';
+import { Diagnostic } from '@ionic-native/diagnostic';
 
 import { AuthService } from '../../shared/services/auth.service';
 import { PostService } from '../../shared/services/post.service';
+import { LocationService } from '../../shared/services/location.service';
 import { TabsPage } from '../tabs/tabs';
 
 @Component({
@@ -15,9 +17,37 @@ export class LoginPage {
     constructor(public alertCtrl: AlertController, private authService: AuthService,
         private NavParams: NavParams, private user: User, public navController: NavController,
         private facebookAuth: FacebookAuth, private googleAuth: GoogleAuth,
-        private loadingCtrl: LoadingController, private postService: PostService){}
+        private loadingCtrl: LoadingController, private postService: PostService,
+        private locService: LocationService, private diagnostic: Diagnostic){}
 
     ionViewWillLoad(){
+        this.checkLocation();
+    }
+
+    checkLocation(){
+        this.locService.checkLocationEnabled().then((isAvailable) => {
+            if(isAvailable){
+                this.locService.initializeLocation().then((resp) => {
+                    this.locService.lat = resp.coords.latitude;
+                    this.locService.lng = resp.coords.longitude;
+                    this.locService.startTracking();
+                    this.tokenLogin();
+                }).catch((err) => {
+                    this.locService.checkLocationAuth().then((isAuthorized) => {
+                        if(isAuthorized){
+                            this.failAlert("Oops! Looks like something went wrong and we can't seem to find your location.");
+                        }else{
+                            this.locationAuthFail();
+                        }
+                    })
+                })
+            }else{
+                this.locationFail();
+            }
+        })
+    }
+
+    tokenLogin(){
         if(this.facebookAuth.getToken()){
             if(this.user.social.facebook){
                 this.authService.authMethod = "facebook";
@@ -158,5 +188,41 @@ export class LoginPage {
             });
             alert.present();
         })
+    }
+
+    locationAuthFail(){
+        let alert = this.alertCtrl.create({
+            title: 'Location',
+            subTitle: 'This app must have access to your location to function. Press "OK" to enable and then swipe down to refresh when you return to the app.',
+            buttons: [
+                {
+                    text: 'OK',
+                    handler: () => {
+                        alert.dismiss().then(() => {
+                            this.diagnostic.switchToSettings();
+                        })
+                    }
+                }
+            ]
+        })
+        alert.present();
+    }
+
+    locationFail(){
+        let alert = this.alertCtrl.create({
+            title: 'Location',
+            subTitle: 'Location services must be enabled to use this app. Press "OK" to enable and then swipe down to refresh when you return to the app.',
+            buttons: [
+                {
+                    text: 'OK',
+                    handler: () => {
+                        alert.dismiss().then(() => {
+                            this.diagnostic.switchToLocationSettings();
+                        })
+                    }
+                }
+            ]
+        })
+        alert.present();
     }
 }

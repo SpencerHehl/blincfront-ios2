@@ -10,7 +10,7 @@ import { AuthService } from '../../shared/services/auth.service';
 @Component({
     templateUrl: 'likes.component.html'
 })
-export class LikesModalComponent{
+export class LikesPage{
     content: any;
     users: any[];
     contentType: string;

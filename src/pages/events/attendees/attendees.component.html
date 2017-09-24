@@ -1,0 +1,62 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title style="font-weight:bold">
+            {{event?.details.title}} Attendees
+        </ion-title>
+        <ion-buttons end>
+            <button ion-button (click)="inviteFriends()" clear color="light">Invite Friends</button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+<ion-content style="background-color: #cbd3db">
+    <ion-list>
+        <ion-item-group>
+            <ion-item-divider>
+                Attending
+            </ion-item-divider>
+            <ion-item *ngFor='let user of event?.rsvp.attending' no-lines>
+                <ion-avatar item-start>
+                    <img [src]='user?.profilePicture' (click)="viewProfile(user)">
+                </ion-avatar>
+                <h3 style="font-weight:bold" (click)="viewProfile(user)" text-wrap>{{user?.fullName}}</h3>
+                <h3 [hidden]="user._id == authService.mongoUser._id || !user.followed" item-end><ion-icon name="star" [color]="user.followColor"></ion-icon>{{user.followText}}</h3>
+            </ion-item>
+        </ion-item-group>
+        <ion-item-group>
+            <ion-item-divider>
+                Tentative
+            </ion-item-divider>
+            <ion-item *ngFor='let user of event?.rsvp.tentative' no-lines>
+                <ion-avatar item-start>
+                    <img [src]='user?.profilePicture' (click)="viewProfile(user)">
+                </ion-avatar>
+                <h3 style="font-weight:bold" (click)="viewProfile(user)" text-wrap>{{user?.fullName}}</h3>
+                <h3 [hidden]="user._id == authService.mongoUser._id || !user.followed" item-end><ion-icon name="star" [color]="user.followColor"></ion-icon>{{user.followText}}</h3>
+            </ion-item>
+        </ion-item-group>
+        <ion-item-group>
+            <ion-item-divider>
+                Declined
+            </ion-item-divider>
+            <ion-item *ngFor='let user of event?.rsvp.declined' no-lines>
+                <ion-avatar item-start>
+                    <img [src]='user?.profilePicture' (click)="viewProfile(user)">
+                </ion-avatar>
+                <h3 style="font-weight:bold" (click)="viewProfile(user)" text-wrap>{{user?.fullName}}</h3>
+                <h3 [hidden]="user._id == authService.mongoUser._id || !user.followed" item-end><ion-icon name="star" [color]="user.followColor"></ion-icon>{{user.followText}}</h3>
+            </ion-item>
+        </ion-item-group>
+        <ion-item-group>
+            <ion-item-divider>
+                No Response
+            </ion-item-divider>
+            <ion-item *ngFor='let user of event?.rsvp.noResponse' no-lines>
+                <ion-avatar item-start>
+                    <img [src]='user?.profilePicture' (click)="viewProfile(user)">
+                </ion-avatar>
+                <h3 style="font-weight:bold" (click)="viewProfile(user)" text-wrap>{{user?.fullName}}</h3>
+                <h3 [hidden]="user._id == authService.mongoUser._id || !user.followed" item-end><ion-icon name="star" [color]="user.followColor"></ion-icon>{{user.followText}}</h3>
+            </ion-item>
+        </ion-item-group>
+    </ion-list>
+</ion-content>

@@ -30,4 +30,7 @@
             <h3 [hidden]="user._id == authService.mongoUser._id || !user.followed" item-end><ion-icon name="star" [color]="user.followColor"></ion-icon>{{user.followText}}</h3>                        
         </ion-item>
     </ion-list>
+    <ion-row *ngFor="let post of followPosts">
+        <post-card [Post]="post" (reportEmitter)="reportPost($event, i)" (deleteEmitter)="deletePost($event, i)"></post-card>
+    </ion-row>
 </ion-content>

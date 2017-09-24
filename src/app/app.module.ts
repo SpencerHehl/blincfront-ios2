@@ -11,6 +11,8 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { NearMePage } from '../pages/posts/nearme/nearme.component';
 import { PostFormModal } from '../shared/modals/posts/post-form.modal';
 import { CommentFormModal } from '../shared/modals/comments/comment-form.modal';
+import { EventFormModal } from '../shared/modals/events/event-form.modal';
+import { AttendeesInviteModal } from '../shared/modals/invites/attendeesinvite.modal';
 import { LikesPage } from '../pages/likes/likes.component';
 import { LoginPage } from '../pages/login/login.component';
 import { ProfilePage } from '../pages/profile/profile.component';
@@ -23,11 +25,15 @@ import { NotificationListPage } from '../pages/notifications/listview/list.notif
 import { PostPage } from '../pages/posts/single/post.component';
 import { PeoplePage } from '../pages/people/people.component';
 import { SettingsPage } from '../pages/profile/settings/settings.component';
+import { EventPage } from '../pages/events/event/event.component';
+import { EventListPage } from '../pages/events/eventslist/eventlist.component';
+import { AttendeesPage } from '../pages/events/attendees/attendees.component';
 
 import { PostCardComponent } from '../shared/templates/posts/post.card'
 import { CommentCardComponent } from '../shared/templates/comments/comment.card';
 import { UserCardComponent } from '../shared/templates/user/user.card';
 import { NotificationCardComponent } from '../shared/templates/notifications/notification.card';
+import { EventCardComponent } from '../shared/templates/events/event.card'
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -35,6 +41,9 @@ import { Geolocation } from '@ionic-native/geolocation';
 import { Network } from '@ionic-native/network';
 import { Camera } from '@ionic-native/camera';
 import { Diagnostic } from '@ionic-native/diagnostic';
+import { Calendar } from '@ionic-native/calendar';
+import { DatePicker } from '@ionic-native/date-picker';
+import { LaunchNavigator } from '@ionic-native/launch-navigator';
 
 import { PostService } from '../shared/services/post.service';
 import { AuthService } from '../shared/services/auth.service';
@@ -45,6 +54,11 @@ import { NotificationService } from '../shared/services/notifications.service';
 import { DateAgePipe } from '../shared/pipes/date.pipe';
 import { LocationService } from '../shared/services/location.service';
 import { UserService } from '../shared/services/user.service';
+import { EventService } from '../shared/services/event.service';
+
+import { GoogleMapsProvider } from '../providers/google-maps/google-maps';
+import { ConnectivityProvider } from '../providers/connectivity/connectivity';
+import { GoogleMapsClusterProvider } from '../providers/google-maps-cluster/google-maps-cluster';
 
 const cloudSettings: CloudSettings = {
   'core': {
@@ -85,7 +99,13 @@ const cloudSettings: CloudSettings = {
     LikesPage,
     PostPage,
     PeoplePage,
-    SettingsPage
+    SettingsPage,
+    EventFormModal,
+    EventListPage,
+    EventPage,
+    AttendeesPage,
+    EventCardComponent,
+    AttendeesInviteModal
   ],
   imports: [
     BrowserModule,
@@ -113,7 +133,12 @@ const cloudSettings: CloudSettings = {
     LikesPage,
     PostPage,
     PeoplePage,
-    SettingsPage
+    SettingsPage,
+    EventFormModal,
+    EventListPage,
+    EventPage,
+    AttendeesInviteModal,
+    AttendeesPage
   ],
   providers: [
     PostService,
@@ -126,11 +151,18 @@ const cloudSettings: CloudSettings = {
     CommentService,
     MediaService,
     NotificationService,
+    EventService,
     Camera,
     LocationService,
     UserService,
     Diagnostic,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    Calendar,
+    DatePicker,
+    LaunchNavigator,
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    GoogleMapsProvider,
+    ConnectivityProvider,
+    GoogleMapsClusterProvider
   ]
 })
 export class AppModule {}

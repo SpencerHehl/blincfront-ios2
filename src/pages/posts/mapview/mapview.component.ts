@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController, NavParams, AlertController } from 'ionic-angular';
+import * as MarkerCluster from 'node-js-marker-clusterer';
 
 import { PostService } from '../../../shared/services/post.service';
 import { ListViewPage } from '../listview/listview.component';
@@ -21,6 +22,7 @@ export class MapViewPage{
     map: any;
     center: any;
     zoom: any;
+    markerCluster: any;
 
     constructor(public navCtrl: NavController, private navParams: NavParams,
         public alertCtrl: AlertController, private postService: PostService,
@@ -37,21 +39,18 @@ export class MapViewPage{
     }
 
     centerLocation(){
-        if(this.locService.tracking){
-            this.myLocation = {
-                lat: this.locService.lat,
-                lng: this.locService.lng
-            }
-            this.initMap(this.myLocation, 15);
-        }else{
-            this.postService.getMyLocation().subscribe(
+        this.myLocation = {
+            lat: this.locService.lat,
+            lng: this.locService.lng
+        };
+        this.initMap(this.myLocation, 15);
+        /*this.postService.getMyLocation().subscribe(
                 resp => {
                     this.myLocation = resp;
                     this.initMap(this.myLocation, 15);
                 },
                 err => this.failAlert(err)
-            );
-        }
+            );*/
     }
 
     initMap(mapCenter, zoom){
@@ -96,7 +95,9 @@ export class MapViewPage{
                             err => self.failAlert(err)
                         )
                     })
+                    return marker;
                 })
+                //this.markerCluster = new MarkerCluster(this.map, this.markers, {imagePath: 'assets/m'});
             },
             err => this.failAlert(err)
         )

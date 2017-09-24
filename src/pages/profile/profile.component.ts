@@ -117,7 +117,7 @@ export class ProfilePage {
     }
 
     postText(){
-        let postModal = this.modalCtrl.create(PostFormModal, {postType: 'text'});
+        let postModal = this.modalCtrl.create(PostFormModal, {postType: 'text', isEventPost: false});
         postModal.present();
         postModal.onDidDismiss(response => {
             if(response){
@@ -132,12 +132,14 @@ export class ProfilePage {
             sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
             destinationType: this.camera.DestinationType.DATA_URL,
             encodingType: this.camera.EncodingType.JPEG,
-            mediaType: this.camera.MediaType.PICTURE
+            mediaType: this.camera.MediaType.PICTURE,
+            allowEdit: true,
+            correctOrientation: true
         }
 
         this.camera.getPicture(options).then((imageData) => {
             let base64Image = 'data:image/jpeg;base64,' + imageData;
-            let postModal = this.modalCtrl.create(PostFormModal, {postType: 'photo', image: base64Image});
+            let postModal = this.modalCtrl.create(PostFormModal, {postType: 'photo', image: base64Image, isEventPost: false});
             postModal.present();
             postModal.onDidDismiss(response => {
                 if(response){
@@ -154,12 +156,13 @@ export class ProfilePage {
             encodingType: this.camera.EncodingType.JPEG,
             mediaType: this.camera.MediaType.PICTURE,
             saveToPhotoAlbum: true,
-            correctOrientation: true
+            correctOrientation: true,
+            allowEdit: true
         }
 
         this.camera.getPicture(options).then((imageData) => {
             let base64Image = 'data:image/jpeg;base64,' + imageData;
-            let postModal = this.modalCtrl.create(PostFormModal, {postType: 'photo', image: base64Image});
+            let postModal = this.modalCtrl.create(PostFormModal, {postType: 'photo', image: base64Image, isEventPost: false});
             postModal.present();
             postModal.onDidDismiss(response => {
                 if(response){

@@ -1,0 +1,33 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title style="font-weight:bold;">
+            Events
+        </ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content style="background-color: #cbd3db">
+    <ion-refresher (ionRefresh)="reloadEvents($event)">
+        <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull down to refresh" refreshingSpinner="circles" refreshingText="Reloading..."></ion-refresher-content>
+    </ion-refresher>
+    <ion-item no-lines>
+        <ion-label>Sort By:</ion-label>
+        <ion-select [(ngModel)]="eventFilter" (ionChange)="onFilterChange()">
+            <ion-option value="date">Soonest</ion-option>
+            <ion-option value="attending">Top Events</ion-option>
+            <ion-option value="mine">My Events</ion-option>
+        </ion-select>
+    </ion-item>
+    <ion-row *ngFor="let event of nearbyEventsDate; let i = index" [hidden]="eventFilter != 'date'">
+        <event-card [Event]="event" (reportEmitter)="reportEventDate($event, i)" (deleteEmitter)="deleteEventDate($event, i)"></event-card>
+    </ion-row>
+    <ion-row *ngFor="let event of nearbyEventsAttending; let i = index" [hidden]="eventFilter != 'attending'">
+        <event-card [Event]="event" (reportEmitter)="reportEventAttending($event, i)" (deleteEmitter)="deleteEventAttending($event, i)"></event-card>
+    </ion-row>
+    <ion-row *ngFor="let event of nearbyEventsMine; let i = index" [hidden]="eventFilter != 'mine'">
+        <event-card [Event]="event" (reportEmitter)="reportEventMine($event, i)" (deleteEmitter)="deleteEventMine($event, i)"></event-card>
+    </ion-row>
+    <ion-fab right bottom>
+        <button ion-fab (click)="newEvent()"><ion-icon name="add"></ion-icon></button>
+    </ion-fab>
+</ion-content>

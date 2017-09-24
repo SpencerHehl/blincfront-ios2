@@ -5,6 +5,8 @@ import { UserService } from '../../shared/services/user.service';
 import { ProfileService } from '../profile/shared/profile.service';
 import { ProfilePage } from '../profile/profile.component';
 import { AuthService } from '../../shared/services/auth.service';
+import { PostService } from '../../shared/services/post.service';
+import { MediaService } from '../../shared/services/media.service';
 
 @Component({
     templateUrl: 'people.component.html'
@@ -13,11 +15,15 @@ export class PeoplePage{
     nearbyList: any[];
     searchList: any[];
     followRequests: any[];
+    followPosts: any[];
     searchText: any;
 
     constructor(private userService: UserService, private profileService: ProfileService,
          private alertCtrl: AlertController, private navCtrl: NavController,
-         private authService: AuthService){}
+         private authService: AuthService, private postService: PostService,
+         private mediaService: MediaService){
+             this.followPosts = [];
+         }
 
     ionViewDidLoad(){
         /*this.userService.getTopUsers().subscribe(
@@ -25,6 +31,11 @@ export class PeoplePage{
                 this.nearbyList = response;
             }
         )*/
+        this.postService.getFollowPosts().subscribe(
+            response => {
+                this.followPosts = response;
+            }
+        )
         this.userService.getFollowRequests().subscribe(
             response => {
                 this.followRequests = response;
@@ -78,7 +89,7 @@ export class PeoplePage{
     searchUsers(input: any){
         let value = input.data;
         if(value && value.trim() !== ''){
-            this.userService.searchUsers(this.searchText).subscribe(
+            this.userService.searchUsers(value).subscribe(
                 resp => {
                     this.searchList = resp;
                 }

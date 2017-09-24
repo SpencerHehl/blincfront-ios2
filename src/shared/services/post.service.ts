@@ -10,11 +10,16 @@ export class PostService{
     myLocation: any;
     datePage: number;
     likesPage: number;
+    followPage: number;
+    postFeedDate: any[];
+    postFeedLikes: any[];
+    mapFeed: any[];
     
     constructor(private http: Http, private geolocation: Geolocation,
         private authService: AuthService, private locService: LocationService){
         this.datePage = 1;
         this.likesPage = 1;
+        this.followPage = 1;
     }
 
     getMyLocation(){
@@ -40,7 +45,14 @@ export class PostService{
     }
 
     getNearbyPostsDate(){
-            return Observable.fromPromise(this.geolocation.getCurrentPosition())
+        let token = this.authService.authToken;
+        let headers = new Headers({'Authorization': token});
+        let options = new RequestOptions({headers: headers});
+        return this.http.get('http://www.blincapp.com/post/nearme/date?lat=' + this.locService.lat + '&lng=' + this.locService.lng + '&page=0', options)
+            .map((resp) => {
+                return resp.json();
+            }).catch(this.handleError);
+        /*return Observable.fromPromise(this.geolocation.getCurrentPosition())
                 .map((resp) => {
                     this.myLocation = {
                         lat: resp.coords.latitude,
@@ -57,11 +69,19 @@ export class PostService{
                             return resp.json();
                         })
                 })
-                .catch(this.handleError);
+                .catch(this.handleError);*/
     }
 
     getNearbyPostsLikes(){
-            return Observable.fromPromise(this.geolocation.getCurrentPosition())
+        let token = this.authService.authToken;
+        let headers = new Headers({'Authorization': token});
+        let options = new RequestOptions({headers: headers});
+        return this.http.get('http://www.blincapp.com/post/nearme/likes?lat=' + this.locService.lat + '&lng=' + this.locService.lng + '&page=0', options)
+            .map((resp) => {
+                return resp.json();
+            })
+            .catch(this.handleError);
+        /*return Observable.fromPromise(this.geolocation.getCurrentPosition())
                 .map((resp) => {
                     this.myLocation = {
                         lat: resp.coords.latitude,
@@ -78,7 +98,7 @@ export class PostService{
                             return resp.json();
                         })
                 })
-                .catch(this.handleError);
+                .catch(this.handleError);*/
     }
 
     getLikes(postId){
@@ -96,7 +116,7 @@ export class PostService{
         let token = this.authService.authToken;
         let headers = new Headers({'Authorization': token});
         let options = new RequestOptions({headers: headers});
-        return this.http.get('http://www.blincapp.com/post/nearme/date?lat=' + this.myLocation.lat + '&lng=' + this.myLocation.lng + '&page=' + this.datePage, options)
+        return this.http.get('http://www.blincapp.com/post/nearme/date?lat=' + this.locService.lat + '&lng=' + this.locService.lng + '&page=' + this.datePage, options)
             .map((resp) => {
                 this.datePage += 1;
                 return resp.json();
@@ -108,7 +128,7 @@ export class PostService{
         let token = this.authService.authToken;
         let headers = new Headers({'Authorization': token});
         let options = new RequestOptions({headers: headers});
-        return this.http.get('http://www.blincapp.com/post/nearme/likes?lat=' + this.myLocation.lat + '&lng=' + this.myLocation.lng + '&page=' + this.likesPage, options)
+        return this.http.get('http://www.blincapp.com/post/nearme/likes?lat=' + this.locService.lat + '&lng=' + this.locService.lng + '&page=' + this.likesPage, options)
             .map((resp) => {
                 this.likesPage += 1;
                 return resp.json();
@@ -242,6 +262,17 @@ export class PostService{
         }
 
         return this.http.put('http://www.blincapp.com/post/report', body, options)
+            .map((resp) => {
+                return resp.json();
+            })
+            .catch(this.handleError);
+    }
+
+    getFollowPosts(){
+        let token = this.authService.authToken;
+        let headers = new Headers({'Authorization': token});
+        let options = new RequestOptions({headers: headers});
+        return this.http.get('http://www.blincapp.com/post/followposts?page=0', options)
             .map((resp) => {
                 return resp.json();
             })

@@ -1,0 +1,23 @@
+<ion-card style="width:95vw;">
+    <ion-card-content>
+        <h2 style="font-weight:bold;font-size:large; text-align:center">{{Event?.details?.eventTitle}} <ion-icon name="at" color="primary"></ion-icon> {{Event?.details?.location.name}}</h2>
+        <h4 style="text-align:center">{{Event.details.eventDate | date: "MM/dd/yyyy h:mm a"}}</h4>
+        <ion-item>
+            <h4>About:</h4>
+            <p style="font-weight:bold">{{Event.details.eventBody}}</p>
+            <ion-buttons item-end>
+                <button ion-button (click)="navigate()"><ion-icon name="navigate"></ion-icon></button>
+            </ion-buttons>                
+        </ion-item>
+    </ion-card-content>
+    <ion-row>
+        <ion-col>
+            <button ion-button (click)="viewAttendees()" color="dark" clear>{{Event.rsvp.numAttending}} Attending</button>                
+        </ion-col>
+        <ion-col>
+        </ion-col>
+        <ion-col>
+            <button ion-button (click)="viewEvent()" color="dark" clear>View Event</button>
+        </ion-col>
+    </ion-row>
+</ion-card>

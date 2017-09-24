@@ -1,0 +1,35 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>
+            <ion-buttons style="float:left;margin-right:8%">
+                <button ion-button (click)="cancel()" color="light" large><ion-icon name="arrow-back"></ion-icon></button>
+            </ion-buttons>
+            <h4 style="margin-top:2%">Invite Followers</h4>
+        </ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content style="background-color: #cbd3db">
+    <ion-list>
+        <ion-item *ngFor='let user of user?.followList, let i = index'>
+            <ion-avatar item-start>
+                <img [src]='user?.profilePicture'>
+            </ion-avatar>
+            <h3 style="font-weight:bold">{{user?.fullName}}</h3>
+            <ion-buttons item-end>
+                <button ion-button [hidden]="user.invited" (click)="inviteFollower(user, i)"><ion-icon name="add" style="margin-right:1%;padding-right:1%"></ion-icon> Invite</button>
+                <button ion-button [hidden]="!user.invited" disabled><ion-icon name="checkmark"></ion-icon></button>
+            </ion-buttons>
+        </ion-item>
+        <ion-item *ngFor='let user of user?.followedBy, let i = index'>
+            <ion-avatar item-start>
+                <img [src]='user?.profilePicture'>
+            </ion-avatar>
+            <h3 style="font-weight:bold">{{user?.fullName}}</h3>
+            <ion-buttons item-end>
+                <button ion-button [hidden]="user.invited" (click)="inviteFollowing(user, i)"><ion-icon name="add" style="margin-right:1%;padding-right:1%"></ion-icon> Invite</button>
+                <button ion-button [hidden]="!user.invited" disabled><ion-icon name="checkmark"></ion-icon></button>
+            </ion-buttons>
+        </ion-item>
+    </ion-list>
+</ion-content>

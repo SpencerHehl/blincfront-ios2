@@ -1,0 +1,50 @@
+<ion-header>
+    <style>
+        *:focus{
+            outline: none;
+        }
+    </style>
+</ion-header>
+<ion-content style="margin:none;background:#f4f5f4; padding:0;height:100%;">
+    <div style="height: 100%;">
+        <div style="width:102%; height:175px; background:#2e1793; margin-left:-1%;margin-top:-10px;text-align:center;z-index:1;padding-top:50px;border:none;">
+            <button type="button" (click)="cancel()" style="width:25px;font-family: 'Montserrat', sans-serif;font-size:125%;margin-left:20px;color:white;float:left;background:none;border:none;"><ion-icon name="arrow-back"></ion-icon></button>
+            <span style="font-size:150%; color:white; width:100%;margin-left:-45px;"><b>New Event</b></span>
+        </div>
+        <form autocomplete="off" (ngSubmit)="createEvent(createEventForm.value)" #createEventForm="ngForm">
+            <div style="width:90%;background:white;height:80%;margin-left:5%;z-index:2;margin-top:-75px;">
+              <ion-list>
+                <ion-item>
+                    <ion-textarea autocomplete="true" spellcheck="true" placeholder="Title" name="title" (ngModel)="title"></ion-textarea>
+                </ion-item>
+                <ion-item>
+                    <ion-textarea autocomplete="true" spellcheck="true" placeholder="Location Name" name="locationName" (ngModel)="locationName"></ion-textarea>
+                </ion-item>
+                <ion-item>
+                    <ion-textarea autocomplete="true" spellcheck="true" placeholder="Street Address" name="locationStreet" (ngModel)="locationStreet"></ion-textarea>
+                </ion-item>
+                <ion-item>
+                    <ion-textarea autocomplete="true" spellcheck="true" placeholder="City" name="locationCity" (ngModel)="locationCity"></ion-textarea>
+                </ion-item>
+                <ion-item>
+                    <ion-textarea autocomplete="true" spellcheck="true" placeholder="State" name="locationState" (ngModel)="locationState"></ion-textarea>
+                </ion-item>
+                <ion-item style="width:100%; padding:none; height:100%;">
+                    <ion-textarea autocomplete="true" spellcheck="true" placeholder="About" name="about" (ngModel)="about"></ion-textarea>
+                </ion-item>
+                <!--<ion-item>
+                    <ion-input type='text' placeholder='Event Date/Time' name='date' [(ngModel)]="selectedDate" disabled></ion-input>
+                    <ion-buttons item-end>
+                        <button ion-button (click)="selectDateTime()"><ion-icon name="calendar"></ion-icon></button>
+                    </ion-buttons>
+                </ion-item>-->
+                <ion-item>
+                    <ion-label>Event Date</ion-label>
+                    <ion-datetime displayFormat="MMM DD, YYYY h:mm a" name="selectedDate" [(ngModel)]="selectedDate"></ion-datetime>
+                </ion-item>
+              </ion-list>
+            </div>
+            <button ion-button type="submit" style="font-family: 'Montserrat', sans-serif;font-size:125%;width:100%; height:60px; background:#2e1793;bottom:0;left:0;padding:none;color:white;z-index:3;"><b>Create</b></button>
+          </form>
+    </div>
+</ion-content>

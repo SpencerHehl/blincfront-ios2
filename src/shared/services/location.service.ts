@@ -16,7 +16,7 @@ export class LocationService {
     checkLocationEnabled(){
         return this.diagnostic.isLocationEnabled();
     }
-    
+
     checkLocationAuth(){
         return this.diagnostic.isLocationAuthorized();
     }
@@ -27,7 +27,7 @@ export class LocationService {
 
     startTracking(){
         let options = {
-            frequency: 3000,
+            maximumAge: 2000,
             enableHighAccuracy: true
         }
 

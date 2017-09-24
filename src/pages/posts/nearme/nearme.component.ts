@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController, NavParams, ModalController, AlertController, LoadingController } from 'ionic-angular';
 import { Camera, CameraOptions } from '@ionic-native/camera';
-import { Diagnostic } from '@ionic-native/diagnostic';
 
 import { PostService } from '../../../shared/services/post.service';
 import { PostFormModal } from '../../../shared/modals/posts/post-form.modal';
@@ -20,13 +19,29 @@ export class NearMePage{
     constructor(public navCtrl: NavController, public modalCtrl: ModalController, 
         private postService: PostService, public navParams: NavParams, 
         public alertCtrl: AlertController, private camera: Camera,
-        private loadingCtrl: LoadingController, private locService: LocationService,
-        private diagnostic: Diagnostic){
+        private loadingCtrl: LoadingController, private locService: LocationService){
         this.postFilter = 'date';
     }
 
     ionViewDidEnter(){
-        this.checkLocation();
+        this.presentLoader();
+        this.postService.getTopPost().subscribe(
+            response => {
+                this.topPost = response;
+            }
+        )
+        this.postService.getNearbyPostsDate().subscribe(
+            response => {
+                this.loading.dismiss().then(() => {
+                    this.nearbyPostsDate = response;
+                })
+            },
+            err => {
+                this.loading.dismiss().then(() => {
+                    this.failAlert(err);
+                })
+            }
+        );
     }
 
     presentLoader(){
@@ -38,7 +53,7 @@ export class NearMePage{
     }
 
     postText(){
-        let postModal = this.modalCtrl.create(PostFormModal, {postType: 'text'});
+        let postModal = this.modalCtrl.create(PostFormModal, {postType: 'text', isEventPost: false});
         postModal.present();
         postModal.onDidDismiss(response => {
             if(response){
@@ -54,12 +69,14 @@ export class NearMePage{
             sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
             destinationType: this.camera.DestinationType.DATA_URL,
             encodingType: this.camera.EncodingType.JPEG,
-            mediaType: this.camera.MediaType.PICTURE
+            mediaType: this.camera.MediaType.PICTURE,
+            correctOrientation: true,
+            allowEdit: true
         }
 
         this.camera.getPicture(options).then((imageData) => {
             let base64Image = 'data:image/jpeg;base64,' + imageData;
-            let postModal = this.modalCtrl.create(PostFormModal, {postType: 'photo', image: base64Image});
+            let postModal = this.modalCtrl.create(PostFormModal, {postType: 'photo', image: base64Image, isEventPost: false});
             postModal.present();
             postModal.onDidDismiss(response => {
                 if(response){
@@ -77,12 +94,13 @@ export class NearMePage{
             encodingType: this.camera.EncodingType.JPEG,
             mediaType: this.camera.MediaType.PICTURE,
             saveToPhotoAlbum: true,
-            correctOrientation: true
+            correctOrientation: true,
+            allowEdit: true
         }
 
         this.camera.getPicture(options).then((imageData) => {
             let base64Image = 'data:image/jpeg;base64,' + imageData;
-            let postModal = this.modalCtrl.create(PostFormModal, {postType: 'photo', image: base64Image});
+            let postModal = this.modalCtrl.create(PostFormModal, {postType: 'photo', image: base64Image, isEventPost: false});
             postModal.present();
             postModal.onDidDismiss(response => {
                 if(response){
@@ -111,7 +129,7 @@ export class NearMePage{
                 response => {
                     this.loading.dismiss().then(() => {
                         if(response.length > 0){
-                            Array.prototype.push.apply(this.nearbyPostsDate, response);
+                            Array.prototype.push.apply(this.nearbyPostsLikes, response);
                         }
                     })  
                 },
@@ -193,91 +211,12 @@ export class NearMePage{
         )
     }
 
-    checkLocation(){
-        this.locService.checkLocationEnabled().then((isAvailable) => {
-            if(isAvailable){
-                this.presentLoader();
-                this.locService.initializeLocation().then((resp) => {
-                    this.locService.lat = resp.coords.latitude;
-                    this.locService.lng = resp.coords.longitude;
-                    this.locService.startTracking();
-                    this.postService.getTopPost().subscribe(
-                        response => {
-                            this.topPost = response;
-                        }
-                    )
-                    this.postService.getNearbyPostsDate().subscribe(
-                        response => {
-                            this.loading.dismiss().then(() => {
-                                console.log(response);
-                                this.nearbyPostsDate = response;
-                            })
-                        },
-                        err => {
-                            this.loading.dismiss().then(() => {
-                                this.failAlert(err);
-                            })
-                        }
-                    );
-                }).catch((err) => {
-                    this.loading.dismiss().then(() => {
-                        this.locService.checkLocationAuth().then((isAuthorized) => {
-                            if(isAuthorized){
-                                this.failAlert("Oops! Looks like something went wrong and we can't seem to find your location.");
-                            }else{
-                                this.locationAuthFail();
-                            }
-                        });
-                    })
-                })
-            }else{
-                this.locationFail();
-            }
-        })
-    }
-
-    locationAuthFail(){
-        let alert = this.alertCtrl.create({
-            title: 'Location',
-            subTitle: 'This app must have access to your location to function. Press "OK" to enable and then swipe down to refresh when you return to the app.',
-            buttons: [
-                {
-                    text: 'OK',
-                    handler: () => {
-                        alert.dismiss().then(() => {
-                            this.diagnostic.switchToSettings();
-                        })
-                    }
-                }
-            ]
-        })
-        alert.present();
-    }
-
     failAlert(message){
         let alert = this.alertCtrl.create({
         title: 'Error',
         subTitle: message,
         buttons: ['OK']
         });
-        alert.present();
-    }
-
-    locationFail(){
-        let alert = this.alertCtrl.create({
-            title: 'Location',
-            subTitle: 'Location services must be enabled to use this app. Press "OK" to enable and then swipe down to refresh when you return to the app.',
-            buttons: [
-                {
-                    text: 'OK',
-                    handler: () => {
-                        alert.dismiss().then(() => {
-                            this.diagnostic.switchToLocationSettings();
-                        })
-                    }
-                }
-            ]
-        })
         alert.present();
     }
 }
