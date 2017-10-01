@@ -32,16 +32,14 @@
                 <ion-item style="width:100%; padding:none; height:100%;">
                     <ion-textarea autocomplete="true" spellcheck="true" placeholder="About" name="about" (ngModel)="about"></ion-textarea>
                 </ion-item>
-                <!--<ion-item>
-                    <ion-input type='text' placeholder='Event Date/Time' name='date' [(ngModel)]="selectedDate" disabled></ion-input>
-                    <ion-buttons item-end>
-                        <button ion-button (click)="selectDateTime()"><ion-icon name="calendar"></ion-icon></button>
-                    </ion-buttons>
-                </ion-item>-->
                 <ion-item>
-                    <ion-label>Event Date</ion-label>
-                    <ion-datetime displayFormat="MMM DD, YYYY h:mm a" name="selectedDate" [(ngModel)]="selectedDate"></ion-datetime>
-                </ion-item>
+                        <ion-label>Start Date</ion-label>
+                        <ion-datetime displayFormat="MMM DD, YYYY h:mm a" name="startDate" min="2017" max="2020-12-31" [(ngModel)]="startDate"></ion-datetime>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label>End Date</ion-label>
+                        <ion-datetime displayFormat="MMM DD, YYYY h:mm a" name="endDate" min="2017" max="2020-12-31" [(ngModel)]="endDate"></ion-datetime>
+                    </ion-item>
               </ion-list>
             </div>
             <button ion-button type="submit" style="font-family: 'Montserrat', sans-serif;font-size:125%;width:100%; height:60px; background:#2e1793;bottom:0;left:0;padding:none;color:white;z-index:3;"><b>Create</b></button>

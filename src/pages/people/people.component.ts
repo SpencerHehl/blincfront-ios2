@@ -17,6 +17,7 @@ export class PeoplePage{
     followRequests: any[];
     followPosts: any[];
     searchText: any;
+    loaded: boolean = false;
 
     constructor(private userService: UserService, private profileService: ProfileService,
          private alertCtrl: AlertController, private navCtrl: NavController,
@@ -34,6 +35,7 @@ export class PeoplePage{
         this.postService.getFollowPosts().subscribe(
             response => {
                 this.followPosts = response;
+                this.loaded = true;
             }
         )
         this.userService.getFollowRequests().subscribe(
@@ -95,6 +97,30 @@ export class PeoplePage{
                 }
             )
         }
+    }
+
+    reloadPosts(refresher){
+        this.postService.getFollowPosts().subscribe(
+            response => {
+                this.followPosts = response;
+                refresher.complete();
+            }
+        )
+        this.userService.getFollowRequests().subscribe(
+            response => {
+                this.followRequests = response;
+            }
+        )
+    }
+
+    loadMore(){
+        this.postService.loadMoreFollow().subscribe(
+            response => {
+                if(response.length > 0){
+                    Array.prototype.push.apply(this.followPosts, response);
+                }
+            }
+        )
     }
 
     failAlert(message){

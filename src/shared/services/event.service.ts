@@ -244,6 +244,38 @@ export class EventService{
             .catch(this.handleError);
     }
 
+    cancelEvent(eventId){
+        let token = this.authService.authToken;
+        let headers = new Headers({'Authorization': token});
+        let options = new RequestOptions({headers: headers});
+        let body = {
+            eventId: eventId
+        }
+        return this.http.put('http://www.blincapp.com/events/cancelEvent', body, options)
+            .map((resp) => {
+                return resp.json();
+            })
+            .catch(this.handleError);
+    }
+
+    editEvent(eventId, formValues, lat, lng){
+        let headers = new Headers({'Content-type': 'application/json'});
+        let token = this.authService.authToken;
+        headers.append('Authorization', token);
+        let options = new RequestOptions({headers: headers});
+        let body = {
+            event: formValues,
+            lat: lat,
+            lng: lng,
+            eventId: eventId
+        }
+        return this.http.put('http://www.blincapp.com/events/editEvent', body, options)
+            .map((resp) => {
+                return resp.json();
+            })
+            .catch(this.handleError);
+    }
+
     private handleError(error){
         return Observable.throw(error);
     }

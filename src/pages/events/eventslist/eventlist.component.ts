@@ -112,7 +112,7 @@ export class EventListPage{
         }
     }
 
-    reloadPosts(refresher){
+    reloadEvents(refresher){
         if(this.eventFilter == 'date'){
             this.eventService.getEventsDate().subscribe(
                 response => {

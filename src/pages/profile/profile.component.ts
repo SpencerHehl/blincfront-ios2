@@ -97,7 +97,7 @@ export class ProfilePage {
                     this.followText = "Followed";
                 }else{
                     this.followColor = 'light';
-                    this.followText = "Unfollowed";
+                    this.followText = "Follow";
                 }
             }
         )

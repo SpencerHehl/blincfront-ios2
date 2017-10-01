@@ -1,46 +1,53 @@
 <ion-header style="padding-top:5%">
     <ion-navbar style="padding-top:3%">
+            <ion-buttons end>
+                    <button ion-button (click)="more()" [hidden]="!isCreator" color="light"><ion-icon name="more"></ion-icon></button>
+                </ion-buttons>
     </ion-navbar>
 </ion-header>
 <ion-content style="background-color: #cbd3db" >
-    <ion-item no-lines>
-        <h2 style="font-weight:bold;font-size:large; text-align:center">{{event?.details?.eventTitle}} <ion-icon name="at" color="primary"></ion-icon> {{event?.details?.location.name}}</h2>
-        <h4 style="text-align:center">{{event?.details.eventDate | date: "MM/dd/yyyy h:mm a"}}</h4>
-        <ion-item>
-            <h2 style="font-weight:bold;">About:</h2>
-            <p style="font-weight:bold;">{{event?.details.eventBody}}</p>
-            <br /> 
-            <h2 style="font-weight:bold;">Address:</h2>
-            <p style="font-weight:bold;">{{event?.details.location.streetAddr}}, {{event?.details.location.city}} {{event?.details.location.state}}</p>
-            <ion-buttons item-end>
-                <button ion-button (click)="navigate()"><ion-icon name="navigate"></ion-icon></button>
-            </ion-buttons>                
+        <ion-item no-lines>
+            <h2 style="font-weight:bold;font-size:large; text-align:center">{{event?.details?.eventTitle}} <ion-icon name="at" color="primary"></ion-icon> {{event?.details?.location.name}}</h2>
+            <h4 style="text-align:center">{{event?.details.startDate | date: "MM/dd/yyyy h:mm a"}} - {{event?.details.endDate | date: "MM/dd/yyyy h:mm a"}}</h4>
+            <h1 style="text-align:center" [hidden]="event?.active">Cancelled</h1>
+            <ion-item>
+                <h2 style="font-weight:bold;">About:</h2>
+                <p style="font-weight:bold;">{{event?.details.eventBody}}</p>
+                <br /> 
+                <h2 style="font-weight:bold;">Address:</h2>
+                <p style="font-weight:bold;">{{event?.details.location.streetAddr}}, {{event?.details.location.city}} {{event?.details.location.state}}</p>
+                <ion-buttons item-end>
+                    <button ion-button (click)="navigate()"><ion-icon name="navigate"></ion-icon></button>
+                </ion-buttons>                
+            </ion-item>
+            <ion-row>
+                <ion-col style="text-align: center">
+                    <button ion-button (click)="viewAttendees()" color="dark" small clear>{{event?.rsvp.numAttending}} Attending</button>
+                </ion-col>
+                <ion-col style="text-align: center">
+                    <button ion-button [hidden]="isAttending" (click)="attendEvent()" color="dark" small clear>Attend</button>
+                </ion-col>
+                <ion-col style="text-align: center">
+                    <button ion-button [hidden]="isAttending" (click)="tentativeEvent()" color="dark" small clear>Tentative</button>
+                    <h3 [hidden]="!isAttending" style="padding-top:4%">You are {{eventStatus}} this event</h3>
+                </ion-col>
+            </ion-row>
         </ion-item>
-        <ion-row>
-            <ion-col style="text-align: center">
-                <button ion-button (click)="viewAttendees()" color="dark" small clear>{{event?.rsvp.numAttending}} Attending</button>
-            </ion-col>
-            <ion-col style="text-align: center">
-                <button ion-button [hidden]="isAttending" (click)="attendEvent()" color="dark" small clear>Attend</button>
-            </ion-col>
-            <ion-col style="text-align: center">
-                <button ion-button [hidden]="isAttending" (click)="tentativeEvent()" color="dark" small clear>Tentative</button>
-                <h3 [hidden]="!isAttending" style="padding-top:4%">You are {{eventStatus}} this event</h3>
-            </ion-col>
-        </ion-row>
-    </ion-item>
-    <div>
-        <ion-row *ngFor="let post of event?.eventPosts">
-            <post-card [Post]="post" (reportEmitter)="reportPost($event, i)" (deleteEmitter)="deletePost($event, i)"></post-card>
-            <button *ngIf="isViewable" ion-button block (click)="loadMore()">Load more posts</button>            
-        </ion-row>
-    </div>
-    <ion-fab right bottom>
-        <button ion-fab><ion-icon name="add"></ion-icon></button>
-        <ion-fab-list side="top">
-            <button ion-fab (click)="postText()"><ion-icon name="text"></ion-icon></button>
-            <button ion-fab (click)="postPhoto()"><ion-icon name="camera"></ion-icon></button>
-            <button ion-fab (click)="postSavedPhoto()"><ion-icon name="image"></ion-icon></button>
-        </ion-fab-list>
-    </ion-fab>
-</ion-content>
+        <div>
+            <ion-row *ngFor="let post of event?.eventPosts">
+                <post-card [Post]="post" (reportEmitter)="reportPost($event, i)" (deleteEmitter)="deletePost($event, i)"></post-card>
+                <button *ngIf="isViewable" ion-button block (click)="loadMore()">Load more posts</button>            
+            </ion-row>
+        </div>
+        <!--<ion-fab left bottom>
+            <button ion-fab (click)="share()"><ion-icon name="share"></ion-icon></button>
+        </ion-fab>-->
+        <ion-fab right bottom>
+            <button ion-fab><ion-icon name="add"></ion-icon></button>
+            <ion-fab-list side="top">
+                <button ion-fab (click)="postText()"><ion-icon name="text"></ion-icon></button>
+                <button ion-fab (click)="postPhoto()"><ion-icon name="camera"></ion-icon></button>
+                <button ion-fab (click)="postSavedPhoto()"><ion-icon name="image"></ion-icon></button>
+            </ion-fab-list>
+        </ion-fab>
+    </ion-content>

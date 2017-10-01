@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { NavController, NavParams, ActionSheetController, AlertController, ModalController } from 'ionic-angular';
+import { NavController, NavParams, ActionSheetController, AlertController, ModalController, ToastController } from 'ionic-angular';
+import { SocialSharing } from '@ionic-native/social-sharing'; 
 
 import { PostService } from '../../services/post.service';
 import { CommentPage } from '../../../pages/comments/comment.component';
@@ -22,7 +23,8 @@ export class PostCardComponent {
     constructor(private postService: PostService, private navCtrl: NavController,
          private navParams: NavParams, private mediaService: MediaService,
          private authService: AuthService, private actionSheetCtrl: ActionSheetController,
-         private alertCtrl: AlertController, private modalCtrl: ModalController){}
+         private alertCtrl: AlertController, private modalCtrl: ModalController,
+         private toastCtrl: ToastController){}
 
     ngOnInit(){
         if(this.Post.likedByUser){
@@ -177,6 +179,23 @@ export class PostCardComponent {
             }
         )
         
+    }
+
+    share(){
+        let message = this.Post.content.body;
+        let subject = this.Post.content.title + " @ " + this.Post.content.location;
+        let file = this.Post.content.img;
+        this.socialSharing.share(message, subject, file, null).then(() => {
+            this.presentToast("Success");
+        })
+    }
+
+    presentToast(message){
+        let toast = this.toastCtrl.create({
+            message: message,
+            duration: 2000
+        });
+        toast.present();
     }
 
     viewLikes(){
