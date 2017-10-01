@@ -104,4 +104,5 @@
     <plugin name="uk.co.workingedge.phonegap.plugin.launchnavigator" spec="~4.0.5" />
     <plugin name="cordova-plugin-calendar" spec="~4.6.0" />
     <plugin name="cordova.plugins.diagnostic" spec="^3.6.7" />
+    <plugin name="cordova-plugin-x-socialsharing" spec="^5.2.0" />
 </widget>

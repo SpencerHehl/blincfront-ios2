@@ -43,6 +43,7 @@ import { Camera } from '@ionic-native/camera';
 import { Diagnostic } from '@ionic-native/diagnostic';
 import { Calendar } from '@ionic-native/calendar';
 import { LaunchNavigator } from '@ionic-native/launch-navigator';
+import { SocialSharing } from '@ionic-native/social-sharing';
 
 import { PostService } from '../shared/services/post.service';
 import { AuthService } from '../shared/services/auth.service';
@@ -153,6 +154,7 @@ const cloudSettings: CloudSettings = {
     Diagnostic,
     Calendar,
     LaunchNavigator,
+    SocialSharing,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
