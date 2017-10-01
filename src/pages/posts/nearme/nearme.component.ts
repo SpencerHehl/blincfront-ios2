@@ -25,11 +25,13 @@ export class NearMePage{
 
     ionViewDidEnter(){
         this.presentLoader();
-        this.postService.getTopPost().subscribe(
-            response => {
-                this.topPost = response;
-            }
-        )
+        if(this.topPost){
+            this.postService.getTopPost().subscribe(
+                response => {
+                    this.topPost = response;
+                }
+            )
+        }
         this.postService.getNearbyPostsDate().subscribe(
             response => {
                 this.loading.dismiss().then(() => {

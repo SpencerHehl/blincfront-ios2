@@ -24,7 +24,7 @@ export class PostCardComponent {
          private navParams: NavParams, private mediaService: MediaService,
          private authService: AuthService, private actionSheetCtrl: ActionSheetController,
          private alertCtrl: AlertController, private modalCtrl: ModalController,
-         private toastCtrl: ToastController){}
+         private toastCtrl: ToastController, private socialSharing: SocialSharing){}
 
     ngOnInit(){
         if(this.Post.likedByUser){

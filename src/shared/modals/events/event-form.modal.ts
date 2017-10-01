@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AlertController, ViewController } from 'ionic-angular';
+import { AlertController, ViewController, NavParams } from 'ionic-angular';
 import { Calendar } from '@ionic-native/calendar';
 
 import { AuthService } from '../../services/auth.service';
@@ -25,7 +25,7 @@ export class EventFormModal{
     submitText: string = "Create";
     
     constructor(private authService: AuthService, private eventService: EventService,
-         private datePicker: DatePicker, private calendar: Calendar, private navParams: NavParams,
+         private calendar: Calendar, private navParams: NavParams,
          private alertCtrl: AlertController, private viewCtrl: ViewController){
             this.isEdit = this.navParams.get('isEdit');
             if(this.isEdit){
@@ -43,17 +43,6 @@ export class EventFormModal{
                 this.eventId = this.event._id;
             }
         }
-
-    selectDateTime(){
-        this.datePicker.show({
-            date: new Date(),
-            mode: 'datetime',
-            titleText: 'Event Date'
-        }).then(
-            date => this.selectedDate,
-            err => this.failAlert(err)
-        )
-    }
 
     createEvent(formValues){
         this.eventService.geoCode(formValues.locationStreet, formValues.locationCity, formValues.locationState).subscribe(
