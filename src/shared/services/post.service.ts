@@ -279,6 +279,18 @@ export class PostService{
             .catch(this.handleError);
     }
 
+    loadMoreFollow(){
+        let token = this.authService.authToken;
+        let headers = new Headers({'Authorization': token});
+        let options = new RequestOptions({headers: headers});
+        return this.http.get('http://www.blincapp.com/post/followposts?page=' + this.followPage, options)
+            .map((resp) => {
+                this.followPage += 1;                
+                return resp.json();
+            })
+            .catch(this.handleError);
+    }
+
     private handleError(error){
         return Observable.throw(error);
     }
