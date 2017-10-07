@@ -14,7 +14,7 @@ export class NearMePage{
     nearbyPostsLikes: any[];
     postFilter: string;
     loading: any;
-    topPost: any;
+    topPost: any = null;
 
     constructor(public navCtrl: NavController, public modalCtrl: ModalController, 
         private postService: PostService, public navParams: NavParams, 
@@ -25,7 +25,7 @@ export class NearMePage{
 
     ionViewDidEnter(){
         this.presentLoader();
-        if(this.topPost){
+        if(!this.topPost){
             this.postService.getTopPost().subscribe(
                 response => {
                     this.topPost = response;
@@ -67,7 +67,7 @@ export class NearMePage{
 
     postSavedPhoto(){
         const options: CameraOptions = {
-            quality: 50,
+            quality: 25,
             sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
             destinationType: this.camera.DestinationType.DATA_URL,
             encodingType: this.camera.EncodingType.JPEG,
@@ -91,7 +91,7 @@ export class NearMePage{
 
     postPhoto(){
         const options: CameraOptions = {
-            quality: 50,
+            quality: 25,
             destinationType: this.camera.DestinationType.DATA_URL,
             encodingType: this.camera.EncodingType.JPEG,
             mediaType: this.camera.MediaType.PICTURE,
@@ -155,11 +155,6 @@ export class NearMePage{
     }
 
     reloadPosts(refresher){
-        this.postService.getTopPost().subscribe(
-            response => {
-                this.topPost = response;
-            }
-        )
         if(this.postFilter == 'date'){
             this.postService.getNearbyPostsDate().subscribe(
                 response => {

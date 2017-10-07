@@ -56,7 +56,7 @@ export class EventPage{
 
     postSavedPhoto(){
         const options: CameraOptions = {
-            quality: 50,
+            quality: 25,
             sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
             destinationType: this.camera.DestinationType.DATA_URL,
             encodingType: this.camera.EncodingType.JPEG,
@@ -79,7 +79,7 @@ export class EventPage{
 
     postPhoto(){
         const options: CameraOptions = {
-            quality: 50,
+            quality: 25,
             destinationType: this.camera.DestinationType.DATA_URL,
             encodingType: this.camera.EncodingType.JPEG,
             mediaType: this.camera.MediaType.PICTURE,

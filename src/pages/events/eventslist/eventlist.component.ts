@@ -19,14 +19,14 @@ export class EventListPage{
          private navCtrl: NavController, private navParams: NavParams,
          private alertCtrl: AlertController, private loadingCtrl: LoadingController,
          private modalCtrl: ModalController){
-        this.eventFilter = 'mine';
+        this.eventFilter = 'date';
     }
 
     ionViewDidEnter(){
-        this.eventService.getMyEvents().subscribe(
+        this.eventService.getEventsDate().subscribe(
             response => {
                 console.log(response.events);
-                this.nearbyEventsMine = response.events;
+                this.nearbyEventsDate = response.events;
             },
             err => this.failAlert(err)
         )

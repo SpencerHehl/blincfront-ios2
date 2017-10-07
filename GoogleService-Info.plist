@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AD_UNIT_ID_FOR_BANNER_TEST</key>
+	<string>ca-app-pub-3940256099942544/2934735716</string>
+	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
+	<string>ca-app-pub-3940256099942544/4411468910</string>
+	<key>CLIENT_ID</key>
+	<string>819051050180-ii4snflfa1p408bvk8ke78hmhvods2ld.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.819051050180-ii4snflfa1p408bvk8ke78hmhvods2ld</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>819051050180-3koejdmko0ds33f6uu2s0p7cd7rlmf3k.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDbr6fN8u42uvwazjrxo8n4gWG6v6BVs2M</string>
+	<key>GCM_SENDER_ID</key>
+	<string>819051050180</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.blincapp1</string>
+	<key>PROJECT_ID</key>
+	<string>geobloc-173900</string>
+	<key>STORAGE_BUCKET</key>
+	<string>geobloc-173900.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<true></true>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:819051050180:ios:929ccd3ee5e53196</string>
+	<key>DATABASE_URL</key>
+	<string>https://geobloc-173900.firebaseio.com</string>
+</dict>
+</plist>
