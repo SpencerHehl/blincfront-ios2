@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, RequestOptions, Headers } from '@angular/http';
+import { Firebase } from '@ionic-native/firebase';
 import { Observable } from 'rxjs/Rx';
 
 import { AuthService } from './auth.service';
@@ -9,8 +10,27 @@ export class NotificationService {
     page: number;
     myNotifications: any;
 
-    constructor(private http: Http, private authService: AuthService){
+    constructor(private http: Http, private authService: AuthService, private firebase: Firebase){
         this.page = 0;
+    }
+
+    setToken(){
+        let token = this.authService.authToken;
+        let headers = new Headers({'Authorization': token});
+        headers.append('Content-type', 'application/json');
+        let options = new RequestOptions({headers: headers});        
+        console.log("getting token");
+        this.firebase.getToken().then((deviceToken) => {
+            let body = {
+                deviceToken: deviceToken
+            }
+            console.log(deviceToken);
+            this.http.put('http://www.blincapp.com/notifications/settoken', body, options)
+                .map(() => {})
+                .subscribe(
+                    resp => {console.log("complete")}
+                )     
+        })
     }
 
     getUnreadNotifications(){

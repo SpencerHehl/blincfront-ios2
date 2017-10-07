@@ -128,13 +128,15 @@ export class ProfilePage {
 
     postSavedPhoto(){
         const options: CameraOptions = {
-            quality: 50,
+            quality: 20,
             sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
             destinationType: this.camera.DestinationType.DATA_URL,
             encodingType: this.camera.EncodingType.JPEG,
             mediaType: this.camera.MediaType.PICTURE,
-            allowEdit: true,
-            correctOrientation: true
+            targetHeight: 600,
+            targetWidth: 600,
+            correctOrientation: true,
+            allowEdit: true
         }
 
         this.camera.getPicture(options).then((imageData) => {
@@ -151,10 +153,12 @@ export class ProfilePage {
 
     postPhoto(){
         const options: CameraOptions = {
-            quality: 50,
+            quality: 20,
             destinationType: this.camera.DestinationType.DATA_URL,
             encodingType: this.camera.EncodingType.JPEG,
             mediaType: this.camera.MediaType.PICTURE,
+            targetHeight: 600,
+            targetWidth: 600,
             saveToPhotoAlbum: true,
             correctOrientation: true,
             allowEdit: true
