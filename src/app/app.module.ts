@@ -44,6 +44,7 @@ import { Diagnostic } from '@ionic-native/diagnostic';
 import { Calendar } from '@ionic-native/calendar';
 import { LaunchNavigator } from '@ionic-native/launch-navigator';
 import { SocialSharing } from '@ionic-native/social-sharing';
+import { Firebase } from '@ionic-native/firebase';
 
 import { PostService } from '../shared/services/post.service';
 import { AuthService } from '../shared/services/auth.service';
@@ -155,6 +156,7 @@ const cloudSettings: CloudSettings = {
     Calendar,
     LaunchNavigator,
     SocialSharing,
+    Firebase,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

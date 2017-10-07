@@ -6,6 +6,7 @@ import { Diagnostic } from '@ionic-native/diagnostic';
 import { AuthService } from '../../shared/services/auth.service';
 import { PostService } from '../../shared/services/post.service';
 import { LocationService } from '../../shared/services/location.service';
+import { NotificationService } from '../../shared/services/notifications.service';
 import { TabsPage } from '../tabs/tabs';
 
 @Component({
@@ -19,7 +20,7 @@ export class LoginPage {
         private facebookAuth: FacebookAuth, private googleAuth: GoogleAuth,
         private loadingCtrl: LoadingController, private postService: PostService,
         private locService: LocationService, private diagnostic: Diagnostic,
-        private platform: Platform){}
+        private platform: Platform, private notificationService: NotificationService){}
 
     ionViewWillLoad(){
         this.checkLocation();
@@ -70,6 +71,7 @@ export class LoginPage {
                 this.authService.currentUser = this.user.social.facebook.data;
                 this.authService.login().subscribe(
                     response => {
+                        this.notificationService.setToken();
                         this.navController.setRoot(TabsPage);
                     },
                     err => {
@@ -81,6 +83,7 @@ export class LoginPage {
                 this.authService.currentUser = this.user.social.google.data;
                 this.authService.login().subscribe(
                     response => {
+                        this.notificationService.setToken();
                         this.navController.setRoot(TabsPage);
                     },
                     err => {
@@ -116,6 +119,7 @@ export class LoginPage {
                 this.authService.newUser(this.user.social.facebook.data).subscribe(
                     response => {
                         this.loading.dismiss().then(() => {
+                            this.notificationService.setToken();
                             this.navController.setRoot(TabsPage); 
                         })
                     },
@@ -130,6 +134,7 @@ export class LoginPage {
                 this.authService.login().subscribe(
                     response => {
                         this.loading.dismiss().then(() => {
+                            this.notificationService.setToken();
                             this.navController.setRoot(TabsPage);
                         })
                     },
@@ -162,6 +167,7 @@ export class LoginPage {
                 this.authService.newUser(this.user.social.google.data).subscribe(
                     response => {
                         this.loading.dismiss().then(() => {
+                            this.notificationService.setToken();
                             this.navController.setRoot(TabsPage);
                         })
                     },
@@ -175,6 +181,7 @@ export class LoginPage {
                 this.authService.login().subscribe(
                     response => {
                         this.loading.dismiss().then(() => {
+                            this.notificationService.setToken();
                             this.navController.setRoot(TabsPage);
                         })
                     },
