@@ -24,6 +24,7 @@
         "@ionic-native/camera": "^4.1.0",
         "@ionic-native/core": "3.12.1",
         "@ionic-native/diagnostic": "^4.2.1",
+        "@ionic-native/firebase": "^4.3.1",
         "@ionic-native/geolocation": "^4.0.0",
         "@ionic-native/launch-navigator": "^4.2.1",
         "@ionic-native/native-storage": "^4.1.0",
@@ -40,6 +41,7 @@
         "cordova-plugin-console": "^1.0.7",
         "cordova-plugin-device": "^1.1.6",
         "cordova-plugin-facebook4": "^1.9.1",
+        "cordova-plugin-firebase": "^0.1.24",
         "cordova-plugin-geolocation": "^2.4.3",
         "cordova-plugin-googleplus": "^5.1.1",
         "cordova-plugin-nativestorage": "^2.2.2",
@@ -94,7 +96,8 @@
             "uk.co.workingedge.phonegap.plugin.launchnavigator": {},
             "cordova-plugin-calendar": {},
             "cordova.plugins.diagnostic": {},
-            "cordova-plugin-x-socialsharing": {}
+            "cordova-plugin-x-socialsharing": {},
+            "cordova-plugin-firebase": {}
         },
         "platforms": [
             "ios"
