@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController, NavParams, ModalController, AlertController, LoadingController } from 'ionic-angular';
+import { NavController, NavParams, ModalController, AlertController, LoadingController, Events } from 'ionic-angular';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 
 import { PostService } from '../../../shared/services/post.service';
@@ -19,8 +19,30 @@ export class NearMePage{
     constructor(public navCtrl: NavController, public modalCtrl: ModalController, 
         private postService: PostService, public navParams: NavParams, 
         public alertCtrl: AlertController, private camera: Camera,
-        private loadingCtrl: LoadingController, private locService: LocationService){
-        this.postFilter = 'date';
+        private loadingCtrl: LoadingController, private locService: LocationService, public events: Events){
+            this.postFilter = 'date';
+            events.subscribe('location:updated', () => {
+                this.presentLoader();
+                if(this.postFilter == 'date'){
+                    this.postService.getNearbyPostsDate().subscribe(
+                        response => {
+                            this.loading.dismiss().then(() => {
+                                this.nearbyPostsDate = response;
+                            });
+                        },
+                        err => this.failAlert(err)
+                    )
+                }else{
+                    this.postService.getNearbyPostsLikes().subscribe(
+                        response => {
+                            this.loading.dismiss().then(() => {
+                                this.nearbyPostsLikes = response;
+                            });
+                        },
+                        err => this.failAlert(err)
+                    )
+                }
+            })
     }
 
     ionViewDidEnter(){
@@ -67,15 +89,11 @@ export class NearMePage{
 
     postSavedPhoto(){
         const options: CameraOptions = {
-            quality: 20,
             sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
             destinationType: this.camera.DestinationType.DATA_URL,
-            encodingType: this.camera.EncodingType.JPEG,
             mediaType: this.camera.MediaType.PICTURE,
-            targetHeight: 600,
-            targetWidth: 600,
-            correctOrientation: true,
-            allowEdit: true
+            targetHeight: 1000,
+            targetWidth: 1000
         }
 
         this.camera.getPicture(options).then((imageData) => {
@@ -93,15 +111,10 @@ export class NearMePage{
 
     postPhoto(){
         const options: CameraOptions = {
-            quality: 20,
             destinationType: this.camera.DestinationType.DATA_URL,
-            encodingType: this.camera.EncodingType.JPEG,
             mediaType: this.camera.MediaType.PICTURE,
-            targetHeight: 600,
-            targetWidth: 600,
-            saveToPhotoAlbum: true,
-            correctOrientation: true,
-            allowEdit: true
+            targetHeight: 1000,
+            targetWidth: 1000
         }
 
         this.camera.getPicture(options).then((imageData) => {

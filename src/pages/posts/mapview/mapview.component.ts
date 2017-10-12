@@ -39,8 +39,8 @@ export class MapViewPage{
 
     centerLocation(){
         this.myLocation = {
-            lat: this.locService.lat,
-            lng: this.locService.lng
+            lat: this.locService.viewlat,
+            lng: this.locService.viewlng
         };
         this.initMap(this.myLocation, 15);
         /*this.postService.getMyLocation().subscribe(

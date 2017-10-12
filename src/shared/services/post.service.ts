@@ -48,7 +48,7 @@ export class PostService{
         let token = this.authService.authToken;
         let headers = new Headers({'Authorization': token});
         let options = new RequestOptions({headers: headers});
-        return this.http.get('http://www.blincapp.com/post/nearme/date?lat=' + this.locService.lat + '&lng=' + this.locService.lng + '&page=0', options)
+        return this.http.get('http://www.blincapp.com/post/nearme/date?lat=' + this.locService.viewlat + '&lng=' + this.locService.viewlng + '&page=0', options)
             .map((resp) => {
                 return resp.json();
             }).catch(this.handleError);
@@ -76,7 +76,7 @@ export class PostService{
         let token = this.authService.authToken;
         let headers = new Headers({'Authorization': token});
         let options = new RequestOptions({headers: headers});
-        return this.http.get('http://www.blincapp.com/post/nearme/likes?lat=' + this.locService.lat + '&lng=' + this.locService.lng + '&page=0', options)
+        return this.http.get('http://www.blincapp.com/post/nearme/likes?lat=' + this.locService.viewlat + '&lng=' + this.locService.viewlng + '&page=0', options)
             .map((resp) => {
                 return resp.json();
             })
@@ -116,7 +116,7 @@ export class PostService{
         let token = this.authService.authToken;
         let headers = new Headers({'Authorization': token});
         let options = new RequestOptions({headers: headers});
-        return this.http.get('http://www.blincapp.com/post/nearme/date?lat=' + this.locService.lat + '&lng=' + this.locService.lng + '&page=' + this.datePage, options)
+        return this.http.get('http://www.blincapp.com/post/nearme/date?lat=' + this.locService.viewlat + '&lng=' + this.locService.viewlng + '&page=' + this.datePage, options)
             .map((resp) => {
                 this.datePage += 1;
                 return resp.json();
@@ -128,7 +128,7 @@ export class PostService{
         let token = this.authService.authToken;
         let headers = new Headers({'Authorization': token});
         let options = new RequestOptions({headers: headers});
-        return this.http.get('http://www.blincapp.com/post/nearme/likes?lat=' + this.locService.lat + '&lng=' + this.locService.lng + '&page=' + this.likesPage, options)
+        return this.http.get('http://www.blincapp.com/post/nearme/likes?lat=' + this.locService.viewlat + '&lng=' + this.locService.viewlng + '&page=' + this.likesPage, options)
             .map((resp) => {
                 this.likesPage += 1;
                 return resp.json();
@@ -172,8 +172,8 @@ export class PostService{
         headers.append('Authorization', token);
         let options = new RequestOptions({headers: headers});
         post["geolocation"] = {
-            lat: this.locService.lat,
-            lng: this.locService.lng
+            lat: this.locService.postlat,
+            lng: this.locService.postlng
         };
         return this.http.post('http://www.blincapp.com/post/text/', post, options).map((response: Response) => {
             return response.json();
@@ -186,8 +186,8 @@ export class PostService{
         headers.append('Authorization', token);
         let options = new RequestOptions({headers: headers});
         post["geolocation"] = {
-            lat: this.locService.lat,
-            lng: this.locService.lng
+            lat: this.locService.postlat,
+            lng: this.locService.postlng
         };
         post["imageData"] = image;
         console.log(image);

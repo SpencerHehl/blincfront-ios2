@@ -42,7 +42,7 @@ export class EventService{
         let token = this.authService.authToken;
         let headers = new Headers({'Authorization': token});
         let options = new RequestOptions({headers: headers});
-        return this.http.get('http://www.blincapp.com/events/nearme/mine?page=' + this.minePage + '&lat=' + this.locService.lat + '&lng=' + this.locService.lng, options)
+        return this.http.get('http://www.blincapp.com/events/nearme/mine?page=' + this.minePage + '&lat=' + this.locService.viewlat + '&lng=' + this.locService.viewlng, options)
             .map((resp) => {
                 this.minePage += 1;
                 return resp.json();
@@ -54,7 +54,7 @@ export class EventService{
         let token = this.authService.authToken;
         let headers = new Headers({'Authorization': token});
         let options = new RequestOptions({headers: headers});
-        return this.http.get('http://www.blincapp.com/events/nearme/date?page=' + this.datePage + '&lat=' + this.locService.lat + '&lng=' + this.locService.lng, options)
+        return this.http.get('http://www.blincapp.com/events/nearme/date?page=' + this.datePage + '&lat=' + this.locService.viewlat + '&lng=' + this.locService.viewlng, options)
             .map((resp) => {
                 this.datePage += 1
                 return resp.json();
@@ -66,7 +66,7 @@ export class EventService{
         let token = this.authService.authToken;
         let headers = new Headers({'Authorization': token});
         let options = new RequestOptions({headers: headers});
-        return this.http.get('http://www.blincapp.com:8082/events/nearme/attending?page=' + this.likesPage + '&lat=' + this.locService.lat + '&lng=' + this.locService.lng, options)
+        return this.http.get('http://www.blincapp.com:8082/events/nearme/attending?page=' + this.likesPage + '&lat=' + this.locService.viewlat + '&lng=' + this.locService.viewlng, options)
             .map((resp) => {
                 this.likesPage += 1;
                 return resp.json();
@@ -78,7 +78,7 @@ export class EventService{
         let token = this.authService.authToken;
         let headers = new Headers({'Authorization': token});
         let options = new RequestOptions({headers: headers});
-        return this.http.get('http://www.blincapp.com/events/nearme/mine?page=0' + '&lat=' + this.locService.lat + '&lng=' + this.locService.lng, options)
+        return this.http.get('http://www.blincapp.com/events/nearme/mine?page=0' + '&lat=' + this.locService.viewlat + '&lng=' + this.locService.viewlng, options)
             .map((resp) => {
                 return resp.json();
             })
@@ -89,7 +89,7 @@ export class EventService{
         let token = this.authService.authToken;
         let headers = new Headers({'Authorization': token});
         let options = new RequestOptions({headers: headers});
-        return this.http.get('http://www.blincapp.com/events/nearme/date?page=0' + '&lat=' + this.locService.lat + '&lng=' + this.locService.lng, options)
+        return this.http.get('http://www.blincapp.com/events/nearme/date?page=0' + '&lat=' + this.locService.viewlat + '&lng=' + this.locService.viewlng, options)
             .map((resp) => {
                 return resp.json();
             })
@@ -100,7 +100,7 @@ export class EventService{
         let token = this.authService.authToken;
         let headers = new Headers({'Authorization': token});
         let options = new RequestOptions({headers: headers});
-        return this.http.get('http://www.blincapp.com/events/nearme/attending?page=0' + '&lat=' + this.locService.lat + '&lng=' + this.locService.lng, options)
+        return this.http.get('http://www.blincapp.com/events/nearme/attending?page=0' + '&lat=' + this.locService.viewlat + '&lng=' + this.locService.viewlng, options)
             .map((resp) => {
                 return resp.json();
             })

@@ -10,7 +10,7 @@
         <comment-card [Comment]="comment" (reportEmitter)="reportComment($event, i)" (deleteEmitter)="deleteComment($event, i)"></comment-card>
     </ion-row>
     <ion-fab right bottom>
-        <button ion-fab color="warning"><ion-icon name="add"></ion-icon></button>
+        <button ion-fab><ion-icon name="add"></ion-icon></button>
         <ion-fab-list side="top">
           <button ion-fab (click)="postText()"><ion-icon name="text"></ion-icon></button>
           <button ion-fab (click)="postPhoto()"><ion-icon name="camera"></ion-icon></button>

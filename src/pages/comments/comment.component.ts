@@ -77,15 +77,11 @@ export class CommentPage {
 
     postSavedPhoto(){
         const options: CameraOptions = {
-            quality: 20,
             sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
             destinationType: this.camera.DestinationType.DATA_URL,
-            encodingType: this.camera.EncodingType.JPEG,
             mediaType: this.camera.MediaType.PICTURE,
-            targetHeight: 600,
-            targetWidth: 600,
-            correctOrientation: true,
-            allowEdit: true
+            targetHeight: 1000,
+            targetWidth: 1000
         }
 
         this.camera.getPicture(options).then((imageData) => {
@@ -102,15 +98,10 @@ export class CommentPage {
 
     postPhoto(){
         const options: CameraOptions = {
-            quality: 20,
             destinationType: this.camera.DestinationType.DATA_URL,
-            encodingType: this.camera.EncodingType.JPEG,
             mediaType: this.camera.MediaType.PICTURE,
-            targetHeight: 600,
-            targetWidth: 600,
-            saveToPhotoAlbum: true,
-            correctOrientation: true,
-            allowEdit: true
+            targetHeight: 1000,
+            targetWidth: 1000
         }
 
         this.camera.getPicture(options).then((imageData) => {

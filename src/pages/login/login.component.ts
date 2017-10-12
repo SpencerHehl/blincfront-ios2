@@ -32,8 +32,10 @@ export class LoginPage {
             this.locService.checkLocationEnabled().then((isAvailable) => {
                 if(isAvailable){
                     this.locService.initializeLocation().then((resp) => {
-                        this.locService.lat = resp.coords.latitude;
-                        this.locService.lng = resp.coords.longitude;
+                        this.locService.viewlat = resp.coords.latitude;
+                        this.locService.viewlng = resp.coords.longitude;
+                        this.locService.postlat = resp.coords.latitude;
+                        this.locService.postlng = resp.coords.longitude;
                         this.locService.startTracking();
                         this.loading.dismiss().then(() => {
                             this.tokenLogin();                        

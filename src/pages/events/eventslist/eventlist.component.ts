@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ModalController, AlertController, LoadingController } from 'ionic-angular';
+import { NavController, NavParams, ModalController, AlertController, LoadingController, Events } from 'ionic-angular';
 
 import { AuthService } from '../../../shared/services/auth.service';
 import { EventService } from '../../../shared/services/event.service';
@@ -18,8 +18,30 @@ export class EventListPage{
     constructor(private authService: AuthService, private eventService: EventService,
          private navCtrl: NavController, private navParams: NavParams,
          private alertCtrl: AlertController, private loadingCtrl: LoadingController,
-         private modalCtrl: ModalController){
-        this.eventFilter = 'date';
+         private modalCtrl: ModalController, public events: Events){
+            this.eventFilter = 'date';
+            events.subscribe('location:updated', () => {
+                this.presentLoader();
+                if(this.eventFilter == 'date'){
+                    this.eventService.getEventsDate().subscribe(
+                        response => {
+                            this.loading.dismiss().then(() => {
+                                this.nearbyEventsDate = response;
+                            });
+                        },
+                        err => this.failAlert(err)
+                    )
+                }else if(this.eventFilter == 'attending'){
+                    this.eventService.getEventsAttending().subscribe(
+                        response => {
+                            this.loading.dismiss().then(() => {
+                                this.nearbyEventsAttending = response;
+                            })
+                        },
+                        err => this.failAlert(err)
+                    )
+                }
+            })
     }
 
     ionViewDidEnter(){
