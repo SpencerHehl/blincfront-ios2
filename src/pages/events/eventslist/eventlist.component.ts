@@ -131,6 +131,13 @@ export class EventListPage{
                 },
                 err => this.failAlert(err)
             )
+        }else if((!this.nearbyEventsMine) && this.eventFilter == 'mine'){
+            this.eventService.getMyEvents().subscribe(
+                response => {
+                    this.nearbyEventsMine = response;
+                },
+                err => this.failAlert(err)
+            )
         }
     }
 

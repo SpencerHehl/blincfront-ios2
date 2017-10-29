@@ -12,6 +12,10 @@ import { NotificationListPage } from '../notifications/listview/list.notificatio
 import { LoginPage } from '../login/login.component';
 import { SettingsPage } from '../profile/settings/settings.component';
 import { UserService } from '../../shared/services/user.service';
+import { PostPage } from '../posts/single/post.component';
+import { ChatService } from '../../shared/services/chat.service';
+import { ChatListPage } from './chatlist/chatlist.component';
+import { PrivateChatPage } from './privatechat/privatechat.component';
 
 @Component({
   templateUrl: 'profile.component.html'
@@ -25,14 +29,16 @@ export class ProfilePage {
   passedUser: any;
   isViewable: boolean = true;
   hasRequested: boolean;
+  unreadMessages: any[];
 
   constructor(public navCtrl: NavController, private authService: AuthService,
     private profileService: ProfileService, public alertCtrl: AlertController,
     private postService: PostService, public modalCtrl: ModalController,
     private camera: Camera, private navParams: NavParams, private userService: UserService,
-    private notifcationService: NotificationService, private actionSheetCtrl: ActionSheetController) {}
+    private notifcationService: NotificationService, private actionSheetCtrl: ActionSheetController,
+    private chatService: ChatService) {}
 
-    ionViewDidEnter(){
+    ionViewDidLoad(){
         if(!this.passedUser){
             if(this.navParams.get('user')){
                 this.passedUser = this.navParams.get('user');
@@ -57,9 +63,7 @@ export class ProfilePage {
                             this.isViewable = false;
                             this.profileService.getFollowReq(this.user._id).subscribe(
                                 response => {
-                                    console.log(response);
                                     this.hasRequested = response.hasRequested;
-                                    console.log(this.hasRequested);
                                 }
                             )
                         }
@@ -67,7 +71,7 @@ export class ProfilePage {
                         this.isViewable = true;
                     }
                     if(this.user.followed){
-                        this.followColor = 'warning';
+                        this.followColor = 'primary';
                         this.followText = "Followed";
                     }else{
                         this.followColor = 'light';
@@ -75,13 +79,6 @@ export class ProfilePage {
                     }
                 }
                 
-            },
-            err => this.failAlert(err)
-        )
-        this.notifcationService.getUnreadNotifications().subscribe(
-            response => {
-                console.log(response);
-                this.notifications = response;
             },
             err => this.failAlert(err)
         )
@@ -93,7 +90,7 @@ export class ProfilePage {
                 this.user.followList = response.followList;
                 this.user.followed = response.followed;
                 if(this.user.followed){
-                    this.followColor = 'warning';
+                    this.followColor = 'primary';
                     this.followText = "Followed";
                 }else{
                     this.followColor = 'light';
@@ -103,14 +100,29 @@ export class ProfilePage {
         )
     }
 
-    loadMore(){
-        this.profileService.getProfilePosts(this.user._id).subscribe(
+    ionViewDidEnter(){
+        this.notifcationService.getUnreadNotifications().subscribe(
             response => {
                 console.log(response);
+                this.notifications = response;
+            },
+            err => this.failAlert(err)
+        )
+        this.chatService.getUnreadMessages().subscribe(
+            resp => {
+                this.unreadMessages = resp;
+            },
+            err => this.failAlert(err)
+        )
+    }
+
+    loadMore(infiniteScroll){
+        this.profileService.getProfilePosts(this.user._id).subscribe(
+            response => {
                 if(response.length > 0){
                     Array.prototype.push.apply(this.user.myPosts, response);
-                    console.log(this.user.myPosts);
                 }
+                infiniteScroll.complete();
             },
             err => this.failAlert(err)
         )
@@ -170,7 +182,7 @@ export class ProfilePage {
     followUser(){
         this.user.followed = !this.user.followed;
         if(this.user.followed){
-            this.followColor = 'warning';
+            this.followColor = 'primary';
             this.followText = "Followed";
             this.profileService.follow(this.user._id).subscribe(
                 response => {},
@@ -227,6 +239,41 @@ export class ProfilePage {
 
     settings(){
         this.navCtrl.push(SettingsPage, {settings: this.user.settings});
+    }
+
+    openChat(){
+        if(this.isActiveUser){
+            this.chatService.getChats().subscribe(
+                resp => {
+                    this.navCtrl.push(ChatListPage, {chats: resp, unread: this.unreadMessages});
+                },
+                err => {
+                    this.failAlert(err);
+                }
+            )
+        }else{
+            this.chatService.findChat(this.user._id).subscribe(
+                resp => {
+                    if(resp.length > 0){
+                        let chat = resp[0];
+                        this.chatService.getMessages(chat._id).subscribe(
+                            resp => {
+                                this.navCtrl.push(PrivateChatPage, {chat: chat, messages: resp});
+                            },
+                            err => this.failAlert(err)
+                        )
+                    }else{
+                        this.chatService.createChat(this.user._id).subscribe(
+                            resp => {
+                                this.navCtrl.push(PrivateChatPage, {chat: resp, messages: []});
+                            },
+                            err => this.failAlert(err)
+                        )
+                    }
+                },
+                err => this.failAlert(err)
+            )
+        }
     }
 
     failAlert(message){

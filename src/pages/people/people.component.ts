@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import { AlertController, NavController } from 'ionic-angular';
+import { AlertController, NavController, ActionSheetController, ToastController } from 'ionic-angular';
+import { Contacts, Contact } from '@ionic-native/contacts';
+import { SMS } from '@ionic-native/sms';
 
 import { UserService } from '../../shared/services/user.service';
 import { ProfileService } from '../profile/shared/profile.service';
@@ -22,16 +24,14 @@ export class PeoplePage{
     constructor(private userService: UserService, private profileService: ProfileService,
          private alertCtrl: AlertController, private navCtrl: NavController,
          private authService: AuthService, private postService: PostService,
-         private mediaService: MediaService){
+         private mediaService: MediaService, private contacts: Contacts,
+         private sms: SMS, private toastCtrl: ToastController,
+         private actionSheetCtrl: ActionSheetController){
              this.followPosts = [];
          }
 
-    ionViewDidLoad(){
-        /*this.userService.getTopUsers().subscribe(
-            response => {
-                this.nearbyList = response;
-            }
-        )*/
+    ionViewDidEnter(){
+        this.postService.followPage = 1;
         this.postService.getFollowPosts().subscribe(
             response => {
                 this.followPosts = response;
@@ -69,21 +69,17 @@ export class PeoplePage{
     }
 
     approveRequest(req){
-        console.log(req);
         this.userService.approveFollowReq(req._id, true).subscribe(
             response => {
                 req.status = 'Approved';
-                console.log(req);
             }
         )
     }
 
     declineRequest(req){
-        console.log(req);
         this.userService.approveFollowReq(req._id, false).subscribe(
             response => {
                 req.status = 'Declined';
-                console.log(req);
             }
         )
     }
@@ -113,14 +109,56 @@ export class PeoplePage{
         )
     }
 
-    loadMore(){
+    loadMore(infiniteScroll){
         this.postService.loadMoreFollow().subscribe(
             response => {
                 if(response.length > 0){
                     Array.prototype.push.apply(this.followPosts, response);
                 }
+                infiniteScroll.complete();
             }
         )
+    }
+
+    inviteFriends(){
+        let inviteSheet = this.actionSheetCtrl.create({
+            title: 'Invite Friends',
+            buttons: [
+                {
+                    text: 'Message',
+                    handler: () => {
+                        this.inviteMessage();
+                    }
+                }
+            ]
+        })
+        inviteSheet.present();
+    }
+
+    inviteMessage(){
+        let inviteMessage = 'Check out Blinc, a new way of connecting to people, places, and events near you! www.blincapp.com';
+        let number;
+        this.contacts.pickContact().then((contact) => {
+            number = contact.phoneNumbers[0].value;
+        });
+        this.sms.hasPermission().then((hasPermission) => {
+            if(hasPermission){
+                this.sms.send(number, inviteMessage);
+            }else{
+                this.failAlert('Blinc does not have permissions for this function. Please grant it permission to messages in your settings and try again.');
+            }
+        })
+        .catch((err) => {
+            this.failAlert(err);
+        })
+    }
+
+    presentToast(message){
+        let toast = this.toastCtrl.create({
+            message:message,
+            duration:3000
+        });
+        toast.present();
     }
 
     failAlert(message){

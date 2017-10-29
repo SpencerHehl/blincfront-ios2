@@ -5,6 +5,9 @@ import { PostService } from '../../../shared/services/post.service';
 import { ListViewPage } from '../listview/listview.component';
 import { PostPage } from '../../posts/single/post.component';
 import { LocationService } from '../../../shared/services/location.service';
+import { EventService } from '../../../shared/services/event.service';
+import { EventPage } from '../../events/event/event.component';
+
 declare var google: any;
 
 @Component({
@@ -17,23 +20,45 @@ declare var google: any;
 })
 export class MapViewPage{
     myLocation: any;
-    markers: any;
+    postMarkers: any;
+    eventMarkers: any;
     map: any;
     center: any;
     zoom: any;
     markerCluster: any;
+    post: any;
 
     constructor(public navCtrl: NavController, private navParams: NavParams,
         public alertCtrl: AlertController, private postService: PostService,
-        private locService: LocationService){}
+        private locService: LocationService, private eventService: EventService){}
 
-    ionViewDidLoad(){
-        this.centerLocation();
-    }
+    /*ionViewDidLoad(){
+        this.post = this.navParams.get('post');
+        if(this.post){
+            this.myLocation = {
+                lat: this.post.geolocation[1],
+                lng: this.post.geolocation[0]
+            }
+            this.initMap(this.myLocation, 15);
+        }else{
+            this.centerLocation();
+        }
+    }*/
 
     ionViewDidEnter(){
-        if(this.center){
-            this.initMap(this.center, this.zoom);
+        this.post = this.navParams.get('post');
+        if(this.post){
+            this.myLocation = {
+                lat: this.post.geolocation[1],
+                lng: this.post.geolocation[0]
+            }
+            this.initMap(this.myLocation, 15);
+        }else{
+            if(this.center){
+                this.initMap(this.center, this.zoom);
+            }else{
+                this.centerLocation();
+            }
         }
     }
 
@@ -43,13 +68,6 @@ export class MapViewPage{
             lng: this.locService.viewlng
         };
         this.initMap(this.myLocation, 15);
-        /*this.postService.getMyLocation().subscribe(
-                resp => {
-                    this.myLocation = resp;
-                    this.initMap(this.myLocation, 15);
-                },
-                err => this.failAlert(err)
-            );*/
     }
 
     initMap(mapCenter, zoom){
@@ -74,16 +92,36 @@ export class MapViewPage{
         var distance = this.calcDistance(location.lat, zoom);
         this.postService.getMapMarkers(distance, location).subscribe(
             resp => {
-                this.markers = resp.map((post) => {
+                this.postMarkers = resp.map((post) => {
                     var postLocation = {
                         lat: post.geolocation[1],
                         lng: post.geolocation[0]
                     }
-                    var marker = new google.maps.Marker({
-                        position: postLocation,
-                        map: this.map,
-                        postId: post._id
-                    })
+                    var marker;
+                    if(this.post){
+                        if(post._id == this.post._id){
+                            marker = new google.maps.Marker({
+                                position: postLocation,
+                                map: this.map,
+                                icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+                                postId: post._id
+                            })
+                        }else{
+                            marker = new google.maps.Marker({
+                                position: postLocation,
+                                map: this.map,
+                                icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
+                                postId: post._id
+                            })
+                        }
+                    }else{
+                        marker = new google.maps.Marker({
+                            position: postLocation,
+                            map: this.map,
+                            icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
+                            postId: post._id
+                        })
+                    }
                     var self = this;
                     
                     marker.addListener('click', function(){

@@ -1,0 +1,20 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>Private Messages</ion-title>
+    </ion-navbar>
+</ion-header>
+<ion-content style="background-color: #cbd3db">
+    <ion-list>
+        <ion-item *ngFor="let chat of chats">
+            <ion-avatar item-start>
+                <img [src]="chat.user2?.profilePicture" (click)="openChat(chat)">
+            </ion-avatar>
+            <ion-note *ngIf="chat.messages.length > 0">
+                {{ chat.messages[chat.messages.length - 1].sentDate | dateAge }}
+            </ion-note>
+            <h3 style="font-weight:bold" (click)="openChat(chat)">{{ chat.user2?.fullName }}</h3>
+            <h5 (click)="openChat(chat)" *ngIf="chat.messages.length > 0">{{ chat.messages[chat.messages.length - 1].body }}</h5>
+            <ion-badge *ngIf="chat.unread.length > 0" color="danger" item-end>{{ chat.unread?.length }}</ion-badge>
+        </ion-item>
+    </ion-list>
+</ion-content>

@@ -1,7 +1,7 @@
 <link href="https://fonts.googleapis.com/css?family=Montserrat:200" rel="stylesheet">
 
-<ion-header style="padding-top:5%">
-  <ion-navbar style="padding-top:3%">
+<ion-header>
+  <ion-navbar>
     <ion-title style="font-weight:bold;">
       Feed
     </ion-title>
@@ -34,43 +34,10 @@
   <ion-row *ngFor="let post of nearbyPostsLikes; let i = index" [hidden]="postFilter != 'like'">
       <post-card [Post]="post" (reportEmitter)="reportPostLikes($event, i)" (deleteEmitter)="deletePostLikes($event, i)"></post-card>
   </ion-row>
-  <ion-card style="width: 95vw;">
-    <ion-item>
-      <ion-avatar item-start>
-        <img src="https://scontent.xx.fbcdn.net/v/t1.0-1/p50x50/13267703_949348515163214_2189620027200172215_n.jpg?oh=bf04a4f85c7a33c9db8c201c16adf550&oe=5A223D70">
-      </ion-avatar>
-      <h2 style="font-weight:bold;">Spencer Hehl</h2>
-    </ion-item>
-    <ion-card-content style="margin-top:10px">
-      <h2 style="font-weight:bold;font-size:large">Welcome! <ion-icon name="at" color="primary"></ion-icon> Blinc</h2>
-      <p style="font-size:large">Hey and welcome to Blinc! Blinc is a location based social media app. Rather than connecting based on who you know, you can now connect on where you are, where you have been, and where you will go.</p>      
-    </ion-card-content>
-  </ion-card>
-  <ion-card style="width: 95vw;">
-    <ion-item>
-      <ion-avatar item-start>
-        <img src="https://scontent.xx.fbcdn.net/v/t1.0-1/p50x50/13267703_949348515163214_2189620027200172215_n.jpg?oh=bf04a4f85c7a33c9db8c201c16adf550&oe=5A223D70">
-      </ion-avatar>
-      <h2 style="font-weight:bold;">Spencer Hehl</h2>
-    </ion-item>
-    <ion-card-content style="margin-top:10px">
-      <h2 style="font-weight:bold;font-size:large">Welcome! <ion-icon name="at" color="primary"></ion-icon> Blinc</h2>
-      <p style="font-size:large">Are you the first person in your area to use it? Great! Now you get to pioneer your area making your mark at the places you go offering a chance for others to learn what you know and see places special to you.</p>      
-    </ion-card-content>
-  </ion-card>
-  <ion-card style="width: 95vw;">
-    <ion-item>
-      <ion-avatar item-start>
-        <img src="https://scontent.xx.fbcdn.net/v/t1.0-1/p50x50/13267703_949348515163214_2189620027200172215_n.jpg?oh=bf04a4f85c7a33c9db8c201c16adf550&oe=5A223D70">
-      </ion-avatar>
-      <h2 style="font-weight:bold;">Spencer Hehl</h2>
-    </ion-item>
-    <ion-card-content style="margin-top:10px">
-      <h2 style="font-weight:bold;font-size:large">Welcome! <ion-icon name="at" color="primary"></ion-icon> Blinc</h2>
-      <p style="font-size:large">Not enough going on near you? Be sure to check out the Map View page to see what other Blinc users are posting around the US!</p>      
-    </ion-card-content>
-  </ion-card>
-  <button ion-button block (click)="loadMore()">Load more posts</button>
+  <button ion-button block [hidden]="postFilter != 'date' || nearbyPostsDate.length > 0" (click)="postText()">Start Connecting</button>
+  <ion-infinite-scroll (ionInfinite)="loadMore($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
   <ion-fab right bottom>
     <button ion-fab><ion-icon name="add"></ion-icon></button>
     <ion-fab-list side="top">

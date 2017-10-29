@@ -1,12 +1,12 @@
-<ion-header style="padding-top:5%">
-  <ion-navbar style="padding-top:3%">
+<ion-header>
+  <ion-navbar>
     <ion-title style="font-weight:bold">
       Profile
     </ion-title>
     <ion-buttons end>
+      <button *ngIf="isViewable" ion-button (click)="openChat()" icon-right><ion-icon name="chatbubbles" color="light"></ion-icon><ion-badge *ngIf="unreadMessages && unreadMessages.length > 0" color="danger">{{unreadMessages?.length}}</ion-badge></button>
       <button *ngIf="isActiveUser" ion-button (click)="viewNotifications()" icon-right><ion-icon name="flag" color="light"></ion-icon><ion-badge *ngIf="notifications && notifications.length > 0" color="danger">{{notifications?.length}}</ion-badge></button>
       <button *ngIf="isActiveUser" ion-button (click)="settings()" icon-right><ion-icon name="settings" color="light"></ion-icon></button>
-      <button *ngIf="!isActiveUser && isViewable" ion-button (click)="followUser()" icon-right [color]="followColor"><ion-icon name="star" [color]="followColor" [hidden]="!user?.followed"></ion-icon>{{followText}}</button>
     </ion-buttons>
   </ion-navbar>
 </ion-header>
@@ -17,6 +17,12 @@
         <img [src]="user?.profilePicture">
       </ion-avatar>
       <h4 style="font-weight:bold;font-size:large" color="dark" text-wrap>{{user?.fullName}}</h4>
+      <ion-buttons item-end>
+        <button *ngIf="!isActiveUser && isViewable" ion-button (click)="followUser()" icon-right [color]="followColor" clear small [hidden]="!user?.followed"><ion-icon name="star"></ion-icon>{{followText}}</button>
+        <button *ngIf="!isActiveUser && isViewable" ion-button (click)="followUser()" icon-right small [hidden]="user?.followed">{{followText}}</button>        
+      </ion-buttons>
+  </ion-item>
+  <ion-item>
       <button ion-button clear color="dark" (click)="viewFollowerList()" float-left>{{user?.numFollowers}} Followers</button>
       <button ion-button clear color="dark" (click)="viewFollowingList()" float-right>{{user?.numFollowed}} Following</button>
   </ion-item>
@@ -24,7 +30,9 @@
     <ion-row *ngFor="let post of user?.myPosts">
         <post-card [Post]="post" (reportEmitter)="reportPost($event, i)" (deleteEmitter)="deletePost($event, i)"></post-card>
     </ion-row>
-    <button *ngIf="isViewable" ion-button block (click)="loadMore()">Load more posts</button>
+    <ion-infinite-scroll (ionInfinite)="loadMore($event)">
+      <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
   </div>
   <div *ngIf="!isViewable" style="text-align:center">
     <h3 style="font-weight: bold;font-size:large">This user's profile is set to private. </h3>

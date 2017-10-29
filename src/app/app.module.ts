@@ -5,6 +5,7 @@ import { HttpModule } from '@angular/http';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
+import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
 
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
@@ -28,6 +29,8 @@ import { SettingsPage } from '../pages/profile/settings/settings.component';
 import { EventPage } from '../pages/events/event/event.component';
 import { EventListPage } from '../pages/events/eventslist/eventlist.component';
 import { AttendeesPage } from '../pages/events/attendees/attendees.component';
+import { ChatListPage } from '../pages/profile/chatlist/chatlist.component';
+import { PrivateChatPage } from '../pages/profile/privatechat/privatechat.component';
 
 import { PostCardComponent } from '../shared/templates/posts/post.card'
 import { CommentCardComponent } from '../shared/templates/comments/comment.card';
@@ -45,6 +48,8 @@ import { Calendar } from '@ionic-native/calendar';
 import { LaunchNavigator } from '@ionic-native/launch-navigator';
 import { SocialSharing } from '@ionic-native/social-sharing';
 import { Firebase } from '@ionic-native/firebase';
+import { Contacts } from '@ionic-native/contacts';
+import { SMS } from '@ionic-native/sms';
 
 import { PostService } from '../shared/services/post.service';
 import { AuthService } from '../shared/services/auth.service';
@@ -56,6 +61,7 @@ import { DateAgePipe } from '../shared/pipes/date.pipe';
 import { LocationService } from '../shared/services/location.service';
 import { UserService } from '../shared/services/user.service';
 import { EventService } from '../shared/services/event.service';
+import { ChatService } from '../shared/services/chat.service';
 
 const cloudSettings: CloudSettings = {
   'core': {
@@ -70,6 +76,11 @@ const cloudSettings: CloudSettings = {
       'scope': []
     }
   }
+}
+
+const socketConfig: SocketIoConfig = {
+  url: 'http://www.blincapp.com:8080',
+  options: {}
 }
 
 @NgModule({
@@ -102,14 +113,17 @@ const cloudSettings: CloudSettings = {
     EventPage,
     AttendeesPage,
     EventCardComponent,
-    AttendeesInviteModal
+    AttendeesInviteModal,
+    PrivateChatPage,
+    ChatListPage
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
     IonicModule.forRoot(MyApp),
-    CloudModule.forRoot(cloudSettings)
+    CloudModule.forRoot(cloudSettings),
+    SocketIoModule.forRoot(socketConfig)
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -135,7 +149,9 @@ const cloudSettings: CloudSettings = {
     EventListPage,
     EventPage,
     AttendeesInviteModal,
-    AttendeesPage
+    AttendeesPage,
+    ChatListPage,
+    PrivateChatPage
   ],
   providers: [
     PostService,
@@ -157,6 +173,9 @@ const cloudSettings: CloudSettings = {
     LaunchNavigator,
     SocialSharing,
     Firebase,
+    Contacts,
+    SMS,
+    ChatService,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

@@ -10,8 +10,8 @@ import { LocationService } from '../../../shared/services/location.service';
     templateUrl: 'nearme.component.html'
 })
 export class NearMePage{
-    nearbyPostsDate: any[];
-    nearbyPostsLikes: any[];
+    nearbyPostsDate: any[] = [];
+    nearbyPostsLikes: any[] = [];
     postFilter: string;
     loading: any;
     topPost: any = null;
@@ -46,6 +46,8 @@ export class NearMePage{
     }
 
     ionViewDidEnter(){
+        this.postService.datePage = 1;
+        this.postService.likesPage = 1;
         this.presentLoader();
         if(!this.topPost){
             this.postService.getTopPost().subscribe(
@@ -113,6 +115,7 @@ export class NearMePage{
         const options: CameraOptions = {
             destinationType: this.camera.DestinationType.DATA_URL,
             mediaType: this.camera.MediaType.PICTURE,
+            saveToPhotoAlbum: true,
             targetHeight: 1000,
             targetWidth: 1000
         }
@@ -130,27 +133,24 @@ export class NearMePage{
         });
     }
 
-    loadMore(){
-        this.presentLoader();
+    loadMore(infiniteScroll){
         if(this.postFilter == 'date'){
             this.postService.loadDate().subscribe(
                 response => {
-                    this.loading.dismiss().then(() => {
                         if(response.length > 0){
                             Array.prototype.push.apply(this.nearbyPostsDate, response);
                         }
-                    })  
+                        infiniteScroll.complete();
                 },
                 err => this.failAlert(err)
             )
         }else{
             this.postService.loadLikes().subscribe(
                 response => {
-                    this.loading.dismiss().then(() => {
                         if(response.length > 0){
                             Array.prototype.push.apply(this.nearbyPostsLikes, response);
                         }
-                    })  
+                        infiniteScroll.complete();
                 },
                 err => this.failAlert(err)
             )
@@ -159,11 +159,8 @@ export class NearMePage{
 
     onFilterChange(){
         if((!this.nearbyPostsLikes) && this.postFilter == 'like'){
-            console.log("filter change");
             this.postService.getNearbyPostsLikes().subscribe(
                 response => {
-                    console.log("subscription complete");
-                    console.log(response);
                     this.nearbyPostsLikes = response;
                 },
                 err => this.failAlert(err)
@@ -200,8 +197,6 @@ export class NearMePage{
     }
 
     deletePostDate(post, index){
-        console.log(post);
-        console.log(index);
         this.nearbyPostsDate.splice(index, 1);
         this.postService.deletePost(post).subscribe(
             resp => {},

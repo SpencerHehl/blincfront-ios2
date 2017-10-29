@@ -8,6 +8,9 @@ import { ProfilePage } from '../../../pages/profile/profile.component';
 import { MediaService } from '../../services/media.service';
 import { AuthService } from '../../services/auth.service';
 import { LikesPage } from '../../../pages/likes/likes.component';
+import { EventService } from '../../services/event.service';
+import { EventPage } from '../../../pages/events/event/event.component';
+import { MapViewPage } from '../../../pages/posts/mapview/mapview.component';
 
 @Component({
     selector: 'post-card',
@@ -24,7 +27,8 @@ export class PostCardComponent {
          private navParams: NavParams, private mediaService: MediaService,
          private authService: AuthService, private actionSheetCtrl: ActionSheetController,
          private alertCtrl: AlertController, private modalCtrl: ModalController,
-         private toastCtrl: ToastController, private socialSharing: SocialSharing){}
+         private toastCtrl: ToastController, private socialSharing: SocialSharing,
+         private eventService: EventService){}
 
     ngOnInit(){
         if(this.Post.likedByUser){
@@ -63,12 +67,13 @@ export class PostCardComponent {
         
     }
 
-    viewMore(){
+    vviewMore(){
+        let actionSheet = this.actionSheetCtrl.create({
+            title: 'More'
+        });
         if(this.isActiveUser){
-            let actionSheet = this.actionSheetCtrl.create({
-                title: 'More',
-                buttons: [
-                    {
+            actionSheet.addButton(
+                {
                     text: 'Delete Post',
                     role: 'destructive',
                     handler: () => {
@@ -76,45 +81,50 @@ export class PostCardComponent {
                             this.confirmDelete();
                         })
                     } 
-                    },{
-                        text: 'Flag as Inappropriate',
-                        handler: () => {
-                            actionSheet.dismiss().then(()=>{
-                                this.confirmReport();
-                            })
-                        }
-                    },{
-                        text: 'Cancel',
-                        role: 'cancel',
-                        handler: () => {
-                            actionSheet.dismiss();
-                        }
-                    }
-                ]
-            });
-            actionSheet.present();
+                }
+            );
         }else{
-            let actionSheet = this.actionSheetCtrl.create({
-                title: 'More',
-                buttons: [
-                    {
-                        text: 'Flag as Inappropriate',
-                        handler: () => {
-                            actionSheet.dismiss().then(()=>{
-                                this.confirmReport();
-                            })
-                        }
-                    },{
-                        text: 'Cancel',
-                        role: 'cancel',
-                        handler: () => {
-                            actionSheet.dismiss();
-                        }
-                    }
-                ]
-            });
-            actionSheet.present();
+            actionSheet.addButton({
+                text: 'Flag as Inappropriate',
+                handler: () => {
+                    actionSheet.dismiss().then(()=>{
+                        this.confirmReport();
+                    })
+                }
+            })
         }
+        if(this.Post.mapable){
+            actionSheet.addButton(
+                {
+                    text: 'View On Map',
+                    handler: () => {
+                        actionSheet.dismiss().then(() => {
+                            this.viewOnMap();
+                        })
+                    }
+                }
+            )
+        }
+        if(this.Post.asscEvent){
+            actionSheet.addButton(
+                {
+                    text: 'View Event',
+                    handler: () => {
+                        actionSheet.dismiss().then(() => {
+                            this.viewEvent();
+                        })
+                    }
+                }
+            )
+        }
+        actionSheet.addButton({
+            text: 'Cancel',
+            role: 'cancel',
+            handler: () => {
+                actionSheet.dismiss();
+            }
+        });
+        actionSheet.present();
     }
 
     deletePost(){
@@ -204,5 +214,21 @@ export class PostCardComponent {
 
     viewProfile(){
         this.navCtrl.push(ProfilePage, {user: this.Post.poster})
+    }
+
+    viewEvent(){
+        if(this.Post.asscEvent){
+            this.eventService.getEvent(this.Post.asscEvent).subscribe(
+                response => {
+                    this.navCtrl.push(EventPage, {event: response});
+                }
+            )
+        }
+    }
+
+    viewOnMap(){
+        if(this.Post.mapable){
+            this.navCtrl.push(MapViewPage, {post: this.Post});
+        }
     }
 }

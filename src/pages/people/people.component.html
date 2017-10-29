@@ -1,8 +1,11 @@
-<ion-header style="padding-top:5%">
-    <ion-navbar style="padding-top:3%">
+<ion-header>
+    <ion-navbar>
         <ion-title>
             People
         </ion-title>
+        <ion-buttons end>
+            <button ion-button color="light" [hidden]="true" (click)="inviteFriends()">Invite</button>
+        </ion-buttons>
     </ion-navbar>
 </ion-header>
 <ion-content style="background-color: #cbd3db">
@@ -41,5 +44,7 @@
         <ion-row *ngFor="let post of followPosts">
             <post-card [Post]="post" (reportEmitter)="reportPost($event, i)" (deleteEmitter)="deletePost($event, i)"></post-card>
         </ion-row>
-        <button ion-button block (click)="loadMore()">Load more posts</button>
+        <ion-infinite-scroll (ionInfinite)="loadMore($event)">
+            <ion-infinite-scroll-content></ion-infinite-scroll-content>
+        </ion-infinite-scroll>
     </ion-content>

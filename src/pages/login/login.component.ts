@@ -106,18 +106,12 @@ export class LoginPage {
 
     facebookLogin(){
         this.presentLoader();
-        console.log("facebook login");
         this.facebookAuth.login().then((result) =>{
-            console.log(result);
             this.facebookAuth.storeToken(result.token);
-            console.log(result.token);            
             this.authService.authMethod = "facebook";
-            console.log("facebook");
-            console.log(this.user.social.facebook);            
             this.authService.currentUser = this.user.social.facebook.data;          
             if(result.signup){
                 this.authService.authToken = result.token;
-                console.log("set token");                
                 this.authService.newUser(this.user.social.facebook.data).subscribe(
                     response => {
                         this.loading.dismiss().then(() => {
@@ -132,7 +126,6 @@ export class LoginPage {
                     }
                 );
             }else{
-                console.log("logging in");                
                 this.authService.login().subscribe(
                     response => {
                         this.loading.dismiss().then(() => {
@@ -149,7 +142,6 @@ export class LoginPage {
             }
         })
         .catch((err) => {
-            console.log(err);            
             {
                 this.loading.dismiss().then(() => {
                     this.failAlert(err);                            
